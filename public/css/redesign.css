@@ -1,0 +1,435 @@
+/* ============================================================
+   Athena / NanoDLP redesign — foundation layer
+   DragonFruit design language, applied to the Bootstrap 3 shell.
+
+   Structural language (surfaces, elevation, control sizing, motion,
+   status) is ported from DragonFruit's token system. Brand accent is
+   Athena gold (#f0ad4e, the pre-redesign accent) and is tokenized
+   for a one-line swap.
+
+   This file is pure additive skin + control grammar. It does NOT touch
+   any JS hook (ids / .val / .last_* / data-* attributes).
+   Loaded AFTER main.css + athena.css so it wins the cascade.
+   ============================================================ */
+
+:root {
+  /* Surface ladder — DragonFruit structure (desaturated cool black) */
+  --df-bg: #0b0f14;
+  --df-surface-0: #111216;
+  --df-surface-1: #1a1b21;
+  --df-surface-2: #23252e;
+  --df-border-subtle: #272a33;
+  --df-border-strong: #353944;
+  --df-text-strong: #f8f8fb;
+  --df-text-muted: #c3c7cf;
+  --df-indicator: #c3c7cf;
+
+  /* Brand accent — Athena gold */
+  --brand-accent: #f0ad4e;
+  --brand-accent-hover: #e59c36;
+  --brand-accent-ink: #1d1307;         /* dark ink on gold */
+
+  /* Tertiary accent — soft info blue (subtle ghost buttons) */
+  --c3d-info: #8ab4f8;
+
+  /* Semantics — DragonFruit */
+  --df-danger: #e45454;
+  --df-success: #2eb67d;
+  --df-warn: #f0ad4e;
+
+  /* Scale */
+  --df-radius-sm: 6px;
+  --df-radius-md: 10px;
+  --df-radius-lg: 14px;
+
+  /* Layout */
+  --c3d-max-width: 1600px;
+}
+
+/* ---------- Base ---------- */
+body {
+  background-color: var(--df-bg);
+  color: var(--df-text-strong);
+  -webkit-font-smoothing: antialiased;
+  padding-bottom: 76px;
+}
+.container { width: 100% !important; max-width: var(--c3d-max-width); padding-left: 24px; padding-right: 24px; }
+a { color: var(--brand-accent); }
+a:hover, a:focus { color: var(--brand-accent); filter: brightness(1.08); }
+
+/* ---------- Navbar (command bar) ---------- */
+.navbar { margin-bottom: 0; }
+.navbar-default {
+  background-color: var(--df-surface-0);
+  border: none;
+  border-bottom: 1px solid var(--df-border-subtle);
+  border-radius: 0;
+}
+.navbar-default .navbar-brand { height: 65px; display: flex; align-items: center; padding: 0 14px; }
+.navbar-default .navbar-brand img { height: 32px !important; width: auto; }
+.navbar-default .navbar-nav > li > a { color: var(--df-text-muted); font-size: 14px; }
+.navbar-default .navbar-nav > li > a:hover,
+.navbar-default .navbar-nav > li > a:focus { color: var(--df-text-strong); background-color: transparent; }
+.navbar-default .navbar-nav > .active > a,
+.navbar-default .navbar-nav > .active > a:hover { color: var(--brand-accent); background-color: transparent; box-shadow: inset 0 -2px 0 var(--brand-accent); }
+.dropdown-menu {
+  background-color: var(--df-surface-1);
+  border: 1px solid var(--df-border-subtle);
+  border-radius: var(--df-radius-md);
+}
+.dropdown-menu > li > a { color: var(--df-text-strong); padding: 9px 16px; }
+.dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus { background-color: var(--df-surface-2); color: var(--brand-accent); }
+.dropdown-menu .divider { background-color: var(--df-border-subtle); }
+
+/* ---------- Panels (cards) ---------- */
+.panel.panel-default,
+.dashboard-panel {
+  background-color: var(--df-surface-0);
+  border: 1px solid var(--df-border-subtle);
+  border-radius: var(--df-radius-lg);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.28);
+  overflow: hidden;
+}
+.dashboard-panel { margin: 8px; }
+.dashboard-panel > .panel-heading,
+.panel.panel-default > .panel-heading {
+  color: var(--df-text-muted);
+  background-color: var(--df-surface-0);
+  border-bottom: 1px solid var(--df-border-subtle);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 12px 16px;
+}
+.dashboard-panel > .panel-body,
+.panel.panel-default > .panel-body {
+  color: var(--df-text-strong);
+  background-color: var(--df-surface-1);
+  padding: 16px;
+}
+
+/* ---------- Buttons — compact 4-variant grammar ---------- */
+.btn {
+  border-radius: var(--df-radius-sm);
+  font-weight: 600;
+  min-height: 32px;
+  padding: 5px 12px 7px;
+  line-height: 1.2;
+  transition: background-color 140ms ease, border-color 140ms ease, color 140ms ease;
+}
+.btn-default {
+  background-color: var(--df-surface-1);
+  border-color: var(--df-border-subtle);
+  color: var(--df-text-strong);
+}
+.btn-default:hover, .btn-default:focus { background-color: var(--df-surface-2); border-color: var(--df-border-strong); color: var(--df-text-strong); }
+.btn-primary {
+  background-color: var(--brand-accent);
+  border-color: var(--brand-accent);
+  color: var(--brand-accent-ink);
+}
+.btn-primary:hover, .btn-primary:focus { background-color: var(--brand-accent-hover); border-color: var(--brand-accent-hover); color: var(--brand-accent-ink); }
+.btn-success { background-color: var(--df-success); border-color: var(--df-success); }
+.btn-warning { background-color: var(--df-warn); border-color: var(--df-warn); }
+.btn-danger { background-color: var(--df-danger); border-color: var(--df-danger); color: #fff; }
+.btn-danger:hover, .btn-danger:focus { background-color: #c92f2f; border-color: #c92f2f; color: #fff; }
+.btn-info { background-color: var(--df-surface-1); border-color: var(--df-border-subtle); color: var(--df-text-strong); }
+.btn-info:hover, .btn-info:focus { background-color: var(--df-surface-2); border-color: var(--df-border-strong); color: var(--df-text-strong); }
+.btn-movement-active { color: var(--brand-accent) !important; border-color: var(--brand-accent) !important; }
+.btn-axis-move { min-width: 56px; min-height: 44px; font-size: 16px; }
+
+/* Secondary buttons: no harsh state outlines (kill theme gold/light borders + focus ring) */
+.btn-default:hover,
+.btn-default:focus,
+.btn-default:active,
+.btn-default.active,
+.btn-default:active:focus {
+  background-color: var(--df-surface-2);
+  border-color: var(--df-border-strong) !important;
+  color: var(--df-text-strong);
+  box-shadow: none !important;
+}
+.btn:focus,
+.btn:active:focus,
+.btn.focus,
+.btn.active:focus {
+  outline: none;
+}
+
+/* ---------- Forms — compact controls ---------- */
+.form-control {
+  background-color: var(--df-surface-0);
+  border: 1px solid var(--df-border-subtle);
+  border-radius: var(--df-radius-sm);
+  color: var(--df-text-strong);
+  min-height: 32px;
+  font-size: 13px;
+}
+.form-control:focus {
+  border-color: var(--brand-accent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--brand-accent), transparent 82%);
+  outline: none;
+}
+
+/* ---------- Toggle switch (replaces #2196F3) ---------- */
+.switch-slider { background-color: var(--df-surface-2); }
+.switch-slider:before { background-color: var(--df-text-strong); }
+input:checked + .switch-slider { background-color: var(--brand-accent); }
+input:focus + .switch-slider { box-shadow: 0 0 1px var(--brand-accent); }
+input:checked + .switch-slider:before { background-color: var(--brand-accent-ink); }
+
+/* ---------- Range sliders ---------- */
+input[type="range"].slider, input[type="range"] { accent-color: var(--brand-accent); }
+
+/* ---------- Progress ---------- */
+.progress {
+  background-color: var(--df-surface-0);
+  border: 1px solid var(--df-border-subtle);
+  border-radius: 999px;
+  height: 14px;
+  overflow: hidden;
+}
+.progress-bar-main { background-color: var(--brand-accent); color: var(--brand-accent-ink); font-weight: 700; }
+.progress-bar-layer { background-color: var(--brand-accent); }
+
+/* ---------- Modals ---------- */
+.modal-content {
+  background-color: var(--df-surface-1);
+  border: 1px solid var(--df-border-strong);
+  border-radius: var(--df-radius-lg);
+  color: var(--df-text-strong);
+}
+.modal-header { border-bottom-color: var(--df-border-subtle); }
+.modal-footer { border-top-color: var(--df-border-subtle); }
+
+/* ---------- Data readouts ---------- */
+.val, .append, .c3d-stat-value, #heater-value, .last_location, .last_remaining, .last_eta, .last_height, .last_elapsed {
+  font-variant-numeric: tabular-nums;
+  color: var(--df-text-strong);
+}
+.val, .last_location, .last_height, .last_remaining, .last_eta, .last_elapsed, .last_amount, .last_level { font-weight: 600; }
+.label-success { background-color: var(--df-success); }
+.glyphicon.circle { border-radius: 50%; }
+.video-container, .uplot-container { border-radius: var(--df-radius-md); background: var(--df-surface-0); border: 1px solid var(--df-border-subtle); }
+
+/* ---------- Stat grid — label eyebrow + value ---------- */
+.c3d-stat-grid { display: flex; flex-wrap: wrap; gap: 12px; }
+.c3d-stat {
+  flex: 1 1 120px;
+  min-width: 120px;
+  background: var(--df-surface-0);
+  border: 1px solid var(--df-border-subtle);
+  border-radius: var(--df-radius-md);
+  padding: 10px 12px;
+}
+.c3d-stat-label {
+  display: block;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--df-indicator);
+  margin-bottom: 4px;
+}
+.c3d-stat-value {
+  display: block;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--df-text-strong);
+  font-variant-numeric: tabular-nums;
+}
+.c3d-stat--resin .c3d-stat-value { font-size: 13px; line-height: 1.6; }
+
+/* ---------- Dashboard header identity ---------- */
+.c3d-dash-head { display: flex; align-items: flex-end; justify-content: space-between; padding: 16px 8px 12px; }
+.c3d-dash-head .btn { margin-bottom: 0; }
+.c3d-dash-tag { font-size: 15px; color: var(--df-text-muted); margin: 2px 0 0; }
+.c3d-dash-name { font-size: 28px; font-weight: 700; color: var(--df-text-strong); margin: 0; }
+
+/* ---------- Updates notification center ---------- */
+.c3d-updates { position: relative; }
+.c3d-updates-popover {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  width: 360px;
+  max-width: 90vw;
+  max-height: 70vh;
+  overflow-y: auto;
+  background: var(--df-surface-1);
+  border: 1px solid var(--df-border-strong);
+  border-radius: var(--df-radius-lg);
+  box-shadow: 0 16px 44px rgba(0, 0, 0, 0.55);
+  z-index: 1040;
+}
+.c3d-updates-popover[hidden] { display: none !important; }
+.c3d-updates-popover-header {
+  padding: 12px 16px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--df-text-muted);
+  border-bottom: 1px solid var(--df-border-subtle);
+}
+.c3d-updates-list { padding: 8px; }
+.c3d-updates-item { padding: 12px; border-bottom: 1px solid var(--df-border-subtle); }
+.c3d-updates-item:last-child { border-bottom: none; }
+.c3d-updates-item:hover { background: var(--df-surface-0); }
+.c3d-updates-item-title { font-size: 14px; font-weight: 700; color: var(--df-text-strong); margin-bottom: 4px; }
+.c3d-updates-item-body { font-size: 13px; color: var(--df-text-muted); line-height: 1.5; }
+.c3d-updates-item-link { display: inline-block; margin-top: 8px; font-size: 13px; font-weight: 600; color: var(--brand-accent); }
+.c3d-updates-empty { padding: 24px 16px; text-align: center; color: var(--df-text-muted); font-size: 13px; }
+
+/* ---------- Footer — floating status bar ---------- */
+.c3d-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1030;
+  background: var(--df-surface-0);
+  border-top: 1px solid var(--df-border-subtle);
+  padding: 12px 24px;
+}
+.c3d-footer-status { display: flex; flex-wrap: wrap; gap: 28px; align-items: center; color: inherit; text-decoration: none; max-width: var(--c3d-max-width); margin: 0 auto; }
+.c3d-footer-status:hover, .c3d-footer-status:focus { text-decoration: none; }
+.c3d-footer-item { display: flex; flex-direction: column; gap: 2px; min-width: 96px; }
+.c3d-footer-label { font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--df-indicator); }
+.c3d-footer-value { font-size: 15px; font-weight: 600; color: var(--df-text-strong); font-variant-numeric: tabular-nums; }
+.c3d-footer-status:hover .c3d-footer-value { color: var(--brand-accent); }
+
+/* ---------- Widget dark alignment (aegis + analytics) ---------- */
+.aegis-header { border-color: var(--df-border-subtle); background: var(--df-surface-0); color: var(--df-text-strong); border-radius: var(--df-radius-md); }
+.divider { border-top-color: var(--df-border-subtle); }
+.uplot { background-color: var(--df-surface-0); }
+.u-label, .u-value, .u-title, .u-series { color: var(--df-text-muted); }
+
+/* ---------- Printer Control card ---------- */
+.c3d-printer-actions { display: flex; gap: 8px; }
+.c3d-printer-actions .btn,
+.c3d-step-group .btn-movement,
+.c3d-pos-row .btn { margin: 0; }
+.c3d-printer-actions .btn { flex: 1; min-height: 44px; display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding-left: 8px; padding-right: 8px; }
+.c3d-section-label { font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--df-indicator); margin: 16px 0 8px; }
+.c3d-z-btn { display: block; width: 100%; margin: 0; min-height: 46px; font-size: 15px; }
+.c3d-step-group { display: flex; gap: 6px; margin: 10px 0; }
+.c3d-step-group .btn-movement { flex: 1; min-width: 0; padding: 6px 2px; font-size: 13px; }
+.c3d-pos-row { display: flex; gap: 6px; margin: 10px 0 12px; }
+.c3d-pos-row .btn { flex: 1; }
+.c3d-stop { display: block; width: 100%; margin: 0; min-height: 46px; font-size: 15px; }
+
+/* ---------- Ghost (outlined) buttons — DragonFruit style ---------- */
+.c3d-ghost {
+  border-color: var(--df-border-strong);
+  color: var(--df-text-strong);
+  box-shadow: none !important;
+}
+.c3d-ghost:hover,
+.c3d-ghost:focus,
+.c3d-ghost:active,
+.c3d-ghost:active:focus {
+  background-color: var(--df-surface-2);
+  color: var(--df-text-strong);
+  box-shadow: none !important;
+}
+.c3d-ghost-gold {
+  color: var(--brand-accent);
+  border-color: color-mix(in srgb, var(--brand-accent), var(--df-border-strong) 60%);
+  background-color: color-mix(in srgb, var(--brand-accent), var(--df-surface-1) 82%);
+}
+.c3d-ghost-gold:hover,
+.c3d-ghost-gold:focus,
+.c3d-ghost-gold:active {
+  background-color: color-mix(in srgb, var(--brand-accent), var(--df-surface-1) 66%);
+  color: var(--brand-accent);
+  border-color: color-mix(in srgb, var(--brand-accent), var(--df-border-strong) 30%);
+}
+.c3d-ghost-danger {
+  color: var(--df-danger);
+  border-color: color-mix(in srgb, var(--df-danger), var(--df-border-strong) 60%);
+  background-color: color-mix(in srgb, var(--df-danger), var(--df-surface-1) 82%);
+}
+.c3d-ghost-danger:hover,
+.c3d-ghost-danger:focus,
+.c3d-ghost-danger:active {
+  background-color: color-mix(in srgb, var(--df-danger), var(--df-surface-1) 66%);
+  color: #ffb3a7;
+  border-color: color-mix(in srgb, var(--df-danger), var(--df-border-strong) 30%);
+}
+.c3d-ghost-info {
+  color: var(--c3d-info);
+  border-color: color-mix(in srgb, var(--c3d-info), var(--df-border-strong) 60%);
+  background-color: color-mix(in srgb, var(--c3d-info), var(--df-surface-1) 84%);
+}
+.c3d-ghost-info:hover,
+.c3d-ghost-info:focus,
+.c3d-ghost-info:active {
+  background-color: color-mix(in srgb, var(--c3d-info), var(--df-surface-1) 72%);
+  color: #bcd8ff;
+  border-color: color-mix(in srgb, var(--c3d-info), var(--df-border-strong) 35%);
+}
+
+/* Step selector chips — quiet blue ghosts; selected step reads gold */
+.c3d-step-group .btn-movement.btn-movement-active {
+  background-color: color-mix(in srgb, var(--brand-accent), var(--df-surface-1) 78%);
+}
+
+/* ---------- Environment Control card ---------- */
+.c3d-env .c3d-section-label { margin-top: 2px; }
+.c3d-env-label { margin: 0; font-size: 14px; font-weight: 400; color: var(--df-text-strong); display: inline-flex; align-items: center; gap: 8px; }
+.c3d-env-label .help { margin-left: 2px; }
+.c3d-temp { display: flex; align-items: center; gap: 16px; margin: 10px 0 12px; }
+.c3d-temp-step { flex: 0 0 54px; height: 54px; padding: 0; font-size: 28px; line-height: 1; border-radius: var(--df-radius-md); }
+.c3d-temp-readout { flex: 1; text-align: center; font-size: 42px; font-weight: 700; color: var(--df-text-strong); font-variant-numeric: tabular-nums; line-height: 1; }
+.c3d-temp-presets { display: flex; gap: 8px; }
+.c3d-temp-presets .c3d-preset { flex: 1; min-width: 0; padding: 6px 2px; font-size: 13px; }
+.c3d-preset.c3d-preset-active {
+  color: var(--brand-accent);
+  border-color: var(--brand-accent);
+  background-color: color-mix(in srgb, var(--brand-accent), var(--df-surface-1) 82%);
+}
+.c3d-heater-row { margin-top: 10px; }
+.c3d-heater-row + .c3d-heater-row { margin-top: 8px; }
+.c3d-heater-btn {
+  width: 100%;
+  min-height: 48px;
+  padding: 0 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  border-radius: var(--df-radius-md);
+  border: 1px solid var(--df-border-strong);
+  transition: background-color 140ms ease, border-color 140ms ease, color 140ms ease, box-shadow 140ms ease;
+}
+.c3d-heater-btn.is-off {
+  color: var(--c3d-info);
+  border-color: color-mix(in srgb, var(--c3d-info), var(--df-border-strong) 55%);
+  background-color: color-mix(in srgb, var(--c3d-info), var(--df-surface-1) 88%);
+}
+.c3d-heater-btn.is-off:hover {
+  color: #bcd8ff;
+  border-color: color-mix(in srgb, var(--c3d-info), var(--df-border-strong) 40%);
+  background-color: color-mix(in srgb, var(--c3d-info), var(--df-surface-1) 78%);
+}
+.c3d-heater-btn.is-on {
+  color: #ffe9e5;
+  border-color: var(--df-danger);
+  background-color: color-mix(in srgb, var(--df-danger), var(--df-surface-1) 45%);
+  box-shadow: 0 0 16px color-mix(in srgb, var(--df-danger), transparent 58%);
+}
+.c3d-heater-btn.is-on:hover {
+  border-color: color-mix(in srgb, var(--df-danger), white 15%);
+  background-color: color-mix(in srgb, var(--df-danger), var(--df-surface-1) 32%);
+  box-shadow: 0 0 22px color-mix(in srgb, var(--df-danger), transparent 42%);
+}
+.c3d-hidden-check { position: absolute; width: 0; height: 0; opacity: 0; pointer-events: none; }
+.c3d-env-cta { display: flex; align-items: center; justify-content: center; width: 100%; min-height: 44px; margin-top: 18px; font-size: 15px; }
+.dashboard-panel hr { border-top-color: var(--df-border-subtle); margin: 16px 0; }
+
+/* ---------- AEGIS widget typography ---------- */
+#aegis-dashboard-container .aegis-row > span:first-child { color: var(--df-text-muted); }
+#aegis-fan-rpm, #aegis-fan-voc-outlet, #aegis-fan-voc-inlet { font-weight: 600; color: var(--df-text-strong); font-variant-numeric: tabular-nums; }

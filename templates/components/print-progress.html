@@ -14,56 +14,41 @@
                             <span class="glyphicon glyphicon-refresh text-success" id="change-preview"></span>
                         </a>
                     </div>
-                    <div class="col-md-3">
-                        <span class="glyphicon glyphicon-align-left text-success"></span>
-                        <translate class="key">Layer</translate>
-                        <div class="val last_location"></div>
-                        <br>
-
-                        <span class="glyphicon glyphicon-resize-vertical text-success"></span>
-                        <translate class="key">Height</translate>
-                        <div class="val last_height"></div>
-                        <br>
-
-                        <span class="glyphicon glyphicon-hourglass text-success"></span>
-                        <translate class="key">Remaining</translate>
-                        <div class="val last_remaining"></div>
-                        <br>
-
-                        <span class="glyphicon glyphicon-tint text-success"></span>
-                        <translate class="key">Resin Consumption</translate>
-                        <div>
-                            <span class="val">Resin Level:</span>
-                            <span class="append last_level"></span>
-                            <span class="append">mm</span>
-
+                    <div class="col-md-7">
+                        <div class="c3d-stat-grid">
+                            <div class="c3d-stat">
+                                <span class="c3d-stat-label"><span class="glyphicon glyphicon-align-left text-success"></span> <translate class="key">Layer</translate></span>
+                                <span class="c3d-stat-value val last_location"></span>
+                            </div>
+                            <div class="c3d-stat">
+                                <span class="c3d-stat-label"><span class="glyphicon glyphicon-resize-vertical text-success"></span> <translate class="key">Height</translate></span>
+                                <span class="c3d-stat-value val last_height"></span>
+                            </div>
+                            <div class="c3d-stat">
+                                <span class="c3d-stat-label"><span class="glyphicon glyphicon-hourglass text-success"></span> <translate class="key">Remaining</translate></span>
+                                <span class="c3d-stat-value val last_remaining"></span>
+                            </div>
+                            <div class="c3d-stat">
+                                <span class="c3d-stat-label"><span class="glyphicon glyphicon-time text-success"></span> <translate class="key">ETA</translate></span>
+                                <span class="c3d-stat-value val last_eta"></span>
+                            </div>
+                            <div class="c3d-stat">
+                                <span class="c3d-stat-label"><span class="glyphicon glyphicon-time text-success"></span> <translate class="key">Elapsed</translate></span>
+                                <span class="c3d-stat-value val last_elapsed"></span>
+                            </div>
+                            <div class="c3d-stat">
+                                <span class="c3d-stat-label"><span class="glyphicon glyphicon-eye-open text-success"></span> <a href="/printer" class="key" translate>Action</a></span>
+                                <span class="c3d-stat-value val last_action"></span>
+                            </div>
+                            <div class="c3d-stat c3d-stat--resin">
+                                <span class="c3d-stat-label"><span class="glyphicon glyphicon-tint text-success"></span> <translate class="key">Resin Consumption</translate></span>
+                                <span class="c3d-stat-value">
+                                    <span class="val">Level:</span> <span class="append last_level"></span><span class="append">mm</span>
+                                    &nbsp; <span class="val">Remaining:</span> <span class="append last_amount"></span><span class="append">ml</span>
+                                    &nbsp; <span class="val">Required:</span> <span class="append">{{ job.TotalSolidArea|floatformat:0 }}</span><span class="append">ml</span>
+                                </span>
+                            </div>
                         </div>
-                        <div>
-                            <span class="val">Remaining Resin:</span>
-                            <span class="append last_amount"></span>
-                            <span class="append">ml</span>
-                        </div>
-                        <div>
-                            <span class="val">Required Resin:</span>
-                            <span class="append">{{ job.TotalSolidArea|floatformat:0 }}</span>
-                            <span class="append">ml</span>
-                        </div>
-                        <br>
-                    </div>
-                    <div class="col-md-4">
-                        <span class="glyphicon glyphicon-time text-success"></span>
-                        <translate class="key">ETA</translate>
-                        <div class="val last_eta"></div>
-                        <br>
-
-                        <span class="glyphicon glyphicon-time text-success"></span>
-                        <translate class="key">Elapsed</translate>
-                        <div class="val last_elapsed"></div>
-                        <br>
-
-                        <span class="glyphicon glyphicon-eye-open text-success"></span>
-                        <a href="/printer" class="key" translate>Action</a>
-                        <div class="val last_action"></div>
                     </div>
                 </div>
             </div>

@@ -1,58 +1,39 @@
 <script src='/static/js/environment-control.js'></script>
 
-<div class="col-md-12">
+<div class="c3d-env">
     <span id="no-heaters-found" style="display:none">No heaters detected</span>
-    <div class="col-md-12 center-block">
-        <form id="heater-form">
-            <div class="row">
-                <div class="col-md-6">
-                    <label for="temperature">Temperature
-                        <a class="help" data-toggle="tooltip" data-placement="bottom"
-                           title="Sets the manual temperature for both heaters using a shared resin temperature probe.">i</a>
-                    </label>
-                </div>
-                <div class="col-md-6">
-                    <input type="range" min="20" max="40" value="25" class="slider" id="temperature"
-                           name="targetTemperature">
-                    <span id="heater-value" style="text-align: center">25°C</span>
-                </div>
-            </div>
-            <div class="row" id="chamber-heater-row" style="display: none">
-                <div class="col-md-6">
-                    <label for="chamber-heater-toggle">
-                        Chamber Heater Manual Control
-                        <a class="help" data-toggle="tooltip" data-placement="bottom"
-                           title="Manually enable chamber heater. Heats to the set temperature.">i</a>
-                    </label>
-                </div>
-                <div class="col-md-6">
-                    <label class="switch">
-                        <input type="checkbox" id="chamber-heater-toggle" name="chamberHeaterToggle">
-                        <span class="switch-slider round"></span>
-                    </label>
-                </div>
-            </div>
-            <div class="row" id="vat-heater-row" style="display: none">
-                <div class="col-md-6">
-                    <label for="chamber-heater-toggle">
-                        Vat Heater Manual Control
-                        <a class="help" data-toggle="tooltip" data-placement="bottom"
-                           title="Manually enable vat heater. Heats to the set temperature.">i</a>
-                    </label>
-                </div>
-                <div class="col-md-6">
-                    <label class="switch">
-                        <input type="checkbox" id="vat-heater-toggle" name="vatHeaterToggle">
-                        <span class="switch-slider round"></span>
-                    </label>
-                </div>
-            </div>
-        </form>
 
-        <div class="btn btn-info"
-             data-toggle="modal" data-target="#preheatModal">Preheat and mix
+    <form id="heater-form">
+        <div class="c3d-section-label">Temperature</div>
+
+        <div class="c3d-temp">
+            <button type="button" class="btn c3d-ghost c3d-ghost-info c3d-temp-step" id="temp-down" aria-label="Decrease temperature">&minus;</button>
+            <div class="c3d-temp-readout"><span id="heater-value">25°C</span></div>
+            <button type="button" class="btn c3d-ghost c3d-ghost-danger c3d-temp-step" id="temp-up" aria-label="Increase temperature">+</button>
         </div>
-    </div>
+
+        <div class="c3d-temp-presets" role="group" aria-label="Temperature presets">
+            <button type="button" class="btn c3d-ghost c3d-ghost-info c3d-preset" data-preset="25">25°</button>
+            <button type="button" class="btn c3d-ghost c3d-ghost-info c3d-preset" data-preset="28">28°</button>
+            <button type="button" class="btn c3d-ghost c3d-ghost-info c3d-preset" data-preset="30">30°</button>
+            <button type="button" class="btn c3d-ghost c3d-ghost-info c3d-preset" data-preset="35">35°</button>
+        </div>
+
+        <input type="hidden" id="temperature" name="targetTemperature" value="25" min="20" max="40">
+
+        <div class="c3d-heater-row" id="chamber-heater-row" style="display: none">
+            <button type="button" class="c3d-heater-btn is-off" data-toggle-heater="chamber-heater-toggle" data-heater-name="Chamber" aria-pressed="false">Chamber: Disabled</button>
+            <input type="checkbox" id="chamber-heater-toggle" name="chamberHeaterToggle" class="c3d-hidden-check">
+        </div>
+
+        <div class="c3d-heater-row" id="vat-heater-row" style="display: none">
+            <button type="button" class="c3d-heater-btn is-off" data-toggle-heater="vat-heater-toggle" data-heater-name="Vat" aria-pressed="false">Vat: Disabled</button>
+            <input type="checkbox" id="vat-heater-toggle" name="vatHeaterToggle" class="c3d-hidden-check">
+        </div>
+    </form>
+
+    <a role="button" class="btn c3d-ghost c3d-ghost-gold c3d-env-cta" data-toggle="modal" data-target="#preheatModal"><span class="glyphicon glyphicon-tint"></span>&nbsp; Preheat and mix</a>
+
     <div class="modal fade" id="preheatModal" tabindex="-1" role="dialog" aria-labelledby="preheatModalLabel"
          aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -79,3 +60,65 @@
         </div>
     </div>
 </div>
+
+<script>
+(function () {
+    'use strict';
+    var temp = document.getElementById('temperature');
+    if (!temp) return;
+    var MIN = parseInt(temp.min, 10) || 20;
+    var MAX = parseInt(temp.max, 10) || 40;
+
+    var up = document.getElementById('temp-up');
+    var down = document.getElementById('temp-down');
+    var presets = Array.prototype.slice.call(document.querySelectorAll('.c3d-preset'));
+    var pills = Array.prototype.slice.call(document.querySelectorAll('.c3d-heater-btn'));
+
+    function current() { return Math.min(MAX, Math.max(MIN, Math.round(Number(temp.value) || MIN))); }
+
+    function setTemp(v) {
+        v = Math.min(MAX, Math.max(MIN, Math.round(v)));
+        if (Number(temp.value) === v) return;
+        temp.value = v;
+        temp.dispatchEvent(new Event('input', { bubbles: true }));
+    }
+
+    if (up) up.addEventListener('click', function () { setTemp(current() + 1); });
+    if (down) down.addEventListener('click', function () { setTemp(current() - 1); });
+    presets.forEach(function (b) {
+        b.addEventListener('click', function () { setTemp(parseInt(b.getAttribute('data-preset'), 10) || MIN); });
+    });
+
+    function syncAll() {
+        var t = current();
+        presets.forEach(function (b) {
+            var on = (parseInt(b.getAttribute('data-preset'), 10) === t);
+            b.classList.toggle('c3d-preset-active', on);
+        });
+        pills.forEach(function (pill) {
+            var box = document.getElementById(pill.getAttribute('data-toggle-heater'));
+            if (!box) return;
+            var on = box.checked;
+            var name = pill.getAttribute('data-heater-name') || 'Heater';
+            pill.classList.toggle('is-on', on);
+            pill.classList.toggle('is-off', !on);
+            pill.setAttribute('aria-pressed', on ? 'true' : 'false');
+            pill.textContent = name + ': ' + (on ? 'Enabled' : 'Disabled');
+        });
+    }
+
+    pills.forEach(function (pill) {
+        pill.addEventListener('click', function () {
+            var box = document.getElementById(pill.getAttribute('data-toggle-heater'));
+            if (!box) return;
+            box.checked = !box.checked;
+            box.dispatchEvent(new Event('input', { bubbles: true }));
+            box.dispatchEvent(new Event('change', { bubbles: true }));
+            syncAll();
+        });
+    });
+
+    syncAll();
+    setInterval(syncAll, 700);
+})();
+</script>

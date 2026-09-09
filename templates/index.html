@@ -1,6 +1,20 @@
 {% extends "base.html" %}
 {% block content %}
 
+<div class="c3d-dash-head">
+    <div>
+        <h1 class="c3d-dash-name" id="c3d-greeting">Good morning</h1>
+        <p class="c3d-dash-tag"><translate>What are we printing today?</translate></p>
+    </div>
+    <div class="c3d-updates">
+        <button type="button" class="btn btn-default c3d-updates-toggle" id="updates-toggle" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-bullhorn"></span>&nbsp; <translate>Updates</translate></button>
+        <div class="c3d-updates-popover" id="updates-popover" hidden>
+            <div class="c3d-updates-popover-header"><translate>Latest Updates</translate></div>
+            <div class="c3d-updates-list" id="updates-list"></div>
+        </div>
+    </div>
+</div>
+
 <div>
     <div id="machine-status" class="row row-marginless">
         {% include "components/print-progress.html" %}
@@ -22,29 +36,31 @@
                         <div class="panel-heading">Printer Control</div>
                         <div class="panel-body">
 
-                            <div class="col-md-12 no-padding">
-                                <div class="dashboard-button-panel" style="margin-top: 10px">
-                                    <a class="ask btn btn-default" href="/printer/off" data-ask="poweroff-confirm"><span class="glyphicon glyphicon-off text-danger"></span></a>
-                                    <a class="ask btn btn-default" href="/printer/restart" data-ask="restart-confirm"><span class="glyphicon glyphicon-repeat text-warning"></span></a>
-                                </div>
+                            <div class="c3d-printer-actions">
+                                <a class="ask btn btn-danger" href="/printer/off" data-ask="poweroff-confirm"><span class="glyphicon glyphicon-off"></span>&nbsp; <translate>Power Off</translate></a>
+                                <a class="ask btn btn-primary" href="/printer/restart" data-ask="restart-confirm"><span class="glyphicon glyphicon-repeat"></span>&nbsp; <translate>Restart</translate></a>
                             </div>
-                            <div class="col-md-12 no-padding"><br/>
-                                <h5>Move Plate</h5>
 
-                                <div class="btn-group-vertical" style="padding-right: 10px">
-                                    <button id="btnUp" class="btn btn-primary btn-axis-move" style="margin-bottom: 20px"><span class="glyphicon glyphicon-chevron-up"></span></button>
-                                    <button id="btnMove100000" class="btn btn-default btn-movement">100 mm</button>
-                                    <button id="btnMove10000" class="btn btn-default btn-movement">10 mm</button>
-                                    <button id="btnMove1000" class="btn btn-default btn-movement btn-movement-active">1 mm</button>
-                                    <button id="btnMove100" class="btn btn-default btn-movement">0.1 mm</button>
-                                    <button id="btnDown" class="btn btn-primary btn-axis-move" style="margin-top: 20px"><span class="glyphicon glyphicon-chevron-down"></span></button>
-                                </div>
-                                <div class="btn-group-vertical" style="padding-top: 80px">
-                                    <button id="btnMoveHome" class="btn btn-default">Home</button>
-                                    <button id="btnMoveBottom" class="btn btn-default">Floor</button>
-                                    <button id="btnStop" class="btn btn-danger" style="margin-top: 90px"><span class="glyphicon glyphicon-stop"></span></button>
-                                </div>
+                            <div class="c3d-section-label"><translate>Move Plate</translate></div>
+
+                            <button id="btnUp" type="button" class="btn c3d-ghost c3d-ghost-gold c3d-z-btn"><span class="glyphicon glyphicon-chevron-up"></span>&nbsp; <translate>Move Up</translate></button>
+
+                            <div class="c3d-step-group">
+                                <button id="btnMove100000" class="btn c3d-ghost c3d-ghost-info btn-movement">100&nbsp;mm</button>
+                                <button id="btnMove10000" class="btn c3d-ghost c3d-ghost-info btn-movement">10&nbsp;mm</button>
+                                <button id="btnMove1000" class="btn c3d-ghost c3d-ghost-info btn-movement btn-movement-active">1&nbsp;mm</button>
+                                <button id="btnMove100" class="btn c3d-ghost c3d-ghost-info btn-movement">0.1&nbsp;mm</button>
                             </div>
+
+                            <button id="btnDown" type="button" class="btn c3d-ghost c3d-ghost-gold c3d-z-btn"><span class="glyphicon glyphicon-chevron-down"></span>&nbsp; <translate>Move Down</translate></button>
+
+                            <div class="c3d-pos-row">
+                                <button id="btnMoveHome" type="button" class="btn c3d-ghost c3d-ghost-info"><translate>Home</translate></button>
+                                <button id="btnMoveBottom" type="button" class="btn c3d-ghost c3d-ghost-info"><translate>Floor</translate></button>
+                            </div>
+
+                            <button id="btnStop" type="button" class="btn c3d-ghost c3d-ghost-danger c3d-stop"><span class="glyphicon glyphicon-stop"></span>&nbsp; <translate>Stop</translate></button>
+
                         </div>
                     </div>
                 </div>
@@ -70,19 +86,22 @@
                 </div>
             </div>
 
-    <div class="row chart-row row-marginless">
-        <div class="col-md-12 no-padding">
-            <div class="panel panel-default dashboard-panel">
-                <div class="panel-heading">Latest Updates</div>
-                <div class="panel-body">
-                    <div class="nanodlp-content"></div>
-                </div>
-            </div>
-        </div>
-    </div>
 </div>
 
 <translate class="hide" id="restart-confirm">Are you sure you want to restart the printer?</translate>
 <translate class="hide" id="poweroff-confirm">Are you sure you want to power off the printer?</translate>
 
+{% endblock %}
+
+{% block js %}
+<script>
+(function () {
+    var el = document.getElementById('c3d-greeting');
+    if (!el) return;
+    var h = new Date().getHours();
+    var g = (h >= 5 && h < 12) ? 'Good morning' : (h >= 12 && h < 17) ? 'Good afternoon' : 'Good evening';
+    el.textContent = g;
+})();
+</script>
+<script src='/static/js/updates-feed.js?{{version}}(c3dv2)'></script>
 {% endblock %}

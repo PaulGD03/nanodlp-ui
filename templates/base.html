@@ -206,6 +206,7 @@
 	<!-- Custom styles for this template -->
 	<link href='/static/css/main.css?{{version}}(athenav7)' rel="stylesheet">
 	<link href='/static/css/athena.css?{{version}}(athenav7)' rel="stylesheet">
+	<link href='/static/css/redesign.css?{{version}}(redesignv13)' rel="stylesheet">
 	<title>{% if title %}{{ title }}{% endif %}</title>
 	{% block head %} {% endblock %}
 	<script src='/static/boot3/js/jquery.min.js'></script>
@@ -257,19 +258,12 @@
 			</div>
 		</div>
 	</div>
-	<div class="container mlog navbar-default">
-		<a href="/printer" class="navbar-brand">
-					<span class="glyphicon glyphicon-align-left"></span>
-					<span class="val last_location"></span>
-					&nbsp; &nbsp;
-					<span class="glyphicon glyphicon-hourglass text-secondary"></span>
-					<span class="val last_remaining"></span>
-					&nbsp; &nbsp;
-					<span class="glyphicon glyphicon-time text-secondary"></span>
-					<span class="val last_eta"></span>
-					&nbsp; &nbsp;
-					<span class="glyphicon glyphicon-eye-open text-secondary"></span>
-					<span class="val last_action"></span>
+	<div class="c3d-footer">
+		<a href="/printer" class="c3d-footer-status">
+			<span class="c3d-footer-item"><span class="c3d-footer-label"><translate>Layer</translate></span><span class="c3d-footer-value val last_location"></span></span>
+			<span class="c3d-footer-item"><span class="c3d-footer-label"><translate>Remaining</translate></span><span class="c3d-footer-value val last_remaining"></span></span>
+			<span class="c3d-footer-item"><span class="c3d-footer-label"><translate>ETA</translate></span><span class="c3d-footer-value val last_eta"></span></span>
+			<span class="c3d-footer-item"><span class="c3d-footer-label"><translate>Status</translate></span><span class="c3d-footer-value val last_action"></span></span>
 		</a>
 	</div>
 	<div class="hide" id="modal-template">
