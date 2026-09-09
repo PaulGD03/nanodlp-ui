@@ -5,9 +5,8 @@
 
     <div class="aegis-header" id="aegis-status">VOC Level Ok</div>
 
-    <div class="aegis-row">
-        <span>AEGIS Fan</span>
-        <button type="button" class="c3d-toggle-pill is-off" data-toggle-aegis="aegis-toggle" aria-pressed="false">Fan: Off</button>
+    <div class="c3d-heater-row">
+        <button type="button" class="c3d-heater-btn c3d-aegis-btn is-off" data-aegis-toggle="aegis-toggle" data-aegis-name="AEGIS Fan" aria-pressed="false">AEGIS Fan: Disabled</button>
         <input type="checkbox" id="aegis-toggle" class="c3d-hidden-check">
     </div>
 
@@ -33,18 +32,19 @@
 <script>
 (function () {
     'use strict';
-    var pill = document.querySelector('.c3d-toggle-pill[data-toggle-aegis]');
-    var box = pill && document.getElementById(pill.getAttribute('data-toggle-aegis'));
-    if (!pill || !box) return;
+    var btn = document.querySelector('.c3d-heater-btn[data-aegis-toggle]');
+    var box = btn && document.getElementById(btn.getAttribute('data-aegis-toggle'));
+    if (!btn || !box) return;
+    var name = btn.getAttribute('data-aegis-name') || 'AEGIS Fan';
 
     function sync() {
         var on = box.checked;
-        pill.classList.toggle('is-on', on);
-        pill.classList.toggle('is-off', !on);
-        pill.setAttribute('aria-pressed', on ? 'true' : 'false');
-        pill.textContent = 'Fan: ' + (on ? 'On' : 'Off');
+        btn.classList.toggle('is-on', on);
+        btn.classList.toggle('is-off', !on);
+        btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+        btn.textContent = name + ': ' + (on ? 'Enabled' : 'Disabled');
     }
-    pill.addEventListener('click', function () {
+    btn.addEventListener('click', function () {
         box.checked = !box.checked;
         box.dispatchEvent(new Event('change', { bubbles: true }));
         sync();

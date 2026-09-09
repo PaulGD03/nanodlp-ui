@@ -492,3 +492,18 @@ input[type="range"].slider, input[type="range"] { accent-color: var(--brand-acce
   border-color: var(--brand-accent-hover);
   color: var(--brand-accent-ink);
 }
+
+/* AEGIS fan full-width state button shares heater styling; enabled = gold (red is heat-only) */
+.c3d-aegis-btn.is-on {
+  color: var(--brand-accent-ink);
+  background-color: var(--brand-accent);
+  border-color: var(--brand-accent);
+  box-shadow: none;
+  font-weight: 700;
+}
+.c3d-aegis-btn.is-on:hover {
+  background-color: var(--brand-accent-hover);
+  border-color: var(--brand-accent-hover);
+  color: var(--brand-accent-ink);
+  box-shadow: none;
+}
