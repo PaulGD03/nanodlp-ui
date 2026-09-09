@@ -443,3 +443,52 @@ input[type="range"].slider, input[type="range"] { accent-color: var(--brand-acce
 /* ---------- AEGIS widget typography ---------- */
 #aegis-dashboard-container .aegis-row > span:first-child { color: var(--df-text-muted); }
 #aegis-fan-rpm, #aegis-fan-voc-outlet, #aegis-fan-voc-inlet { font-weight: 600; color: var(--df-text-strong); font-variant-numeric: tabular-nums; }
+
+/* AEGIS/VOC column — status header + state pill in the design language */
+.c3d-env-cols > .c3d-env { flex: 1 1 300px; }
+.c3d-env-cols > #aegis-dashboard-container { flex: 1 1 250px; }
+#aegis-dashboard-container .aegis-header {
+  background-color: var(--df-surface-0);
+  border: 1px solid var(--df-border-subtle);
+  border-radius: var(--df-radius-md);
+  color: var(--df-text-strong);
+  font-size: 14px;
+  font-weight: 600;
+  text-align: left;
+  padding: 10px 12px;
+  margin: 0 0 10px;
+}
+#aegis-dashboard-container .aegis-row { min-height: 36px; }
+.c3d-toggle-pill {
+  min-width: 92px;
+  min-height: 34px;
+  padding: 0 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: var(--df-radius-sm);
+  border: 1px solid var(--df-border-strong);
+  transition: background-color 140ms ease, border-color 140ms ease, color 140ms ease;
+}
+.c3d-toggle-pill.is-off {
+  color: var(--c3d-info);
+  border-color: color-mix(in srgb, var(--c3d-info), var(--df-border-strong) 55%);
+  background-color: color-mix(in srgb, var(--c3d-info), var(--df-surface-1) 88%);
+}
+.c3d-toggle-pill.is-off:hover {
+  color: #bcd8ff;
+  background-color: color-mix(in srgb, var(--c3d-info), var(--df-surface-1) 78%);
+}
+.c3d-toggle-pill.is-on {
+  color: var(--brand-accent-ink);
+  background-color: var(--brand-accent);
+  border-color: var(--brand-accent);
+  font-weight: 700;
+}
+.c3d-toggle-pill.is-on:hover {
+  background-color: var(--brand-accent-hover);
+  border-color: var(--brand-accent-hover);
+  color: var(--brand-accent-ink);
+}

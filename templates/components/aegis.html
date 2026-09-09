@@ -3,33 +3,53 @@
 
 <div id="aegis-dashboard-container" style="display: none;">
 
-<!--  <div class="panel">-->
     <div class="aegis-header" id="aegis-status">VOC Level Ok</div>
 
     <div class="aegis-row">
-      <span>AEGIS Fan</span>
-
-      <label class="switch">
-        <input id="aegis-toggle" type="checkbox">
-        <span class="switch-slider round"></span>
-      </label>
+        <span>AEGIS Fan</span>
+        <button type="button" class="c3d-toggle-pill is-off" data-toggle-aegis="aegis-toggle" aria-pressed="false">Fan: Off</button>
+        <input type="checkbox" id="aegis-toggle" class="c3d-hidden-check">
     </div>
 
     <div class="aegis-row">
-      <span>Fan RPM</span>
-      <span id="aegis-fan-rpm">1000</span>
+        <span>Fan RPM</span>
+        <span id="aegis-fan-rpm">0</span>
     </div>
 
     <div class="divider"></div>
 
     <div class="aegis-row">
-      <span>VOC Index Outlet</span>
-      <span><span id="aegis-fan-voc-outlet-status" class="glyphicon circle label-success"></span><span id="aegis-fan-voc-outlet">100</span></span>
+        <span>VOC Index Outlet</span>
+        <span><span id="aegis-fan-voc-outlet-status" class="glyphicon circle label-success"></span><span id="aegis-fan-voc-outlet">0</span></span>
     </div>
 
     <div class="aegis-row">
-      <span>VOC Index Inlet</span>
-      <span><span id="aegis-fan-voc-inlet-status" class="glyphicon circle label-success"></span><span id="aegis-fan-voc-inlet">100</span></span>
+        <span>VOC Index Inlet</span>
+        <span><span id="aegis-fan-voc-inlet-status" class="glyphicon circle label-success"></span><span id="aegis-fan-voc-inlet">0</span></span>
     </div>
-<!--  </div>-->
+
 </div>
+
+<script>
+(function () {
+    'use strict';
+    var pill = document.querySelector('.c3d-toggle-pill[data-toggle-aegis]');
+    var box = pill && document.getElementById(pill.getAttribute('data-toggle-aegis'));
+    if (!pill || !box) return;
+
+    function sync() {
+        var on = box.checked;
+        pill.classList.toggle('is-on', on);
+        pill.classList.toggle('is-off', !on);
+        pill.setAttribute('aria-pressed', on ? 'true' : 'false');
+        pill.textContent = 'Fan: ' + (on ? 'On' : 'Off');
+    }
+    pill.addEventListener('click', function () {
+        box.checked = !box.checked;
+        box.dispatchEvent(new Event('change', { bubbles: true }));
+        sync();
+    });
+    sync();
+    setInterval(sync, 700);
+})();
+</script>

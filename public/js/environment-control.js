@@ -226,7 +226,7 @@ async function setAegisStatus(inletValue) {
             }else {
                 aegisStatusElem.innerText = 'Filtration Cycle Running';
             }
-            aegisStatusElem.style.borderColor = '#fff';
+            aegisStatusElem.style.borderColor = '#8ab4f8';
             return;
         }
     }
@@ -257,7 +257,7 @@ async function setAegisStatus(inletValue) {
     }
 
     aegisStatusElem.innerText = 'VOC Level Ok';
-    aegisStatusElem.style.borderColor = '#fff';
+    aegisStatusElem.style.borderColor = '#2eb67d';
 }
 
 function setAegisIndicator(value, elemId) {
