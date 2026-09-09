@@ -563,6 +563,7 @@ input[type="range"].slider, input[type="range"] { accent-color: var(--brand-acce
 /* Color-tinted fills for VOC states */
 #aegis-dashboard-container .aegis-header {
   background-color: color-mix(in srgb, var(--df-success), var(--df-surface-0) 88%);
+  text-align: center;
 }
 .c3d-voc-tile.state-ok {
   background-color: color-mix(in srgb, var(--df-success), var(--df-surface-0) 88%);
