@@ -215,6 +215,17 @@ async function getAegisValues() {
     }
 }
 
+function tinted(color) {
+    const r = parseInt(color.slice(1, 3), 16);
+    const g = parseInt(color.slice(3, 5), 16);
+    const b = parseInt(color.slice(5, 7), 16);
+    return `rgba(${r}, ${g}, ${b}, 0.13)`;
+}
+function paintStatus(el, color) {
+    el.style.borderColor = color;
+    el.style.backgroundColor = tinted(color);
+}
+
 async function setAegisStatus(inletValue) {
 
     const automaticMode = await isAutomaticFilteringActive();
@@ -226,7 +237,7 @@ async function setAegisStatus(inletValue) {
             }else {
                 aegisStatusElem.innerText = 'Filtration Cycle Running';
             }
-            aegisStatusElem.style.borderColor = '#8ab4f8';
+            paintStatus(aegisStatusElem, '#8ab4f8');
             return;
         }
     }
@@ -235,7 +246,7 @@ async function setAegisStatus(inletValue) {
 
     if (isVocCritical) {
         aegisStatusElem.innerText = 'VOC Level Critical';
-        aegisStatusElem.style.borderColor = '#d9534f';
+        paintStatus(aegisStatusElem, '#d9534f');
         return;
     }
 
@@ -243,7 +254,7 @@ async function setAegisStatus(inletValue) {
 
     if (isVocWarning) {
         aegisStatusElem.innerText = 'VOC Level Warning';
-        aegisStatusElem.style.borderColor = '#f0ad4e';
+        paintStatus(aegisStatusElem, '#f0ad4e');
         return;
     }
 
@@ -251,13 +262,13 @@ async function setAegisStatus(inletValue) {
     if (replaceFilter) {
         if (replaceFilter['filter_needs_replacement']) {
             aegisStatusElem.innerText = 'Filter needs replacement';
-            aegisStatusElem.style.borderColor = '#d9534f';
+            paintStatus(aegisStatusElem, '#d9534f');
             return;
         }
     }
 
     aegisStatusElem.innerText = 'VOC Level Ok';
-    aegisStatusElem.style.borderColor = '#2eb67d';
+    paintStatus(aegisStatusElem, '#2eb67d');
 }
 
 function setAegisIndicator(value, elemId) {

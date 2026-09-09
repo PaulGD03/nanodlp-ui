@@ -559,3 +559,17 @@ input[type="range"].slider, input[type="range"] { accent-color: var(--brand-acce
 .c3d-voc-tile.state-warning .c3d-voc-value { color: var(--brand-accent); }
 .c3d-voc-tile.state-critical { border-color: var(--df-danger); }
 .c3d-voc-tile.state-critical .c3d-voc-value { color: #ff8f84; }
+
+/* Color-tinted fills for VOC states */
+#aegis-dashboard-container .aegis-header {
+  background-color: color-mix(in srgb, var(--df-success), var(--df-surface-0) 88%);
+}
+.c3d-voc-tile.state-ok {
+  background-color: color-mix(in srgb, var(--df-success), var(--df-surface-0) 88%);
+}
+.c3d-voc-tile.state-warning {
+  background-color: color-mix(in srgb, var(--brand-accent), var(--df-surface-0) 90%);
+}
+.c3d-voc-tile.state-critical {
+  background-color: color-mix(in srgb, var(--df-danger), var(--df-surface-0) 88%);
+}
