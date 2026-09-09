@@ -430,6 +430,16 @@ input[type="range"].slider, input[type="range"] { accent-color: var(--brand-acce
 .c3d-env-cta { display: flex; align-items: center; justify-content: center; width: 100%; min-height: 44px; margin-top: 18px; font-size: 15px; }
 .dashboard-panel hr { border-top-color: var(--df-border-subtle); margin: 16px 0; }
 
+/* Two-column env card: heater left, AEGIS/VOC right (right col appears only when AEGIS present) */
+.c3d-env-cols { display: flex; flex-wrap: wrap; gap: 20px 24px; }
+.c3d-env-cols > .c3d-env { flex: 1 1 340px; min-width: 0; }
+.c3d-env-cols > #aegis-dashboard-container {
+  flex: 1 1 280px;
+  min-width: 0;
+  border-left: 1px solid var(--df-border-subtle);
+  padding-left: 24px;
+}
+
 /* ---------- AEGIS widget typography ---------- */
 #aegis-dashboard-container .aegis-row > span:first-child { color: var(--df-text-muted); }
 #aegis-fan-rpm, #aegis-fan-voc-outlet, #aegis-fan-voc-inlet { font-weight: 600; color: var(--df-text-strong); font-variant-numeric: tabular-nums; }
