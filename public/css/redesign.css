@@ -507,3 +507,55 @@ input[type="range"].slider, input[type="range"] { accent-color: var(--brand-acce
   color: var(--brand-accent-ink);
   box-shadow: none;
 }
+
+/* AEGIS stat tiles (Fan RPM + VOC) in the dashboard stat language */
+.c3d-hidden-dot { display: none !important; }
+.c3d-metric {
+  margin-top: 8px;
+  display: block;
+  background-color: var(--df-surface-0);
+  border: 1px solid var(--df-border-subtle);
+  border-radius: var(--df-radius-md);
+  padding: 10px 12px;
+}
+.c3d-metric-label, .c3d-voc-label {
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--df-indicator);
+  margin-bottom: 4px;
+}
+.c3d-metric-value {
+  display: block;
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--df-text-strong);
+  font-variant-numeric: tabular-nums;
+  line-height: 1.1;
+}
+.c3d-voc-grid { display: flex; gap: 8px; margin-top: 8px; }
+.c3d-voc-tile {
+  flex: 1;
+  min-width: 0;
+  background-color: var(--df-surface-0);
+  border: 1px solid var(--df-border-subtle);
+  border-radius: var(--df-radius-md);
+  padding: 10px 12px;
+  transition: border-color 200ms ease;
+}
+.c3d-voc-value {
+  display: block;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--df-text-strong);
+  font-variant-numeric: tabular-nums;
+  line-height: 1.15;
+}
+.c3d-voc-tile.state-ok { border-color: color-mix(in srgb, var(--df-success), var(--df-border-subtle) 45%); }
+.c3d-voc-tile.state-ok .c3d-voc-value { color: var(--df-success); }
+.c3d-voc-tile.state-warning { border-color: var(--brand-accent); }
+.c3d-voc-tile.state-warning .c3d-voc-value { color: var(--brand-accent); }
+.c3d-voc-tile.state-critical { border-color: var(--df-danger); }
+.c3d-voc-tile.state-critical .c3d-voc-value { color: #ff8f84; }

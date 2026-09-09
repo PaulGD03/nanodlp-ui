@@ -10,21 +10,22 @@
         <input type="checkbox" id="aegis-toggle" class="c3d-hidden-check">
     </div>
 
-    <div class="aegis-row">
-        <span>Fan RPM</span>
-        <span id="aegis-fan-rpm">0</span>
+    <div class="c3d-metric">
+        <span class="c3d-metric-label">Fan RPM</span>
+        <span class="c3d-metric-value" id="aegis-fan-rpm">0</span>
     </div>
 
-    <div class="divider"></div>
-
-    <div class="aegis-row">
-        <span>VOC Index Outlet</span>
-        <span><span id="aegis-fan-voc-outlet-status" class="glyphicon circle label-success"></span><span id="aegis-fan-voc-outlet">0</span></span>
-    </div>
-
-    <div class="aegis-row">
-        <span>VOC Index Inlet</span>
-        <span><span id="aegis-fan-voc-inlet-status" class="glyphicon circle label-success"></span><span id="aegis-fan-voc-inlet">0</span></span>
+    <div class="c3d-voc-grid">
+        <div class="c3d-voc-tile state-ok" id="voc-outlet-tile">
+            <span class="c3d-voc-label">VOC Outlet</span>
+            <span class="c3d-voc-value" id="aegis-fan-voc-outlet">0</span>
+            <span id="aegis-fan-voc-outlet-status" class="glyphicon circle label-success c3d-hidden-dot"></span>
+        </div>
+        <div class="c3d-voc-tile state-ok" id="voc-inlet-tile">
+            <span class="c3d-voc-label">VOC Inlet</span>
+            <span class="c3d-voc-value" id="aegis-fan-voc-inlet">0</span>
+            <span id="aegis-fan-voc-inlet-status" class="glyphicon circle label-success c3d-hidden-dot"></span>
+        </div>
     </div>
 
 </div>
@@ -37,12 +38,28 @@
     if (!btn || !box) return;
     var name = btn.getAttribute('data-aegis-name') || 'AEGIS Fan';
 
+    var vocStates = [
+        { dot: 'aegis-fan-voc-outlet-status', tile: 'voc-outlet-tile' },
+        { dot: 'aegis-fan-voc-inlet-status', tile: 'voc-inlet-tile' }
+    ];
+
     function sync() {
         var on = box.checked;
         btn.classList.toggle('is-on', on);
         btn.classList.toggle('is-off', !on);
         btn.setAttribute('aria-pressed', on ? 'true' : 'false');
         btn.textContent = name + ': ' + (on ? 'Enabled' : 'Disabled');
+
+        vocStates.forEach(function (pair) {
+            var dot = document.getElementById(pair.dot);
+            var tile = document.getElementById(pair.tile);
+            if (!dot || !tile) return;
+            var state = dot.classList.contains('label-danger') ? 'state-critical'
+                : dot.classList.contains('label-warning') ? 'state-warning'
+                : 'state-ok';
+            tile.classList.remove('state-ok', 'state-warning', 'state-critical');
+            tile.classList.add(state);
+        });
     }
     btn.addEventListener('click', function () {
         box.checked = !box.checked;
