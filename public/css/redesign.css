@@ -574,3 +574,30 @@ input[type="range"].slider, input[type="range"] { accent-color: var(--brand-acce
 .c3d-voc-tile.state-critical {
   background-color: color-mix(in srgb, var(--df-danger), var(--df-surface-0) 88%);
 }
+
+/* Dashboard mid-row: Environment/Printer/Webcam cards equal height */
+.c3d-dash-row { display: flex; align-items: stretch; }
+.c3d-dash-row > [class*="col-"] { display: flex; flex-direction: column; }
+.c3d-dash-row .dashboard-panel { flex: 1 1 auto; display: flex; flex-direction: column; }
+.c3d-dash-row .dashboard-panel > .panel-body { display: flex; flex-direction: column; }
+#webcam-column .dashboard-panel > .panel-body { justify-content: space-between; }
+#webcam-preview { display: flex; flex-direction: column; flex: 1 1 auto; min-height: 0; }
+#livestream-container {
+  flex: 1 1 auto;
+  width: 100%;
+  aspect-ratio: auto !important;
+  min-height: 160px;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+#livestream-container img,
+#livestream-container video {
+  width: 100% !important;
+  height: 100% !important;
+  max-width: none !important;
+  max-height: none !important;
+  aspect-ratio: auto !important;
+  object-fit: cover;
+}
