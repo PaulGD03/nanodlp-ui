@@ -22,7 +22,7 @@ const ColourValues = [
 
 // Readable series colors on dark surfaces, indexed by metric id (see ALL_CHART_CONFIG)
 const DARK_PALETTE = [
-    "#f0ad4e", "#4dd0e1", "#66bb6a", "#ffa726", "#ab47bc", "#ec407a", "#ffd166",
+    "#f0ad4e", "#4dd0e1", "#66bb6a", "#ffa726", "#ab47bc", "#ec407a", "#d2a13e",
     "#ef5350", "#26a69a", "#5c6bc0", "#ff7043", "#8d6e63", "#ffca28", "#29b6f6",
     "#9ccc65", "#f06292", "#ba68c8", "#ff8a65", "#4db6ac", "#7986cb", "#ffb74d",
     "#aed581", "#e57373", "#64b5f6", "#81c784", "#dce775", "#4dd0e1", "#f48fb1",
