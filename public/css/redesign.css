@@ -591,13 +591,11 @@ input[type="range"].slider, input[type="range"] { accent-color: var(--brand-acce
   align-items: center;
   justify-content: center;
   overflow: hidden;
+  background: #000;
 }
 #livestream-container img,
 #livestream-container video {
-  width: 100% !important;
-  height: 100% !important;
   max-width: none !important;
   max-height: none !important;
-  aspect-ratio: auto !important;
   object-fit: cover;
 }
