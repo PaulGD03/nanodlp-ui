@@ -322,14 +322,14 @@ body.c3d-printing #webcam-column .dashboard-panel { flex: 1 1 auto; }
 
 /* ---------- Machine Status (print progress) ---------- */
 .c3d-status { display: flex; gap: 14px; align-items: stretch; flex-wrap: wrap; min-height: 0; }
-.c3d-status-preview { flex: 0 1 320px; min-width: 220px; align-self: stretch; display: flex; flex-direction: column; gap: 10px; }
-#print-preview-img { flex: 1 1 auto; display: flex; flex-direction: column; min-height: 0; }
+.c3d-status-preview { flex: 0 1 300px; min-width: 220px; align-self: flex-start; display: flex; flex-direction: column; gap: 10px; }
+#print-preview-img { display: block; }
 .c3d-preview-frame {
   position: relative;
   display: block;
-  flex: 1 1 auto;
   width: 100%;
-  min-height: 170px;
+  aspect-ratio: 16 / 9;   /* matches the plate 3D render (1600x960) */
+  min-height: 0;
   background: #000;
   border: 1px solid var(--df-border-subtle);
   border-radius: var(--df-radius-md);
