@@ -81,6 +81,115 @@ a:hover, a:focus { color: var(--brand-accent); filter: brightness(1.08); }
 .navbar-default .navbar-nav > li > a:focus { color: var(--df-text-strong); background-color: transparent; }
 .navbar-default .navbar-nav > .active > a,
 .navbar-default .navbar-nav > .active > a:hover { color: var(--brand-accent); background-color: transparent; box-shadow: inset 0 -2px 0 var(--brand-accent); }
+
+/* ---------- Navbar dropdown (the header's own menu) ----------
+   The shared .dropdown-menu grammar further down is written for the in-page
+   menus (job rows, page-head "More") and is deliberately unscoped, so it also
+   caught the navbar menu: near-black panel on a near-black bar, muted grey
+   items, tight 8px rows, hairline separators, gold hover lost. This block
+   carries the id-free navbar scope at higher specificity and adds the section
+   hierarchy the flat list was missing. */
+.navbar .dropdown-menu {
+  min-width: 236px;
+  max-height: calc(100vh - 96px);
+  overflow-y: auto;
+  padding: 6px;
+  background-color: var(--df-surface-1);
+  border: 1px solid var(--df-border-strong);
+  border-radius: var(--df-radius-md);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.5), 0 4px 12px rgba(0, 0, 0, 0.34);
+  scrollbar-width: thin;
+  scrollbar-color: var(--df-border-strong) transparent;
+}
+.navbar .dropdown-menu::-webkit-scrollbar { width: 10px; }
+.navbar .dropdown-menu::-webkit-scrollbar-track { background: transparent; }
+.navbar .dropdown-menu::-webkit-scrollbar-thumb {
+  background-color: var(--df-border-strong);
+  border: 3px solid transparent;
+  border-radius: 8px;
+  background-clip: content-box;
+}
+.navbar .dropdown-menu > li + li { border-top: 0; }
+.navbar .dropdown-menu > li > a {
+  gap: 10px;
+  padding: 9px 10px;
+  border-radius: var(--df-radius-sm);
+  color: var(--df-text-strong);
+  font-size: 13.5px;
+  line-height: 1.3;
+}
+.navbar .dropdown-menu > li > a:hover,
+.navbar .dropdown-menu > li > a:focus {
+  background-color: color-mix(in srgb, var(--brand-accent) 15%, var(--df-surface-0));
+  background-image: none;
+  color: var(--brand-accent);
+}
+/* one icon slot for glyphicons and masked brand art, so the column lines up */
+.navbar .dropdown-menu > li > a > .glyphicon,
+.navbar .dropdown-menu > li > a > .c3d-nav-ico {
+  flex: 0 0 18px;
+  width: 18px;
+  height: 18px;
+  font-size: 14px;
+  line-height: 18px;
+  text-align: center;
+  color: var(--df-text-muted);
+}
+.navbar .dropdown-menu > li > a:hover > .glyphicon,
+.navbar .dropdown-menu > li > a:hover > .c3d-nav-ico,
+.navbar .dropdown-menu > li > a:focus > .glyphicon,
+.navbar .dropdown-menu > li > a:focus > .c3d-nav-ico { color: var(--brand-accent); }
+.c3d-nav-ico {
+  display: inline-block;
+  background-color: currentColor;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+}
+.c3d-nav-ico--heater {
+  -webkit-mask-image: url("/static/general/heater-settings-icon.svg");
+  mask-image: url("/static/general/heater-settings-icon.svg");
+}
+.c3d-nav-ico--chart {
+  -webkit-mask-image: url("/static/general/chart-icon.svg");
+  mask-image: url("/static/general/chart-icon.svg");
+}
+/* section labels — the hierarchy the flat list was missing */
+.navbar .dropdown-menu > li.c3d-nav-group {
+  border-top: 0;
+  padding: 12px 10px 5px;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--df-text-muted);
+  pointer-events: none;
+}
+.navbar .dropdown-menu > li.c3d-nav-group:first-child { padding-top: 5px; }
+/* trigger: gold underline while open, chevron instead of the bootstrap triangle */
+.navbar-default .navbar-nav > li.dropdown.open > a,
+.navbar-default .navbar-nav > li.dropdown.open > a:hover,
+.navbar-default .navbar-nav > li.dropdown.open > a:focus {
+  color: var(--brand-accent);
+  background-color: transparent;
+  box-shadow: inset 0 -2px 0 var(--brand-accent);
+}
+.navbar-default .navbar-nav > li.dropdown > a .caret {
+  width: 7px;
+  height: 7px;
+  margin-left: 7px;
+  border: 0;
+  border-right: 1.6px solid currentColor;
+  border-bottom: 1.6px solid currentColor;
+  transform: rotate(45deg) translateY(-2px);
+  opacity: 0.8;
+  transition: transform 0.16s ease, opacity 0.16s ease;
+}
+.navbar-default .navbar-nav > li.dropdown.open > a .caret { transform: rotate(225deg) translateY(-2px); opacity: 1; }
+
 .dropdown-menu {
   background-color: var(--df-surface-1);
   border: 1px solid var(--df-border-subtle);

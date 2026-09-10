@@ -17,24 +17,34 @@
             </a>
             <ul class="dropdown-menu">
                 {% if !manHighLock %}
-                <li class="{% if viewMode == 0 %}hidden{% endif %}"><a href="/setup"><span class="glyphicon glyphicon-wrench"></span>&nbsp; <translate>Machine Settings</translate></a></li>
+                <li class="c3d-nav-group"><translate>Machine</translate></li>
+                <li class="{% if viewMode == 0 %}hidden{% endif %}"><a href="/setup"><span class="glyphicon glyphicon-wrench"></span><translate>Machine Settings</translate></a></li>
                 {% endif %}
-                <li><a href="/z-calibration"><span class="glyphicon glyphicon-resize-vertical"></span>&nbsp; <translate>Z Axis Control</translate></a></li>
-                <li><a href="/custom/heater"><img src="/static/general/heater-settings-icon.svg" alt="Icon" width="16" height="16">&nbsp; <translate>Heater Control</translate></a></li>
-                <li><a href="/analytic"><img src="/static/general/chart-icon.svg" alt="Icon" width="16" height="16">&nbsp; <translate>Analytics Charts</translate></a></li>
-                <li><a href="/projector-calibration"><span class="glyphicon glyphicon-picture"></span>&nbsp; <translate>Display Calibration</translate></a></li>
-                <li><a href="/custom/webcam"><span class="glyphicon glyphicon-camera"></span>&nbsp; <translate>Webcam</translate></a></li>
-                <li><a href="/custom/timelapse"><span class="glyphicon glyphicon-film"></span>&nbsp; <translate>Timelapses</translate></a></li>
-                {% if build!="athena" %}<li role="separator" class="divider"></li>{% endif %}
+                <li><a href="/z-calibration"><span class="glyphicon glyphicon-resize-vertical"></span><translate>Z Axis Control</translate></a></li>
+                <li><a href="/projector-calibration"><span class="glyphicon glyphicon-picture"></span><translate>Display Calibration</translate></a></li>
+
+                <li class="c3d-nav-group"><translate>Peripherals</translate></li>
+                <li><a href="/custom/heater"><span class="c3d-nav-ico c3d-nav-ico--heater"></span><translate>Heater Control</translate></a></li>
+                <li><a href="/custom/webcam"><span class="glyphicon glyphicon-camera"></span><translate>Webcam</translate></a></li>
+                <li><a href="/custom/timelapse"><span class="glyphicon glyphicon-film"></span><translate>Timelapses</translate></a></li>
+
+                <li class="c3d-nav-group"><translate>Monitoring</translate></li>
+                <li><a href="/analytic"><span class="c3d-nav-ico c3d-nav-ico--chart"></span><translate>Analytics Charts</translate></a></li>
                 {% if !manHighLock %}
-                <li><a href="/term"><span class="glyphicon glyphicon-phone"></span>&nbsp; <translate>Gcode Terminal</translate></a></li>
-                <!--<li class="{% if viewMode == 0 %}hidden{% endif %}"><a href="/add-protection"><span class="glyphicon glyphicon-lock"></span>&nbsp; <translate>Password Protection</translate></a></li>-->
-                <li><a href="/printer"><span class="glyphicon glyphicon-phone"></span>&nbsp; <translate>Status</translate></a></li>
-                <li><a href="/plates/history"><span class="glyphicon glyphicon-list-alt"></span>&nbsp; <translate>Print History</translate></a></li>
-                <li><a href="/tools"><span class="glyphicon glyphicon-cog"></span>&nbsp; <translate>Settings and Tools</translate></a></li>
+                <li><a href="/printer"><span class="glyphicon glyphicon-align-left"></span><translate>Status</translate></a></li>
+                <li><a href="/plates/history"><span class="glyphicon glyphicon-list-alt"></span><translate>Print History</translate></a></li>
                 {% endif %}
-                <li><a href="/support"><span class="glyphicon glyphicon-question-sign"></span>&nbsp; <translate>Help</translate></a></li>
-                <li><a href="#" id="easyModeNavButton"><span class="glyphicon glyphicon-dashboard"></span>&nbsp; <span id="easyModeNavButtonText"></span></a> </li>
+
+                {% if !manHighLock %}
+                <li class="c3d-nav-group"><translate>Tools</translate></li>
+                <li><a href="/term"><span class="glyphicon glyphicon-phone"></span><translate>Gcode Terminal</translate></a></li>
+                <li><a href="/tools"><span class="glyphicon glyphicon-cog"></span><translate>Settings and Tools</translate></a></li>
+                <!--<li class="{% if viewMode == 0 %}hidden{% endif %}"><a href="/add-protection"><span class="glyphicon glyphicon-lock"></span>&nbsp; <translate>Password Protection</translate></a></li>-->
+                {% endif %}
+
+                <li class="c3d-nav-group"><translate>Help</translate></li>
+                <li><a href="/support"><span class="glyphicon glyphicon-question-sign"></span><translate>Help</translate></a></li>
+                <li><a href="#" id="easyModeNavButton"><span class="glyphicon glyphicon-dashboard"></span><span id="easyModeNavButtonText"></span></a></li>
             </ul>
         </li>
         <li><a href="/support"><span class="glyphicon glyphicon-question-sign"></span>&nbsp; <translate>Support & Connectivity</translate></a></li>
