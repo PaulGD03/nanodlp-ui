@@ -68,6 +68,16 @@
 		<translate class="hide">Search Jobs</translate>
 	</div>
 </div>
+<div class="c3d-list-toolbar">
+	<span class="c3d-section-label"><translate>All jobs</translate> <span id="c3d-jobs-count" class="c3d-count"></span></span>
+	<div class="c3d-chips" id="c3d-jobs-sort" role="group" aria-label="Sort jobs">
+		<button type="button" class="c3d-chip" data-sort="id-desc" title="Tap again to reset"><translate>Newest</translate></button>
+		<button type="button" class="c3d-chip" data-sort="id-asc" title="Tap again to reset"><translate>Oldest</translate></button>
+		<button type="button" class="c3d-chip" data-sort="name" title="Tap again to reset"><translate>Name</translate></button>
+		<button type="button" class="c3d-chip" data-sort="lastprint-desc" title="Tap again to reset"><translate>Recently Printed</translate></button>
+		<button type="button" class="c3d-chip" data-sort="layers-desc" title="Tap again to reset"><translate>Most Layers</translate></button>
+	</div>
+</div>
 <div class="row">
 	<div class="col-md-12">
 		{% if freeSpace < 1000 && freeSpace>0 %}
@@ -78,7 +88,6 @@
 </div>
 <div id="plates-list">
 	{% include "list.html" %}
-	</table>
 </div>
 <br>
 <br>

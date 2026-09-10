@@ -32,13 +32,13 @@ function update_slicer_progress(data) {
 	$(".plate").each(function () {
 		var t = $(this);
 		if ($(this).data("plate") == data["plateID"]) {
-			t.parents("tr").addClass("plate-processed").addClass("slicing")
+			t.parents("tr, .c3d-job-row").addClass("plate-processed").addClass("slicing")
 			t.find(".details").removeClass("hide");
 			t.find(".progress").show();
 			t.find(".progress-bar").css("width", data["percentage"] + "%");
 		} else {
 			t.find(".details").addClass("hide");
-			t.parents("tr").removeClass("slicing");
+			t.parents("tr, .c3d-job-row").removeClass("slicing");
 		}
 	});
 }

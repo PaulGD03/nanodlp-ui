@@ -6,22 +6,24 @@
 {% if PrintResult.Path %}
 <div class="row">
 	<div class="col-md-12">
-		<div class="panel panel-{{ PrintResult.StatusTag }}">
+		<div class="panel c3d-print-result-panel panel-{{ PrintResult.StatusTag }}">
 			<div class="panel-heading">
 				<h3 class="panel-title">
 					<span class="glyphicon glyphicon-question-sign" style="display: inline-block;"></span>
 					{{PrintResult.Path}}
 				</h3>
 			</div>
-			<div class="panel-body">
-				<img src="/print/preview/{{PrintResult.PrintID}}" style="float: right;max-width:300px;">
-				<span class="glyphicon glyphicon-tint"></span> {{PrintResult.ProfileName}} ({{PrintResult.TotalSolidArea}}ml)<br>
-				<span class="glyphicon glyphicon-usd"></span> {{PrintResult.Price}}<br>
-				<span class="glyphicon glyphicon-menu-hamburger"></span> {{PrintResult.LayersCount}}<br>
-				<span class="glyphicon glyphicon-minus"></span> {{PrintResult.LayerThickness}}<br>
-				<span class="glyphicon glyphicon-time"></span> {{PrintResult.PrintTime}}<br>
-				<span class="glyphicon glyphicon-time"></span> {{PrintResult.supportCureTime}}s / {% if !PrintResult.cureTimes %}{{PrintResult.cureTime}}{% else %}{{PrintResult.cureTimes}}{% endif %}s<br>
-				<span class="glyphicon glyphicon-time"></span> {{PrintResult.Date}}<br>
+			<div class="panel-body c3d-print-result">
+				<img class="c3d-print-result-preview" src="/print/preview/{{PrintResult.PrintID}}">
+				<div class="c3d-print-result-stats">
+					<span class="c3d-print-result-stat"><span class="glyphicon glyphicon-tint"></span>{{PrintResult.ProfileName}} ({{PrintResult.TotalSolidArea}}ml)</span>
+					<span class="c3d-print-result-stat"><span class="glyphicon glyphicon-usd"></span>{{PrintResult.Price}}</span>
+					<span class="c3d-print-result-stat"><span class="glyphicon glyphicon-menu-hamburger"></span>{{PrintResult.LayersCount}}</span>
+					<span class="c3d-print-result-stat"><span class="glyphicon glyphicon-minus"></span>{{PrintResult.LayerThickness}}</span>
+					<span class="c3d-print-result-stat"><span class="glyphicon glyphicon-time"></span>{{PrintResult.PrintTime}}</span>
+					<span class="c3d-print-result-stat"><span class="glyphicon glyphicon-time"></span>{{PrintResult.supportCureTime}}s / {% if !PrintResult.cureTimes %}{{PrintResult.cureTime}}{% else %}{{PrintResult.cureTimes}}{% endif %}s</span>
+					<span class="c3d-print-result-stat"><span class="glyphicon glyphicon-time"></span>{{PrintResult.Date}}</span>
+				</div>
 			</div>
 			{% if PrintResult.Status == 0 %}
 			<div class="panel-footer">
@@ -55,78 +57,91 @@
 <translate class="hide" id="force-stop-confirm">Are you sure you want to force stop printing? Warning, Force Stop will reset the printer. Printing progress will be lost.</translate>
 <translate class="hide" id="start-confirm">Are you sure you want to print job from the start?</translate>
 <translate class="hide" id="calibrate-confirm">Are you sure you want to print the calibration job?</translate>
-<table class="table table-striped model-list" id="plates">
-	<thead>
-		<tr>
-			<th><translate>ID</translate> <span class="glyphicon glyphicon-sort-by-attributes"></span></th>
-			<th><translate>Job</translate> <span class="glyphicon glyphicon-sort-by-attributes"></span></th>
-			<th></th>
-			<th><translate>Print Metrics</translate> <span class="glyphicon glyphicon-sort-by-attributes"></span></th>
-			<th><translate>Date</translate> <span class="glyphicon glyphicon-sort-by-attributes"></span></th>
-			<th><translate>Action</translate> <span class="glyphicon glyphicon-sort-by-attributes"></span></th>
-		</tr>
-	</thead>
+<div id="plates" class="c3d-list c3d-job-list">
 	{% if plates %}
 	{% for row in plates %}{% if row.PlateID != 0 %}
-	<tr {% if forloop.Counter==1 %}id="latest"{% endif %} class="{% if row.Processed %}plate-processed{% else %}job-not-processed{% endif %}" data-profile="{{row.profileID}}">
-		<td>{{row.PlateID}}</td>
-		<td>
-			<b class="tip">{{row.Path}}<translate class="hide">Uploaded on: {{row.UploadedOn}}</translate></b>
-			<br><br>
-			{% if !row.profileError %}
-			<span class="glyphicon glyphicon-tint"></span> &nbsp; <a href="/profile/edit/{{row.profileID}}">{{row.ProfileName}}</a><br>
-			<span class="glyphicon glyphicon-move"></span> &nbsp; {{row.XSize}}x{{row.YSize}}x{{row.ZSize}}<translate>mm</translate> / {{row.XRes}}x{{row.YRes}}x{{row.ZRes}}<translate>μm</translate><br>
-			{% if row.ReSliceNeeded %}
-			<div class="notice"><span class="glyphicon glyphicon-alert"></span> &nbsp;
-				<translate>Re-slicing required.</translate>
-				{% if (row.Type) %}
-					<a class="ask req-no-slicing btn c3d-ghost btn-sm" href="/plate/regenerate/{{ row.PlateID }}"
-					data-ask="regenerate-confirm"><span class="glyphicon glyphicon-refresh"></span>
-					</a>
+<div class="c3d-list-row c3d-job-row{% if row.Processed %} plate-processed{% else %} job-not-processed{% endif %}" data-idx="{{forloop.Counter}}" data-profile="{{row.profileID}}" data-sort-id="{{row.PlateID}}" data-sort-lastprint="{{row.LastPrint}}" data-sort-layers="{{row.LayersCount}}"{% if forloop.Counter==1 %} id="latest"{% endif %}>
+		<div class="c3d-job-thumb">
+			<img src="/static/plates/{{row.PlateID}}/3d.png?{{row.Updated}}" loading="lazy"
+				class="threed {% if !row.Preview %}hide retry{% endif %}">
+			<span class="glyphicon glyphicon-picture c3d-job-thumb-ph"></span>
+		</div>
+		<div class="c3d-job-main">
+			<div class="c3d-list-main">
+				<span class="c3d-job-id">#{{row.PlateID}}</span>
+				<span class="c3d-list-title c3d-job-name tip">{{row.Path}}<translate class="hide">Uploaded on: {{row.UploadedOn}}</translate></span>
+				<span class="c3d-list-meta"><span class="glyphicon glyphicon-tint"></span> {% if !row.profileError %}<a href="/profile/edit/{{row.profileID}}">{{row.ProfileName}}</a>{% else %}<translate>Profile not found.</translate>{% endif %}</span>
+				<span class="c3d-list-meta">{{row.LayersCount}} <translate>Layers</translate> &nbsp;·&nbsp; {{row.TotalSolidArea}}ml &nbsp;·&nbsp; {{row.PrintTime}}</span>
+				{% if !row.Processed %}
+				<span class="c3d-job-flag c3d-job-flag-warn req-not-processed"><span class="glyphicon glyphicon-exclamation-sign"></span> <translate>The job is not sliced yet.</translate></span>
 				{% endif %}
-			</div>
-			{% endif %}
-			{% else %}
-			<div class="label label-danger"><span class="glyphicon glyphicon-alert"></span> &nbsp;
-				<translate>Profile not found.</translate>
-			</div>
-			{% endif %}
-			{% if row.IsOverride %}
-			<div class="label label-warning"><span class="glyphicon glyphicon-alert"></span> &nbsp;
-				<translate>Local print configuration will be used.</translate>
-			</div>
-			{% endif %}
-			{% if row.IsFaulty %}
-			<div class="notice">
-				<span class="glyphicon glyphicon-alert"></span> &nbsp;
-				<a href="/plate/preview/{{ row.PlateID }}" translate>Source file contains faulty structure.</a>
-					{% if !row.Repaired %} &nbsp;
+				{% if row.IsOverride %}
+				<span class="c3d-job-flag c3d-job-flag-warn"><span class="glyphicon glyphicon-alert"></span> <translate>Local print configuration will be used.</translate></span>
+				{% endif %}
+				{% if row.ReSliceNeeded %}
+				<span class="c3d-job-flag c3d-job-flag-warn req-no-slicing"><span class="glyphicon glyphicon-alert"></span> <translate>Re-slicing required.</translate>
+					{% if (row.Type) %}
+					<a class="ask btn c3d-ghost btn-sm" href="/plate/regenerate/{{ row.PlateID }}"
+					data-ask="regenerate-confirm" title="Re-slice"><span class="glyphicon glyphicon-refresh"></span>
+					</a>
+					{% endif %}
+				</span>
+				{% endif %}
+				{% if row.IsFaulty %}
+				<span class="c3d-job-flag c3d-job-flag-danger"><span class="glyphicon glyphicon-alert"></span>
+					<a href="/plate/preview/{{ row.PlateID }}" translate>Source file contains faulty structure.</a>
+					{% if !row.Repaired %}
 					<a class="ask req-no-slicing btn c3d-ghost repair svg tip" href="/plate/repair-regenerate/{{ row.PlateID }}"
 					data-ask="regenerate-confirm"><span class="c3d-btn-i">{{ icon(repair_icon) }}<translate>Repair</translate></span></a>
 					{% endif %}
+				</span>
+				{% endif %}
+				{% if row.IsOverhang %}
+				<span class="c3d-job-flag c3d-job-flag-danger"><span class="glyphicon glyphicon-alert"></span> <translate>Early layers seems empty, print will fails.</translate></span>
+				{% endif %}
+				{% if row.Risky %}
+				<span class="c3d-job-flag c3d-job-flag-warn"><span class="glyphicon glyphicon-alert"></span> <a href="/plate/preview/{{ row.PlateID }}" translate>The object(s) contain overhang areas.</a></span>
+				{% endif %}
+				{% if row.Corrupted==true %}
+				<span class="c3d-job-flag c3d-job-flag-danger"><span class="glyphicon glyphicon-alert"></span> <translate>This job is corrupt.</translate>
+					<a class="ask req-no-slicing btn c3d-ghost" href="/plate/regenerate/{{ row.PlateID }}"
+					data-ask="regenerate-confirm"><span class="glyphicon glyphicon-refresh"></span> &nbsp; <translate>Re-slice</translate>
+					</a>
+				</span>
+				{% endif %}
 			</div>
-			{% endif %}
-			{% if row.IsOverhang %}
-			<div class="label label-danger"><span class="glyphicon glyphicon-alert"></span> &nbsp;
-				<translate>Early layers seems empty, print will fails.</translate>
+			<div class="c3d-list-meta c3d-job-sub">
+				<span class="glyphicon glyphicon-move"></span> {{row.XSize}}x{{row.YSize}}x{{row.ZSize}}<translate>mm</translate> / {{row.XRes}}x{{row.YRes}}x{{row.ZRes}}<translate>μm</translate>
+				&nbsp;·&nbsp; <span class="glyphicon glyphicon-usd"></span> {{row.Price}}
+				&nbsp;·&nbsp; <span class="glyphicon glyphicon-time"></span> <translate>Cure Time</translate> {{row.supportCureTime}}s / {% if !row.cureTimes %}{{row.cureTime}}{% else %}{{row.cureTimes}}{% endif %}s
+				{% if row.StopLayers %}&nbsp;·&nbsp; <span class="glyphicon glyphicon-stop"></span> <translate>Stop Layers</translate> {{row.StopLayers}}{% endif %}
+				&nbsp;·&nbsp; <span class="glyphicon glyphicon-print"></span> <translate>Last Print</translate>:
+				{% if row.LastPrint>0 %}
+					{% if row.LastPrint/60/60/24>0 %}
+						{{ row.LastPrint/60/60/24}} <translate>days ago</translate>
+					{% else %}
+						{{ row.LastPrint/60/60}} <translate>hours ago</translate>
+					{% endif %}
+				{% else %}
+				-
+				{% endif %}
 			</div>
+			{% if !row.profileError %}
+			<form action="/printer/start/{{ row.PlateID }}" method="post" class="c3d-job-resume {% if row.PlateID == status.PlateID && status.ResumeID<row.LayersCount %}{% else %}hide{% endif %}">
+				<span class="input-append input-group">
+					<input name="LayerID" class="form-control compact-input appendedtext resume-id"
+						value="{% if row.PlateID == status.PlateID && status.ResumeID<row.LayersCount %}{{status.ResumeID}}{% endif %}"
+						type="number" min="0" size="3" max="{{row.LayersCount}}">
+					<span class="input-group-btn">
+					<button class="btn c3d-ghost-info layer-id" disabled>/ {{row.LayersCount}}</button>
+					<translate class="hide">Layer ID</translate>
+					<button type="submit" class="btn btn-warning resume req-processed tip"
+						data-confirm='Are you sure you want to resume plate {{row.Path}} from layer [LayerID]?'
+						value="Submit"><span class="c3d-btn-i"><span class="glyphicon glyphicon-play"></span><span class="glyphicon glyphicon-pause"></span><translate>Resume</translate></span></button>
+					</span>
+				</span>
+			</form>
 			{% endif %}
-			{% if row.Risky %}
-			<div class="notice"><span class="glyphicon glyphicon-alert"></span> &nbsp; <a
-					href="/plate/preview/{{ row.PlateID }}" translate>The object(s) contain overhang areas.</a></div>
-			{% endif %}
-			<br>
-			{% if row.Corrupted==true %}
-			<div class="alert alert-danger"><span class="glyphicon glyphicon-alert"></span> &nbsp;
-				<translate>This job is corrupt.</translate>
-				<a class="ask req-no-slicing btn c3d-ghost" href="/plate/regenerate/{{ row.PlateID }}"
-				data-ask="regenerate-confirm"><span class="glyphicon glyphicon-refresh"></span> &nbsp; <translate>Re-slice</translate>
-				</a>
-			</div>
-			{% endif %}
-			<div class="alert alert-danger req-not-processed"><span class="glyphicon glyphicon-exclamation-sign"></span> &nbsp;
-				<translate>The job is not sliced yet.</translate>
-			</div>
 			<div class="plate" data-plate="{{row.PlateID}}" data-total="{{row.LayersCount}}">
 				<div class="details hide">
 					<div class="alert alert-danger"><span class="glyphicon glyphicon-refresh"></span>
@@ -138,105 +153,36 @@
 					</div>
 				</div>
 			</div>
-		</td>
-		<td>
-			<img src="/static/plates/{{row.PlateID}}/3d.png?{{row.Updated}}" loading="lazy"
-				class="threed {% if !row.Preview %}hide retry{% endif %}">
-		</td>
-		<td>
-			<dl class="small">
-				<dt><span class="glyphicon glyphicon-tint"></span>&nbsp;
-					<translate>Resin Usage</translate>
-				</dt>
-				<dd>{{row.TotalSolidArea}}ml</dd>
-				<dt><span class="glyphicon glyphicon-usd"></span>&nbsp;
-					<translate>Resin Cost</translate>
-				</dt>
-				<dd>{{row.Price}}</dd><dt><span class="glyphicon glyphicon-menu-hamburger"></span>&nbsp;
-					<translate>Layer Count</translate>
-				</dt>
-				<dd>{{row.LayersCount}}</dd>
-				{% if row.StopLayers %}
-				<dt><span class="glyphicon glyphicon-stop"></span>&nbsp;
-					<translate>Stop Layers</translate>
-				</dt>
-				<dd>{{row.StopLayers}}</dd>
+		</div>
+		<div class="c3d-list-actions c3d-job-actions">
+			{% if status.Printing == false %}
+				{% if !row.profileError %}
+				<a class="btn btn-success ask req-processed tip" href="/printer/start/{{ row.PlateID }}"
+					data-ask="start-confirm"><span class="c3d-btn-i"><span class="glyphicon glyphicon-play"></span><translate>Start Print</translate></span>
+				</a>
 				{% endif %}
-			</dl>
-		</td>
-		<td>
-			<dl class="small">
-				<dt><span class="glyphicon glyphicon-print"></span>&nbsp;
-					<translate>Last Print</translate>
-				</dt>
-				<dd>
-					{% if row.LastPrint>0 %}
-						{% if row.LastPrint/60/60/24>0 %}
-							{{ row.LastPrint/60/60/24}} <translate>days ago</translate>
-						{% else %}
-							{{ row.LastPrint/60/60}} <translate>hours ago</translate>
-						{% endif %}
-					{% else %}
-					-
-					{% endif %}
-				</dd>
-				<dt><span class="glyphicon glyphicon-time"></span>&nbsp;
-					<translate>Print Time</translate>
-				</dt>
-				<dd>{{row.PrintTime}}</dd>
-				<dt><span class="glyphicon glyphicon-time"></span>&nbsp;
-					<translate>Cure Time</translate>
-				</dt>
-				<dd>{{row.supportCureTime}}s / {% if !row.cureTimes %}{{row.cureTime}}{% else %}{{row.cureTimes}}{% endif %}s</dd>
-			</dl>
-			<div class="hide sort">{{row.LastPrint}}</div>
-		</td>
-		<td>
-		<div class="c3d-job-actions">
-		{% if status.Printing == false %}
-			{% if !row.profileError %}
-			<form action="/printer/start/{{ row.PlateID }}" method="post" class="{% if row.PlateID == status.PlateID && status.ResumeID<row.LayersCount %}{% else %}hide{% endif %}">
-				<span class="input-append input-group">
-					<input name="LayerID" class="form-control compact-input appendedtext resume-id"
-						value="{% if row.PlateID == status.PlateID && status.ResumeID<row.LayersCount %}{{status.ResumeID}}{% endif %}"
-						type="number" min="0" size="3" max="{{row.LayersCount}}">
-					<span class="input-group-btn">
-					<button class="btn c3d-ghost-info layer-id" disabled>/ {{row.LayersCount}}</button>
-					<translate class="hide">Layer ID</translate>
-					{% if !row.profileError %}
-					<button type="submit" class="btn btn-warning resume req-processed tip"
-						data-confirm='Are you sure you want to resume plate {{row.Path}} from layer [LayerID]?'
-						value="Submit"><span class="c3d-btn-i"><span class="glyphicon glyphicon-play"></span><span class="glyphicon glyphicon-pause"></span><translate>Resume</translate></span></button>
-					{% endif %}
-					</span>
-				</span>
-			</form>
-			<a class="btn btn-success ask req-processed tip" href="/printer/start/{{ row.PlateID }}"
-				data-ask="start-confirm"><span class="c3d-btn-i"><span class="glyphicon glyphicon-play"></span><translate>Start Print</translate></span>
-			</a>
-			{% endif %}
 			{% else %}
-			{% if row.PlateID == status.PlateID %}
-			<div class="input-append">
-				{% if status.Halted %}
-					<a class="ask btn-danger btn" href="/printer/force-stop" data-ask="force-stop-confirm" translate><span class="c3d-btn-i">Force Stop</span></a>
-				{% else %}
-					<a class="btn btn-danger ask tip" href="/printer/stop" title="stop" data-ask="stop-confirm"><span class="c3d-btn-i"><span class="glyphicon glyphicon-stop"></span><translate>Stop</translate></span></a>
+				{% if row.PlateID == status.PlateID %}
+				<div class="input-append c3d-job-live">
+					{% if status.Halted %}
+						<a class="ask btn-danger btn" href="/printer/force-stop" data-ask="force-stop-confirm" translate><span class="c3d-btn-i">Force Stop</span></a>
+					{% else %}
+						<a class="btn btn-danger ask tip" href="/printer/stop" title="stop" data-ask="stop-confirm"><span class="c3d-btn-i"><span class="glyphicon glyphicon-stop"></span><translate>Stop</translate></span></a>
+					{% endif %}
+					<span class="add-on"><span translate>Layer</span> {{ status.ResumeID }} <span translate>of</span>
+						{{row.LayersCount}}</span>
+				</div>
 				{% endif %}
-				<span class="add-on"><span translate>Layer</span> {{ status.ResumeID }} <span translate>of</span>
-					{{row.LayersCount}}</span>
-			</div>
-			{% endif %}
 			{% endif %}
 			<a class="btn c3d-ghost tip" href="/plate/preview/{{ row.PlateID }}"><span class="c3d-btn-i"><span class="glyphicon glyphicon-eye-open"></span><translate>Preview</translate></span></a>
 			{% if row.Type=="stl" && !row.Repaired %}
 			<a class="btn btn-default repair tip svg" href="/plate/repair/{{ row.PlateID }}">{{ icon(repair_icon) }}<translate class="hide">Repair</translate></a>
 			{% endif %}
-			<div class="btn-group">
+			<div class="btn-group c3d-job-more">
 				<button id="show-more-{{ row.PlateID }}" type="button" class="btn c3d-ghost-info tip dropdown-toggle list-more-button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 					<span class="c3d-btn-i"><span class="glyphicon glyphicon-option-vertical" style="pointer-events: none"></span><translate>More Options</translate></span>
 				</button>
-				<ul class="dropdown-menu">					
+				<ul class="dropdown-menu dropdown-menu-right">
 					<li><a href="#" class="print-from-middle"><span
 						class="glyphicon glyphicon-play"></span> &nbsp; <translate>Print from Middle</translate></a></li>
 					<li><a href="/plate/edit/{{ row.PlateID }}"><span
@@ -276,20 +222,6 @@
 				  <li><a href="/plate/clone/{{row.PlateID}}"><span class="glyphicon glyphicon-duplicate"></span> &nbsp; <translate>Clone</translate></a></li>
 				  <li class="req-processed"><a href="/analytic/plate/{{ row.PlateID }}"><span class="glyphicon glyphicon-stats"></span> &nbsp; <translate>Analytic</translate></a></li>
 				  <li class="req-processed"><a href="/plate/download/{{ row.PlateID }}/nanodlp"><span class="glyphicon glyphicon-download-alt"></span> &nbsp; <translate>Download NanoDLP</translate></a></li>
-				  <!-- <li class="req-processed"><a href="/plate/download/{{ row.PlateID }}/cbddlp"><span class="glyphicon glyphicon-download-alt"></span> &nbsp; <translate>Download CBDDLP</translate></a></li>
-				  <li class="req-processed"><a href="/plate/download/{{ row.PlateID }}/photon"><span class="glyphicon glyphicon-download-alt"></span> &nbsp; <translate>Download Photon</translate></a></li>
-				  <li class="req-processed"><a href="/plate/download/{{ row.PlateID }}/ctb"><span class="glyphicon glyphicon-download-alt"></span> &nbsp; <translate>Download CTB</translate></a></li>
-				  <li class="req-processed"><a href="/plate/download/{{ row.PlateID }}/cws"><span class="glyphicon glyphicon-download-alt"></span> &nbsp; <translate>Download CWS</translate></a></li>
-				  <li class="req-processed"><a href="/plate/download/{{ row.PlateID }}/zip"><span class="glyphicon glyphicon-download-alt"></span> &nbsp; <translate>Download CZIP</translate></a></li>
-				  <li class="req-processed"><a href="/plate/download/{{ row.PlateID }}/fdg"><span class="glyphicon glyphicon-download-alt"></span> &nbsp; <translate>Download FDG</translate></a></li>
-				  <li class="req-processed"><a href="/plate/download/{{ row.PlateID }}/lgs"><span class="glyphicon glyphicon-download-alt"></span> &nbsp; <translate>Download LGS</translate></a></li>
-				  <li class="req-processed"><a href="/plate/download/{{ row.PlateID }}/lgs30"><span class="glyphicon glyphicon-download-alt"></span> &nbsp; <translate>Download LGS30</translate></a></li>
-				  <li class="req-processed"><a href="/plate/download/{{ row.PlateID }}/phz"><span class="glyphicon glyphicon-download-alt"></span> &nbsp; <translate>Download PHZ</translate></a></li>
-				  <li class="req-processed"><a href="/plate/download/{{ row.PlateID }}/pws"><span class="glyphicon glyphicon-download-alt"></span> &nbsp; <translate>Download PWS</translate></a></li>
-				  <li class="req-processed"><a href="/plate/download/{{ row.PlateID }}/pw0"><span class="glyphicon glyphicon-download-alt"></span> &nbsp; <translate>Download PW0</translate></a></li>
-				  <li class="req-processed"><a href="/plate/download/{{ row.PlateID }}/sl1"><span class="glyphicon glyphicon-download-alt"></span> &nbsp; <translate>Download SL1</translate></a></li>
-				  <li class="req-processed"><a href="/plate/download/{{ row.PlateID }}/uvj"><span class="glyphicon glyphicon-download-alt"></span> &nbsp; <translate>Download UVJ</translate></a></li>
-				  <li class="req-processed"><a href="/plate/download/{{ row.PlateID }}/zcodex"><span class="glyphicon glyphicon-download-alt"></span> &nbsp; <translate>Download ZCODEX</translate></a></li> -->
 				  {% if (row.Type) %}<li class="req-processed"><a href="/plate/download/{{ row.PlateID }}/{{ row.Type }}"><span class="glyphicon glyphicon-download-alt"></span> &nbsp; <translate>Download {{ row.Type|upper }}</translate></a></li>{% endif %}
 				</ul>
 			</div>
@@ -309,17 +241,9 @@
 				{% endif %}
 			{% endif %}
 		</div>
-		</td>
-	</tr>
+	</div>
 	{% endif %}{% endfor %}
 	{% else %}
-	<tr>
-		<td colspan="999">
-			<div class="text-center" translate>
-				No Jobs
-			</div>
-		</td>
-	</tr>
+	<div class="c3d-empty"><span class="glyphicon glyphicon-inbox"></span> <translate>No Jobs</translate></div>
 	{% endif %}
-</table>
-
+</div>

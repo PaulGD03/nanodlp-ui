@@ -285,7 +285,7 @@ function plates_init(){
 		else $(this).parents("form").find(".resume").addClass("hide");
 	}).on("click",".print-from-middle",function(e){
 		e.preventDefault();
-		$(this).parents("td").find("form").removeClass("hide").find("input").focus();
+		$(this).closest("td, .c3d-job-row").find("form").removeClass("hide").find("input").focus();
 	});
 	update_plates_resume();
 }
@@ -452,6 +452,57 @@ function sortable_table_init(){
 		if (!this.asc){rows = rows.reverse()}
 		for (var i = 0; i < rows.length; i++){table.append(rows[i])}
 	})
+	$("html").delegate('#c3d-jobs-sort .c3d-chip','click',function(e){
+		e.preventDefault();
+		var mode = $(this).data("sort");
+		if ($(this).hasClass("is-active")) {
+			localStorage.removeItem('plates-sort');
+			applyJobSort(null);
+		} else {
+			localStorage.setItem('plates-sort', mode);
+			applyJobSort(mode);
+		}
+	});
+}
+
+// Job list sorting: rows carry data-idx (server order) plus the sortable fields.
+function applyJobSort(mode){
+	var list = $("#plates.c3d-job-list");
+	if (list.length === 0) return;
+	var rows = list.children(".c3d-job-row").toArray();
+	var m = /^(id|name|lastprint|layers)(?:-(asc|desc))?$/.exec(mode || "");
+	if (!m) {
+		rows.sort(function(a, b){ return (+a.getAttribute("data-idx")) - (+b.getAttribute("data-idx")); });
+	} else {
+		var desc = m[2] === "desc";
+		rows.sort(function(a, b){
+			if (m[1] === "name") {
+				var av = $(a).find(".c3d-job-name").text().trim().toLowerCase();
+				var bv = $(b).find(".c3d-job-name").text().trim().toLowerCase();
+				return av < bv ? -1 : av > bv ? 1 : 0;
+			}
+			var key = "sort" + m[1].charAt(0).toUpperCase() + m[1].slice(1);
+			return (parseFloat($(a).data(key)) || 0) - (parseFloat($(b).data(key)) || 0);
+		});
+		if (desc) rows.reverse();
+	}
+	for (var i = 0; i < rows.length; i++){list.append(rows[i])}
+	setJobSortChips(mode);
+}
+
+function setJobSortChips(mode){
+	var m = /^(id|name|lastprint|layers)(?:-(asc|desc))?$/.exec(mode || "");
+	var active = m ? m[0] : null;
+	$("#c3d-jobs-sort .c3d-chip").each(function(){
+		$(this).toggleClass("is-active", $(this).data("sort") === active);
+	});
+}
+
+function decorateJobsCount(){
+	var count = document.getElementById("c3d-jobs-count");
+	if (!count) return;
+	var list = $("#plates.c3d-job-list");
+	count.textContent = list.length > 0 ? "(" + list.children(".c3d-job-row").length + ")" : "";
 }
 
 function comparer(index) {
@@ -1026,6 +1077,10 @@ function search_init(){
 		$('#search').val(savedSearch);
 	}
 
+	// Restore job sort order from localStorage on page load
+	applyJobSort(localStorage.getItem('plates-sort'));
+	decorateJobsCount();
+
 	// Apply both filters if they exist
 	if (savedFilter || savedSearch) {
 		// Use setTimeout to ensure DOM is fully loaded
@@ -1080,16 +1135,22 @@ function search_init(){
 	});
 }
 
+// Job items on the current page: list rows on /plates, table rows on /plate/advanced
+function platesItems(){
+	var rows = $("#plates .c3d-job-row");
+	return rows.length > 0 ? rows : $("#plates tr:not(:first)");
+}
+
 // Helper function to apply both profile filter and search filter together
 function applyAllFilters(profileFilter, searchText) {
 	// First show all rows
-	$("#plates tr").show();
+	platesItems().show();
 	$("#clear-profile-filter").addClass("hide");
 	$("#clear-search").addClass("hide");
 	// Apply profile filter
 	if (profileFilter && profileFilter !== "") {
 		$("#clear-profile-filter").removeClass("hide");
-		$("#plates tr:not(:first)").each(function(){
+		platesItems().each(function(){
 			if ($(this).data("profile") != profileFilter) {
 				$(this).hide();
 			}
@@ -1099,7 +1160,7 @@ function applyAllFilters(profileFilter, searchText) {
 	// Apply search filter (only to visible rows)
 	if (searchText && searchText !== "") {
 		$("#clear-search").removeClass("hide");
-		$("#plates tr:not(:first):visible").each(function(){
+		platesItems().filter(":visible").each(function(){
 			var t = $(this);
 			if (t.text().toLowerCase().indexOf(searchText) === -1) {
 				t.hide();
@@ -1111,10 +1172,10 @@ function applyAllFilters(profileFilter, searchText) {
 // Helper function to apply profile filter
 function applyProfileFilter(filterValue) {
 	if (filterValue == "") {
-		$("#plates tr").show();
+		platesItems().show();
 		return;
 	}
-	$("#plates tr:not(:first)").each(function(){
+	platesItems().each(function(){
 		if ($(this).data("profile") != filterValue) {
 			$(this).hide();
 		} else {
@@ -1194,8 +1255,10 @@ $("#expertModeCheckbox").click(function (e) {
 
 function update_plates_list(){
 	$.get("/plates/list",function(plateDataHtml){
-		$("#plates-list").html(plateDataHtml + "</table>");
+		$("#plates-list").html(plateDataHtml);
 		update_plates_resume();
+		applyJobSort(localStorage.getItem('plates-sort'));
+		decorateJobsCount();
 
 		// Reapply filters after list update
 		var currentFilter = $('#plates-profile-search').val();
