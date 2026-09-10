@@ -1056,7 +1056,7 @@ table#plates.table-bordered > tbody > tr > td { border-color: var(--df-border-su
   outline: 1px solid var(--df-border-strong);
 }
 .c3d-job-thumb-ph { color: var(--df-border-strong); font-size: 20px; }
-.c3d-job-thumb img:not(.hide) + .c3d-job-thumb-ph { display: none; }
+.c3d-job-thumb img[src]:not(.hide) + .c3d-job-thumb-ph { display: none; }
 /* ---------- Last print result: one compact strip, not a panel ---------- */
 .c3d-print-result-label {
   margin: 4px 0 8px;

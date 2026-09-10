@@ -6,7 +6,7 @@
 {% if PrintResult.Path %}
 <div class="c3d-section-label c3d-print-result-label"><translate>Last Print Job</translate></div>
 <div class="c3d-print-result-bar">
-	<img class="c3d-print-result-thumb" src="/print/preview/{{PrintResult.PrintID}}">
+	<img class="c3d-print-result-thumb" data-thumb="/print/preview/{{PrintResult.PrintID}}" loading="lazy">
 	<div class="c3d-print-result-info">
 		<div class="c3d-print-result-head">
 			<span class="glyphicon glyphicon-question-sign c3d-print-result-icon"></span>
@@ -59,7 +59,7 @@
 	{% for row in plates %}{% if row.PlateID != 0 %}
 <div class="c3d-list-row c3d-job-row{% if row.Processed %} plate-processed{% else %} job-not-processed{% endif %}" data-idx="{{forloop.Counter}}" data-profile="{{row.profileID}}" data-sort-id="{{row.PlateID}}" data-sort-lastprint="{{row.LastPrint}}" data-sort-layers="{{row.LayersCount}}"{% if forloop.Counter==1 %} id="latest"{% endif %}>
 		<div class="c3d-job-thumb">
-			<img src="/static/plates/{{row.PlateID}}/3d.png?{{row.Updated}}" loading="lazy"
+			<img {% if row.Preview %}data-thumb="/static/plates/{{row.PlateID}}/3d.png?{{row.Updated}}"{% else %}src="/static/plates/{{row.PlateID}}/3d.png?{{row.Updated}}"{% endif %} loading="lazy"
 				class="threed {% if !row.Preview %}hide retry{% endif %}">
 			<span class="glyphicon glyphicon-picture c3d-job-thumb-ph"></span>
 		</div>

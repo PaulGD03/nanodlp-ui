@@ -1,35 +1,46 @@
 /* ============================================================
-   Job thumbnails — pre-warm + client-side cache
+   Job thumbnails — pre-warm + persistent client-side cache
    ============================================================
 
    /static/plates/<id>/3d.png is a 1600x960 PNG (~770 KB) served with
    "Cache-Control: no-store, no-cache, must-revalidate, private ... max-age=0",
-   so the browser may never reuse it: every /plates list refresh re-downloads
-   every render, and each one is decoded at full size (~6 MB RGBA) to be drawn
-   into a 58px box (232px while hover-zoomed).
+   so the browser may never reuse it and every page open re-downloaded every
+   render, each decoded at ~6 MB RGBA to be painted into a 58px box (232px while
+   hover-zoomed).
 
-   This module keeps the native <img src> as the loader (so the page still works
-   with JS off), then downscales each render once into a cached blob and swaps
-   it in. Result: memory drops to a few tens of KB per job, and any later
-   refresh of #plates-list is served from the in-page cache with zero requests.
+   This module owns thumbnail loading for #plates-list:
+     L1  in-page Map of url -> objectURL          (instant within a page)
+     L2  IndexedDB store of url -> downscaled blob (survives page loads)
 
-   Cache key is the render URL (it carries ?{{row.Updated}}, so it changes when
-   the plate is re-sliced). The key is captured into data-thumb on first sight
-   because main.js' .retry loop appends a timestamp to src.
+   A cached render is painted without any network request, so re-opening the
+   jobs page shows thumbnails immediately instead of popping in. Only a miss
+   touches the network, once per render; the result is downscaled once
+   (640px webp, ~20 KB) and written back to L2.
+
+   The templates therefore render the row preview as data-thumb (no src) when
+   the server reports a preview, and keep a plain src for the "render missing"
+   case so main.js' existing .retry loop still applies. Thumbnails require JS;
+   everything else in the row (name, metrics, actions) does not.
    ============================================================ */
 (function () {
 	'use strict';
 
-	var MAX_EDGE = 640;        // hover zoom draws the thumb at 232 CSS px (464 @2x)
+	var MAX_EDGE = 640;             // hover zoom draws the thumb at 232 CSS px (464 @2x)
 	var QUALITY = 0.85;
-	var MAX_ENTRIES = 400;     // bounded cache; oldest object URLs are revoked
-	var CONCURRENCY = 3;       // canvas + encode work in flight at a time
+	var MAX_ENTRIES = 400;          // L2 cap; oldest entries are pruned
+	var MAX_AGE_MS = 90 * 24 * 60 * 60 * 1000;
+	var CONCURRENCY = 3;            // canvas + encode work in flight
 
 	var SELECTOR = '#plates-list img.threed, #plates-list img.c3d-print-result-thumb';
-	var cache = window.jobThumbCache || (window.jobThumbCache = new Map());
+
+	var cache = window.jobThumbCache || (window.jobThumbCache = new Map());     // L1
 	var failed = window.jobThumbFailed || (window.jobThumbFailed = new Set());
+	var resolving = new Set();
 	var queue = [];
 	var active = 0;
+	var puts = 0;
+
+	/* ---------- helpers ---------- */
 
 	function sourceOf(img) {
 		var stored = img.getAttribute('data-thumb');
@@ -40,10 +51,6 @@
 		return src;
 	}
 
-	function thumbFor(url) {
-		return cache.get(url);
-	}
-
 	/* A list refresh replaces every row, so queued elements can be detached or
 	   re-pointed at a newer render before their load settles. Such an element
 	   must not write into the cache. */
@@ -51,48 +58,126 @@
 		return !img.isConnected || sourceOf(img) !== url;
 	}
 
-	/* Swap the cached blob into every element that still points at this render. */
-	function assign(url, blobUrl) {
+	function show(img, url) {
+		if (img.getAttribute('src') !== url) img.setAttribute('src', url);
+		img.classList.remove('hide', 'retry');
+	}
+
+	/* Swap a known-good url (object URL or render path) into every element
+	   still pointing at this render. */
+	function assign(url, paintUrl) {
 		var imgs = document.querySelectorAll(SELECTOR);
 		for (var i = 0; i < imgs.length; i++) {
-			var img = imgs[i];
-			if (sourceOf(img) !== url) continue;
-			if (img.getAttribute('src') !== blobUrl) img.setAttribute('src', blobUrl);
-			img.classList.remove('hide', 'retry');
+			if (sourceOf(imgs[i]) === url) show(imgs[i], paintUrl);
 		}
 	}
 
-	function evictIfNeeded() {
+	/* Nothing cached: hand the render to the native loader (one request). */
+	function fetchNatively(url) {
+		var imgs = document.querySelectorAll(SELECTOR);
+		for (var i = 0; i < imgs.length; i++) {
+			var img = imgs[i];
+			if (sourceOf(img) !== url || img.getAttribute('src')) continue;
+			img.loading = 'eager';
+			img.setAttribute('src', url);
+			enqueue(img, url);
+		}
+		pump();
+	}
+
+	/* ---------- L2: IndexedDB ---------- */
+
+	var dbPromise = null;
+
+	function db() {
+		if (dbPromise) return dbPromise;
+		dbPromise = new Promise(function (resolve, reject) {
+			if (!window.indexedDB) {
+				reject(new Error('indexedDB unavailable'));
+				return;
+			}
+			var req = indexedDB.open('nanodlp-job-thumbs', 1);
+			req.onupgradeneeded = function () {
+				var d = req.result;
+				var store = d.objectStoreNames.contains('thumbs')
+					? req.transaction.objectStore('thumbs')
+					: d.createObjectStore('thumbs', { keyPath: 'url' });
+				if (!store.indexNames.contains('at')) store.createIndex('at', 'at');
+			};
+			req.onsuccess = function () { resolve(req.result); };
+			req.onerror = function () { reject(req.error); };
+		});
+		return dbPromise;
+	}
+
+	function idbGet(url) {
+		return db().then(function (d) {
+			return new Promise(function (resolve) {
+				var req = d.transaction('thumbs', 'readonly').objectStore('thumbs').get(url);
+				req.onsuccess = function () {
+					var rec = req.result;
+					resolve(rec && rec.blob ? rec.blob : null);
+				};
+				req.onerror = function () { resolve(null); };
+			});
+		}).catch(function () { return null; });
+	}
+
+	function idbPut(url, blob) {
+		db().then(function (d) {
+			var tx = d.transaction('thumbs', 'readwrite');
+			tx.objectStore('thumbs').put({ url: url, blob: blob, at: Date.now() });
+			tx.oncomplete = function () {
+				if (++puts % 20 === 1) idbPrune();
+			};
+		}).catch(function () { /* private mode / quota: L1 still works */ });
+	}
+
+	function idbPrune() {
+		db().then(function (d) {
+			var counted = d.transaction('thumbs', 'readonly').objectStore('thumbs').count();
+			counted.onsuccess = function (e) {
+				var total = e.target.result;
+				if (total <= MAX_ENTRIES) return;
+				var cutoff = Date.now() - MAX_AGE_MS;
+				var seen = 0;
+				var store = d.transaction('thumbs', 'readwrite').objectStore('thumbs');
+				store.index('at').openCursor().onsuccess = function (ev) {
+					var cursor = ev.target.result;
+					if (!cursor) return;
+					seen++;
+					if (seen <= total - MAX_ENTRIES || cursor.value.at < cutoff) cursor.delete();
+					cursor.continue();
+				};
+			};
+		}).catch(function () {});
+	}
+
+	/* ---------- capture ---------- */
+
+	function evictL1() {
 		while (cache.size > MAX_ENTRIES) {
-			var oldestKey = cache.keys().next().value;
-			var oldestUrl = cache.get(oldestKey);
-			cache.delete(oldestKey);
-			if (oldestUrl && oldestUrl.indexOf('blob:') === 0) {
-				try { URL.revokeObjectURL(oldestUrl); } catch (e) { /* already gone */ }
+			var key = cache.keys().next().value;
+			var url = cache.get(key);
+			cache.delete(key);
+			if (url && url.indexOf('blob:') === 0) {
+				try { URL.revokeObjectURL(url); } catch (e) { /* already gone */ }
 			}
 		}
 	}
 
-	/* Downscale an already-loaded <img> into a cached blob. No extra request. */
+	/* Downscale an already-loaded <img> into L1 + L2. No extra request. */
 	function capture(img, url) {
-		if (stale(img, url)) {
-			pump();
-			return;
-		}
+		if (stale(img, url)) { pump(); return; }
 		var w = img.naturalWidth, h = img.naturalHeight;
-		if (!w || !h) {
-			failed.add(url);
-			pump();
-			return;
-		}
+		if (!w || !h) { failed.add(url); pump(); return; }
 		var scale = Math.min(1, MAX_EDGE / Math.max(w, h));
 		var cw = Math.max(1, Math.round(w * scale));
 		var ch = Math.max(1, Math.round(h * scale));
 		var canvas = document.createElement('canvas');
 		canvas.width = cw;
 		canvas.height = ch;
-		var ctx = canvas.getContext('2d');
-		ctx.drawImage(img, 0, 0, cw, ch);
+		canvas.getContext('2d').drawImage(img, 0, 0, cw, ch);
 		var done = false;
 		var finish = function (blob) {
 			if (done) return;
@@ -100,10 +185,11 @@
 			if (!blob) {
 				failed.add(url);
 			} else {
-				var blobUrl = URL.createObjectURL(blob);
-				cache.set(url, blobUrl);
-				evictIfNeeded();
-				assign(url, blobUrl);
+				var objectUrl = URL.createObjectURL(blob);
+				cache.set(url, objectUrl);
+				evictL1();
+				assign(url, objectUrl);
+				idbPut(url, blob);
 			}
 			pump();
 		};
@@ -118,33 +204,32 @@
 		}
 	}
 
+	function enqueue(img, url) {
+		if (img.getAttribute('data-thumb-queued') === url) return;
+		img.setAttribute('data-thumb-queued', url);
+		queue.push({ img: img, url: url, top: img.getBoundingClientRect().top });
+	}
+
 	function pump() {
 		while (active < CONCURRENCY && queue.length > 0) {
 			var item = queue.shift();
 			if (stale(item.img, item.url)) continue;
 			active++;
-			/* Waiting for the element itself keeps a single network request per
-			   render: the browser loads it natively, we only post-process. */
-			if (item.img.complete) {
+			if (item.img.complete && item.img.naturalWidth > 0) {
 				active--;
 				capture(item.img, item.url);
+			} else if (item.img.complete) {
+				/* already errored before we looked */
+				active--;
+				failed.add(item.url);
 			} else {
 				(function (img, url) {
 					var release = function () {
 						img.removeEventListener('load', onLoad);
 						img.removeEventListener('error', onError);
 					};
-					var onLoad = function () {
-						release();
-						active--;
-						capture(img, url);
-					};
-					var onError = function () {
-						release();
-						active--;
-						failed.add(url);
-						pump();
-					};
+					var onLoad = function () { release(); active--; capture(img, url); };
+					var onError = function () { release(); active--; failed.add(url); pump(); };
 					img.addEventListener('load', onLoad);
 					img.addEventListener('error', onError);
 				})(item.img, item.url);
@@ -152,41 +237,52 @@
 		}
 	}
 
-	/* Cached thumbs go in immediately; everything else is queued, on-screen
-	   first, and off-screen lazy images are switched to eager so they pre-warm. */
+	/* ---------- hydrate ---------- */
+
+	function resolveThumb(url) {
+		if (resolving.has(url)) return;
+		resolving.add(url);
+		idbGet(url).then(function (blob) {
+			resolving.delete(url);
+			if (blob) {
+				var objectUrl = URL.createObjectURL(blob);
+				cache.set(url, objectUrl);
+				assign(url, objectUrl);
+			} else {
+				fetchNatively(url);
+			}
+		});
+	}
+
 	function hydrate() {
 		var imgs = document.querySelectorAll(SELECTOR);
-		var pending = [];
 		for (var i = 0; i < imgs.length; i++) {
 			var img = imgs[i];
 			var url = sourceOf(img);
-			if (!url || img.getAttribute('src') === '') continue;
-			var cached = thumbFor(url);
+			if (!url) continue;
+			var cached = cache.get(url);
 			if (cached) {
-				if (img.getAttribute('src') !== cached) img.setAttribute('src', cached);
-				img.classList.remove('hide', 'retry');
+				show(img, cached);
 				continue;
 			}
-			if (failed.has(url)) continue;
-			if (img.getAttribute('data-thumb-queued') === url) continue;
-			img.setAttribute('data-thumb-queued', url);
-			if (img.loading === 'lazy') img.loading = 'eager';
-			pending.push({ img: img, url: url, top: img.getBoundingClientRect().top });
+			if (failed.has(url) || resolving.has(url)) continue;
+			if (img.getAttribute('src')) {
+				/* legacy path (server rendered a src, e.g. the missing-render
+				   .retry case): still cache the bytes if it does load */
+				enqueue(img, url);
+				continue;
+			}
+			resolveThumb(url);
 		}
-		if (pending.length === 0) return;
-		pending.sort(function (a, b) { return a.top - b.top; });
-		queue = queue.concat(pending);
 		pump();
 	}
 
 	function observe() {
 		var root = document.getElementById('plates-list');
 		if (!root || !window.MutationObserver) return;
-		/* Mutation callbacks are microtasks, i.e. they land before the browser
-		   gets a chance to start the images the refresh just inserted, so the
-		   cached blobs go in without a network round trip. hydrate() is
-		   idempotent and only touches attributes (no childList), so it cannot
-		   re-trigger itself. */
+		/* Mutation callbacks are microtasks: they land before the browser can
+		   start anything a refresh inserted, so cached thumbs go in for free.
+		   hydrate() only touches attributes, so it cannot re-trigger itself. */
 		new MutationObserver(function () { hydrate(); })
 			.observe(root, { childList: true, subtree: true });
 	}
@@ -207,16 +303,9 @@
 		cache: cache,
 		failed: failed,
 		stats: function () {
-			return {
-				cached: cache.size,
-				failed: failed.size,
-				queued: queue.length,
-				entries: (function () {
-					var out = [];
-					cache.forEach(function (v, k) { out.push({ url: k, thumb: v }); });
-					return out;
-				})()
-			};
+			var out = [];
+			cache.forEach(function (v, k) { out.push(k); });
+			return { cached: cache.size, failed: failed.size, resolving: resolving.size, queued: queue.length, urls: out };
 		}
 	};
 })();
