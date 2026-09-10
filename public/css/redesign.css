@@ -118,17 +118,16 @@ a:hover, a:focus { color: var(--brand-accent); filter: brightness(1.08); }
   line-height: 1.2;
   transition: background-color 140ms ease, border-color 140ms ease, color 140ms ease;
 }
-/* Icon + label alignment: the content span is absolutely centred, so it stays
-   optically centred regardless of the host button's display mode (block/flex,
-   or jQuery's inline display when show()/hide() toggles print buttons). */
-a:has(> .c3d-btn-i), button:has(> .c3d-btn-i) { position: relative; min-height: 40px; }
+/* Icon + label alignment: the span stays IN FLOW (so the button keeps its
+   intrinsic width) and is centred with flex; the host's line-height is
+   neutralised so the span's flex baseline can't push it off-centre. */
+a:has(> .c3d-btn-i), button:has(> .c3d-btn-i) { line-height: 1; }
 .c3d-btn-i {
-  position: absolute;
-  inset: 0;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
+  vertical-align: middle;
   white-space: nowrap;
 }
 .c3d-btn-i .glyphicon { top: 0; line-height: 1; }
