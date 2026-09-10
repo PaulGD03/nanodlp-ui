@@ -242,6 +242,7 @@ input[type="range"].slider, input[type="range"] { accent-color: var(--brand-acce
 /* ---------- Machine Status (print progress) ---------- */
 .c3d-status { display: flex; gap: 18px; align-items: stretch; flex-wrap: wrap; min-height: 200px; }
 .c3d-status-preview { flex: 0 1 380px; min-width: 260px; align-self: stretch; display: flex; flex-direction: column; gap: 10px; }
+#print-preview-img { flex: 1 1 auto; display: flex; flex-direction: column; min-height: 0; }
 .c3d-preview-frame {
   position: relative;
   display: block;
