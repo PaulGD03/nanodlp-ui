@@ -13,16 +13,16 @@
    ============================================================ */
 
 :root {
-  /* Surface ladder — DragonFruit structure (desaturated cool black) */
-  --df-bg: #0b0f14;
-  --df-surface-0: #111216;
-  --df-surface-1: #1a1b21;
-  --df-surface-2: #23252e;
-  --df-border-subtle: #272a33;
-  --df-border-strong: #353944;
-  --df-text-strong: #f8f8fb;
-  --df-text-muted: #c3c7cf;
-  --df-indicator: #c3c7cf;
+  /* Surface ladder — warm near-black, very subtly tinted with the brand gold */
+  --df-bg: color-mix(in srgb, var(--brand-accent) 5%, #0b0d12);
+  --df-surface-0: color-mix(in srgb, var(--brand-accent) 8%, #10131a);
+  --df-surface-1: color-mix(in srgb, var(--brand-accent) 9%, #191c24);
+  --df-surface-2: color-mix(in srgb, var(--brand-accent) 10%, #22252e);
+  --df-border-subtle: color-mix(in srgb, var(--brand-accent) 12%, #272a33);
+  --df-border-strong: color-mix(in srgb, var(--brand-accent) 14%, #353944);
+  --df-text-strong: #f8f6f1;
+  --df-text-muted: #cbc5ba;
+  --df-indicator: #cbc5ba;
 
   /* Brand accent — Athena gold */
   --brand-accent: #f0ad4e;

@@ -4,18 +4,18 @@
 }
 
 .uplot {
-    background-color: #111216;
+    background-color: var(--df-surface-0);
     width: 100%;
     margin-bottom: 32px;
     border-radius: 10px;
 }
 
 .u-label, .u-value, .u-title {
-    color: #c3c7cf;
+    color: var(--df-text-muted);
 }
 
 .u-series {
-    color: #e6ebf2;
+    color: var(--df-text-strong);
     font-size: small;
 }
 
