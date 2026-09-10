@@ -109,11 +109,12 @@
 (function () {
     var wrap = document.querySelector('.c3d-viewport-center');
     var footer = document.querySelector('.c3d-footer');
-    if (!wrap) return;
     function fit() {
+        // Reserve the fixed footer twice: once so the page does not scroll
+        // under it, and once more to lift the optical center clear of it.
         var top = wrap.getBoundingClientRect().top;
         var footerHeight = footer ? footer.offsetHeight : 76;
-        var available = Math.floor(window.innerHeight - top - footerHeight) - 1;
+        var available = Math.floor(window.innerHeight - top - (footerHeight * 2)) - 1;
         wrap.style.minHeight = Math.max(0, available) + 'px';
     }
     fit();
