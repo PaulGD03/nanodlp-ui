@@ -658,6 +658,7 @@ function update_status(){
 				$(".dashboard").hide();
 			}
 			hideElemIfPresent('machine-status')
+			$('body').removeClass('c3d-printing');
 		} else {
 			last_value('layer',data['LayerID']);
 			last_value('started',data['started']);
@@ -677,6 +678,7 @@ function update_status(){
 				$(".printing-obj").css('display','inline-block');
 			}
 			showElemIfPresent('machine-status')
+			$('body').addClass('c3d-printing');
 			layer_progress(data['PrevLayerTime'],data['LayerStartTime']);
 			update_stat();
 		}

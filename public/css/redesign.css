@@ -307,6 +307,11 @@ a.c3d-badge:hover, a.c3d-badge:focus { text-decoration: none; color: var(--brand
   border: 1px dashed var(--df-border-strong);
   border-radius: var(--df-radius-lg);
 }
+/* Printing: the control cards are irrelevant, so Machine Status takes their
+   place in the left column and the webcam stretches alongside it. */
+body.c3d-printing .c3d-dash-row .control-row { display: none !important; }
+body.c3d-printing #webcam-column .dashboard-panel { flex: 1 1 auto; }
+
 /* ---------- Machine Status (print progress) ---------- */
 .c3d-status { display: flex; gap: 18px; align-items: stretch; flex-wrap: wrap; min-height: 200px; }
 .c3d-status-preview { flex: 0 1 380px; min-width: 260px; align-self: stretch; display: flex; flex-direction: column; gap: 10px; }
