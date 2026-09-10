@@ -1445,18 +1445,33 @@ table#plates.table-bordered > tbody > tr > td { border-color: var(--df-border-su
    nothing for some fields (dynthickness, special, boundaries) */
 .c3d-preview-stats .c3d-stat:not(:has(.c3d-stat-value > span:not(:empty))) { display: none; }
 .c3d-preview-stats .c3d-stat-value { font-size: 14px; }
-/* 4-up to line up with the stat tiles above; auto-fit left a lone cell on its
-   own row whenever the cell count was one over a multiple of the track count */
+/* Two areas: the tall gcode blocks get real columns of their own, the short
+   cure/wait values pack 2-up beside them instead of interrupting the code. */
 .c3d-preview-gcode {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 12px 18px;
+  grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+  gap: 14px 22px;
   margin: 0;
   align-items: start;
 }
-@media (max-width: 1199px) { .c3d-preview-gcode { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
-@media (max-width: 991px) { .c3d-preview-gcode { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-@media (max-width: 575px) { .c3d-preview-gcode { grid-template-columns: minmax(0, 1fr); } }
+.c3d-gcode-code,
+.c3d-gcode-timing {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px 18px;
+  margin: 0;
+  min-width: 0;
+  align-items: start;
+}
+/* the cure/wait values are numbers, so they wear the same tile as the metrics
+   above instead of a second style of monospace box */
+.c3d-gcode-timing { gap: 8px; }
+.c3d-gcode-timing .c3d-stat:not(:has(.c3d-stat-value > span:not(:empty))) { display: none; }
+@media (max-width: 1199px) { .c3d-preview-gcode { grid-template-columns: minmax(0, 1fr); } }
+@media (max-width: 767px) {
+  .c3d-gcode-code,
+  .c3d-gcode-timing { grid-template-columns: minmax(0, 1fr); }
+}
 .c3d-gcode-cell { min-width: 0; }
 /* a cell the printer reports nothing for is noise, not information */
 .c3d-preview-gcode .c3d-gcode-cell:not(:has(dd span:not(:empty))) { display: none; }
@@ -1469,8 +1484,9 @@ table#plates.table-bordered > tbody > tr > td { border-color: var(--df-border-su
 }
 .c3d-gcode-cell dd {
   margin: 4px 0 0;
-  padding: 7px 9px;
-  max-height: 132px;
+  padding: 8px 10px;
+  max-height: 420px;
+  scrollbar-gutter: stable;
   overflow: auto;
   color: var(--df-text-strong);
   background-color: var(--df-surface-1);
@@ -1484,4 +1500,52 @@ table#plates.table-bordered > tbody > tr > td { border-color: var(--df-border-su
 @media (max-width: 991px) {
   .c3d-preview-grid { grid-template-columns: minmax(0, 1fr); }
   #preview img, #threed img { max-height: 48vh; }
+}
+
+/* ---------- Themed scrollbars (DragonFruit .custom-scrollbar) ---------- */
+/* Both paths on purpose: Chromium >=121 with overlay ("fluent") scrollbars only
+   honours the standard properties, older engines only honour ::-webkit-scrollbar.
+   Setting the standard ones is what makes the bar themed on current Chrome. */
+.c3d-scroll,
+.c3d-gcode-cell dd,
+.c3d-preview-note.is-danger,
+.c3d-preview-gcode dd {
+  scrollbar-width: thin;
+  scrollbar-color: var(--brand-accent) color-mix(in srgb, var(--df-surface-2), #000 18%);
+}
+.c3d-scroll::-webkit-scrollbar,
+.c3d-gcode-cell dd::-webkit-scrollbar,
+.c3d-preview-note.is-danger::-webkit-scrollbar,
+.c3d-preview-gcode dd::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+.c3d-scroll::-webkit-scrollbar-track,
+.c3d-gcode-cell dd::-webkit-scrollbar-track,
+.c3d-preview-note.is-danger::-webkit-scrollbar-track,
+.c3d-preview-gcode dd::-webkit-scrollbar-track {
+  background: color-mix(in srgb, var(--df-surface-2), #000 18%);
+  border-radius: 999px;
+}
+.c3d-scroll::-webkit-scrollbar-thumb,
+.c3d-gcode-cell dd::-webkit-scrollbar-thumb,
+.c3d-preview-note.is-danger::-webkit-scrollbar-thumb,
+.c3d-preview-gcode dd::-webkit-scrollbar-thumb {
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--brand-accent), #fff 8%),
+    color-mix(in srgb, var(--brand-accent), var(--df-surface-2) 42%)
+  );
+  border-radius: 999px;
+  border: 2px solid color-mix(in srgb, var(--df-surface-2), #000 18%);
+}
+.c3d-scroll::-webkit-scrollbar-thumb:hover,
+.c3d-gcode-cell dd::-webkit-scrollbar-thumb:hover,
+.c3d-preview-note.is-danger::-webkit-scrollbar-thumb:hover,
+.c3d-preview-gcode dd::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--brand-accent), #fff 16%),
+    color-mix(in srgb, var(--brand-accent), var(--df-surface-2) 34%)
+  );
 }

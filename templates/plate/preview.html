@@ -122,33 +122,38 @@
 			</div>
 		</div>
 		<dl class="c3d-preview-gcode">
-			<div class="c3d-gcode-cell">
-				<dt translate>Code Before</dt>
-				<dd><span id="beforeGcode"></span></dd>
+			<div class="c3d-gcode-code">
+				<div class="c3d-gcode-cell">
+					<dt translate>Code Before</dt>
+					<dd><span id="beforeGcode"></span></dd>
+				</div>
+				<div class="c3d-gcode-cell">
+					<dt translate>Code During Cure</dt>
+					<dd><span id="duringGcode"></span></dd>
+				</div>
+				<div class="c3d-gcode-cell">
+					<dt translate>Code After</dt>
+					<dd><span id="afterGcode"></span></dd>
+				</div>
 			</div>
-			<div class="c3d-gcode-cell">
-				<dt translate>Wait Before Cure</dt>
-				<dd><span id="waitBeforePrint"></span></dd>
+			<div class="c3d-gcode-timing">
+				<div class="c3d-stat">
+					<span class="c3d-stat-label"><translate>Wait Before Cure</translate></span>
+					<span class="c3d-stat-value"><span id="waitBeforePrint"></span></span>
+				</div>
+				<div class="c3d-stat">
+					<span class="c3d-stat-label"><translate>Cure Time</translate></span>
+					<span class="c3d-stat-value"><span id="cureTime"></span></span>
+				</div>
+				<div class="c3d-stat">
+					<span class="c3d-stat-label"><translate>Wait After Cure</translate></span>
+					<span class="c3d-stat-value"><span id="waitAfterPrint"></span></span>
+				</div>
+				<div class="c3d-stat">
+					<span class="c3d-stat-label"><translate>Wait After Lift</translate></span>
+					<span class="c3d-stat-value"><span id="afterLiftWait"></span></span>
+				</div>
 			</div>
-			<div class="c3d-gcode-cell">
-				<dt translate>Cure Time</dt>
-				<dd><span id="cureTime"></span></dd>
-			</div>
-			<div class="c3d-gcode-cell">
-				<dt translate>Code During Cure</dt>
-				<dd><span id="duringGcode"></span></dd>
-			</div>
-			<div class="c3d-gcode-cell">
-				<dt translate>Wait After Cure</dt>
-				<dd><span id="waitAfterPrint"></span></dd>
-			</div>
-			<div class="c3d-gcode-cell">
-				<dt translate>Code After</dt>
-				<dd><span id="afterGcode"></span></dd>
-			</div>
-			<div class="c3d-gcode-cell">
-				<dt translate>Wait After Lift</dt>
-				<dd><span id="afterLiftWait"></span></dd>
 			</div>
 		</dl>
 	</div>

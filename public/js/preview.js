@@ -116,7 +116,9 @@ function preview_update(){
 	});
 	$.getJSON("/layer/preview/"+t.data("plate")+"/"+current_layer).done(function(data) {
 		$.each(data,function(k,v){
-			$("#"+k).html(format_metric(v).replace(/\n/g, "<br>"));
+			// gcode arrives with real newlines in some fields and with a literal
+			// "\n" escape in others
+			$("#"+k).html(format_metric(v).replace(/\\n/g, "<br>").replace(/\n/g, "<br>"));
 		});
 	});
 	if (t.data("dynthickness")===null){
