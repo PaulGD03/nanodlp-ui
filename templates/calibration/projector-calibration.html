@@ -1,124 +1,147 @@
 {% extends "../base.html" %}
 {% block content %}
-<div class="row">
-	<div class="col-md-12">
-		<h2 translate>Display Calibration</h2>
-		<br>
-	</div>
-</div>
-<div class="row">
-	<div class="col-md-3">
-		<div class="box">
-			<img src="/static/general/boundaries.png" style="width: 240px;">
-			<div class="caption">
-				<h3>
-					<translate>Boundary & Size</translate> {{helpPage("https://docs.nano3dtech.com/manual/display-calibration/#boundary")}}
-				</h3>
-				<p>
-					<a href="/projector/generate/boundaries" class="btn btn-info svg">{{ icon(computer_icon) }}</a>
-					<a href="/projector/blank" class="btn btn-info svg" style="color:black">{{ icon(filldisplay_icon) }}</a>
-				</p>
-			</div>
+<div class="c3d-cal">
+	<div class="c3d-page-head">
+		<div>
+			<div class="c3d-page-eyebrow"><translate>Calibration</translate></div>
+			<h1 class="c3d-page-title"><translate>Display Calibration</translate></h1>
+		</div>
+		<div class="c3d-page-actions">
+			<a href="/projector/blank" class="btn c3d-ghost c3d-btn-i"><span class="c3d-btn-i"><span class="glyphicon glyphicon-blackboard"></span><translate>Blank Display</translate></span></a>
 		</div>
 	</div>
-	<div class="col-md-3" >
-		<div class="box">
-			<img src="/static/general/C3DLogoScaled.png" style="width: 240px;" class="rotate180">
-			<div class="caption">
-				<h3>
-					<translate>Show Logo</translate> {{helpPage("https://docs.nano3dtech.com/manual/display-calibration/#pixel-check")}}
-				</h3>
-				<p>
-					<a href="/projector/display/general***athena.png" class="btn btn-info svg">{{ icon(computer_icon) }}</a>
-					<a href="/projector/blank" class="btn btn-info svg" style="color:black">{{ icon(filldisplay_icon) }}</a>
-			</div>
-		</div>
-	</div>
-	<div class="col-md-3">
-		<div class="box">
-			<img src="/static/general/calibration.png" style="width: 240px;">
-			<div class="caption">
-				<h3>
-					<translate>Grid</translate> {{helpPage("https://docs.nano3dtech.com/manual/display-calibration/#focus")}}
-				</h3>
-				<p>
-					<a href="/projector/generate/calibration" class="btn btn-info svg">{{ icon(computer_icon) }}</a>
-					<a href="/projector/blank" class="btn btn-info svg" style="color:black">{{ icon(filldisplay_icon) }}</a>
-			</div>
-		</div>
-	</div>
-	<div class="col-md-3">
-		<div class="box">
 
-		<img src="/static/general/white.png" style="width: 240px;">
-		<h3>
-			<translate>Full White</translate> {{helpPage("https://docs.nano3dtech.com/manual/display-calibration/#white")}}
-		</h3>
-		<p>
-			<a href="/projector/generate/white" class="btn btn-info svg">{{ icon(computer_icon) }}</a>
-			{% if mask %}
-			<a href="/projector/display/plates***mask.png" class="btn btn-primary" translate>Mask</a>
-			{% endif %}
-			<a href="/projector/blank" class="btn btn-info svg" style="color:black">{{ icon(filldisplay_icon) }}</a>
-		</p>
+	<div class="c3d-cal-grid">
+		<div class="c3d-cal-card">
+			<div class="c3d-cal-frame">
+				<img src="/static/general/boundaries.png" alt="">
+			</div>
+			<div class="c3d-cal-body">
+				<div class="c3d-cal-head">
+					<span class="c3d-cal-title"><translate>Boundary & Size</translate></span>
+					{{helpPage("https://docs.nano3dtech.com/manual/display-calibration/#boundary")}}
+				</div>
+				<div class="c3d-cal-actions">
+					<a href="/projector/generate/boundaries" class="btn btn-primary c3d-btn-i"><span class="c3d-btn-i">{{ icon(computer_icon) }}<translate>Display</translate></span></a>
+				</div>
+			</div>
+		</div>
+
+		<div class="c3d-cal-card">
+			<div class="c3d-cal-frame">
+				<img src="/static/general/C3DLogoScaled.png" alt="" class="rotate180">
+			</div>
+			<div class="c3d-cal-body">
+				<div class="c3d-cal-head">
+					<span class="c3d-cal-title"><translate>Show Logo</translate></span>
+					{{helpPage("https://docs.nano3dtech.com/manual/display-calibration/#pixel-check")}}
+				</div>
+				<div class="c3d-cal-actions">
+					<a href="/projector/display/general***athena.png" class="btn btn-primary c3d-btn-i"><span class="c3d-btn-i">{{ icon(computer_icon) }}<translate>Display</translate></span></a>
+				</div>
+			</div>
+		</div>
+
+		<div class="c3d-cal-card">
+			<div class="c3d-cal-frame">
+				<img src="/static/general/calibration.png" alt="">
+			</div>
+			<div class="c3d-cal-body">
+				<div class="c3d-cal-head">
+					<span class="c3d-cal-title"><translate>Grid</translate></span>
+					{{helpPage("https://docs.nano3dtech.com/manual/display-calibration/#focus")}}
+				</div>
+				<div class="c3d-cal-actions">
+					<a href="/projector/generate/calibration" class="btn btn-primary c3d-btn-i"><span class="c3d-btn-i">{{ icon(computer_icon) }}<translate>Display</translate></span></a>
+				</div>
+			</div>
+		</div>
+
+		<div class="c3d-cal-card">
+			<div class="c3d-cal-frame">
+				<img src="/static/general/white.png" alt="">
+			</div>
+			<div class="c3d-cal-body">
+				<div class="c3d-cal-head">
+					<span class="c3d-cal-title"><translate>Full White</translate></span>
+					{{helpPage("https://docs.nano3dtech.com/manual/display-calibration/#white")}}
+				</div>
+				<div class="c3d-cal-actions">
+					<a href="/projector/generate/white" class="btn btn-primary c3d-btn-i"><span class="c3d-btn-i">{{ icon(computer_icon) }}<translate>Display</translate></span></a>
+					{% if mask %}
+					<a href="/projector/display/plates***mask.png" class="btn c3d-ghost c3d-btn-i"><span class="c3d-btn-i"><span class="glyphicon glyphicon-th"></span><translate>Mask</translate></span></a>
+					{% endif %}
+				</div>
+			</div>
+		</div>
 	</div>
+
+	<div class="c3d-cal-panels">
+		<div class="c3d-panel c3d-cal-panel {% if viewMode == 0 %}hidden{% endif %}">
+			<div class="c3d-panel-head">
+				<span class="c3d-section-label"><translate>Display Output</translate></span>
+			</div>
+			<div class="c3d-cal-actions">
+				<a href="/projector/on" class="btn c3d-ghost c3d-ghost-gold c3d-btn-i"><span class="c3d-btn-i"><span class="glyphicon glyphicon-flash"></span><translate>Turn On</translate></span></a>
+				<a href="/projector/off" class="btn c3d-ghost c3d-btn-i"><span class="c3d-btn-i"><span class="glyphicon glyphicon-off"></span><translate>Turn Off</translate></span></a>
+				{% if build != "athena" %}<a href="/shutter/open" class="btn c3d-ghost c3d-btn-i"><span class="c3d-btn-i"><span class="glyphicon glyphicon-adjust"></span><translate>Shutter Open</translate></span></a>{% endif %}
+				{% if build != "athena" %}<a href="/shutter/close" class="btn c3d-ghost c3d-btn-i"><span class="c3d-btn-i"><span class="glyphicon glyphicon-record"></span><translate>Shutter Close</translate></span></a>{% endif %}
+			</div>
+		</div>
+
+		{% if build != "athena" %}
+		<div class="c3d-panel c3d-cal-panel {% if viewMode == 0 %}hidden{% endif %}">
+			<div class="c3d-panel-head">
+				<span class="c3d-section-label"><translate>Mask and Lamp</translate></span>
+			</div>
+			<div class="c3d-cal-actions">
+				<a href="/mask/add" class="btn c3d-ghost c3d-btn-i"><span class="c3d-btn-i"><span class="glyphicon glyphicon-th"></span><translate>Edit Mask</translate></span></a>
+				<a href="/mask/form" class="btn c3d-ghost c3d-btn-i"><span class="c3d-btn-i"><span class="glyphicon glyphicon-picture"></span><translate>Mask Generator</translate></span></a>
+				<a href="/projector/lamp" class="btn c3d-ghost c3d-btn-i"><span class="c3d-btn-i"><span class="glyphicon glyphicon-time"></span><translate>Update Lamp Hours</translate> [{{lampHours}}h]</span></a>
+			</div>
+		</div>
+
+		<div class="c3d-panel c3d-cal-panel c3d-cal-barrel {% if viewMode == 0 %}hidden{% endif %}">
+			<div class="c3d-panel-head">
+				<span class="c3d-section-label"><translate>Barrel Distortion</translate></span>
+				{{helpPage("https://docs.nano3dtech.com/manual/barrel/")}}
+			</div>
+			<form method="post" action="/projector/generate/barrel" class="ajax-post c3d-cal-form">
+				<label class="c3d-fig-field">
+					<span class="c3d-fig-label"><translate>Barrel Factor</translate></span>
+					<input name="BarrelFactor" value="{{barrelFactor}}" class="form-control" type="number" step="0.001">
+				</label>
+				<label class="c3d-fig-field">
+					<span class="c3d-fig-label"><translate>Barrel's Center X</translate></span>
+					<input name="BarrelX" value="{{barrelX}}" class="form-control" type="number">
+				</label>
+				<label class="c3d-fig-field">
+					<span class="c3d-fig-label"><translate>Barrel's Center Y</translate></span>
+					<input name="BarrelY" value="{{barrelY}}" class="form-control" type="number">
+				</label>
+				<div class="c3d-cal-actions">
+					<button type="submit" class="btn btn-primary c3d-btn-i"><span class="c3d-btn-i"><span class="glyphicon glyphicon-eye-open"></span><translate>Display</translate></span></button>
+					<a href="/projector/blank" class="btn c3d-ghost c3d-btn-i"><span class="c3d-btn-i"><span class="glyphicon glyphicon-blackboard"></span><translate>Close</translate></span></a>
+				</div>
+			</form>
+		</div>
+		{% endif %}
 	</div>
 </div>
-<br>
-<br>
-<div class="row">
-	<div class="col-md-4 {% if viewMode == 0 %}hidden{% endif %} edit-page">
-		<h3 translate>UV LED / Projector</h3>
-		<a href="/projector/on" class="btn btn-default" translate>Turn On</a>
-		<a href="/projector/off" class="btn btn-default" translate>Turn Off</a>
-		{% if build != "athena" %}<a href="/shutter/open" class="btn btn-default" translate>Shutter Open</a>{% endif %}
-		{% if build != "athena" %}<a href="/shutter/close" class="btn btn-default" translate>Shutter Close</a>{% endif %}
-	</div>
-	{% if build != "athena" %}
-	<div class="col-md-4 {% if viewMode == 0 %}hidden{% endif %} edit-page">
-		<h3 translate>Mask and Lamp</h3>
-		<a href="/mask/add" class="btn btn-default" translate>Edit Mask</a>
-		<a href="/mask/form" class="btn btn-default" translate>Mask Generator</a>
-		<a href="/projector/lamp" class="btn btn-default" translate>Update Lamp Hours [Usage: {{lampHours}}h]</a>
-	</div>
-	<div class="col-md-4 {% if viewMode == 0 %}hidden{% endif %} edit-page">
-		<h3><translate>Barrel Distortion</translate> {{helpPage("https://docs.nano3dtech.com/manual/barrel/")}}</h3>
-		<form method="post" action="/projector/generate/barrel" class="ajax-post">
-			<label>
-				<translate>Barrel Factor</translate>
-				<input name="BarrelFactor" value="{{barrelFactor}}" class="form-control" type="number" step="0.001">
-			</label>
-			<br><br>
-			<label>
-				<translate>Barrel's Center X</translate>
-				<input name="BarrelX" value="{{barrelX}}" class="form-control" type="number">
-			</label>
-			<label>
-				<translate>Barrel's Center Y</translate>
-				<input name="BarrelY" value="{{barrelY}}" class="form-control" type="number">
-			</label>
-			<br>
-			<br>
-			<p>
-				<button type="submit" class="btn btn-default" translate>Display</button> 
-				<a href="/projector/blank" class="btn btn-default" translate>Close</a>
-			</p>
-		</form>
-		<br>
-	</div>
-	{% endif %}
-</div>
+
 {% if width==1920 && height==1080 && build=="microlay" %}
-<div class="row">
-	<div class="col-md-3">
-		<br>
-		<br>
-		<div class="box">
-			<img src="/static/general/calibration-1920x1080.png" style="width: 100%;">
-			<div class="caption">
-				<h3 translate>FullHD Calibration</h3>
-				<p><a href="/projector/display/general***calibration-1920x1080.png" class="btn btn-primary"
-						translate>Display</a> <a href="/projector/blank" class="btn" translate>Close</a></p>
+<div class="c3d-cal-grid c3d-cal-grid--extra">
+	<div class="c3d-cal-card">
+		<div class="c3d-cal-frame">
+			<img src="/static/general/calibration-1920x1080.png" alt="">
+		</div>
+		<div class="c3d-cal-body">
+			<div class="c3d-cal-head">
+				<span class="c3d-cal-title"><translate>FullHD Calibration</translate></span>
+			</div>
+			<div class="c3d-cal-actions">
+				<a href="/projector/display/general***calibration-1920x1080.png" class="btn btn-primary c3d-btn-i"><span class="c3d-btn-i">{{ icon(computer_icon) }}<translate>Display</translate></span></a>
+				<a href="/projector/blank" class="btn c3d-ghost c3d-btn-i"><span class="c3d-btn-i"><span class="glyphicon glyphicon-blackboard"></span><translate>Close</translate></span></a>
 			</div>
 		</div>
 	</div>

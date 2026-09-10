@@ -1840,3 +1840,91 @@ body:has(.c3d-preview-layout) > br { display: none; }
 .c3d-update-hint { margin: 0; text-align: center; font-size: 12px; line-height: 1.5; color: var(--df-text-muted); }
 #update_notification .modal-body { padding: 18px 20px 20px; }
 #update_notification .progress { margin-bottom: 0; }
+
+/* ---------- Display calibration page ----------
+   Four projected test patterns as cards (frame = what lands on the LCD), then
+   the output/lamp controls. The per-card "blank" button the legacy markup
+   repeated four times is one header action now. */
+.c3d-cal-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+@media (max-width: 1199px) { .c3d-cal-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 599px) { .c3d-cal-grid { grid-template-columns: minmax(0, 1fr); } }
+.c3d-cal-card {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  background-color: var(--df-surface-0);
+  border: 1px solid var(--df-border-subtle);
+  border-radius: var(--df-radius-lg);
+  overflow: hidden;
+}
+.c3d-cal-frame {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #000;
+  border-bottom: 1px solid var(--df-border-subtle);
+}
+/* the source PNGs are 240px wide test images; let them fill the well so the
+   pattern is legible instead of a thumbnail in a mostly-empty card */
+.c3d-cal-frame img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 210px;
+  object-fit: contain;
+}
+.c3d-cal-body { display: flex; flex-direction: column; gap: 10px; padding: 12px; flex: 1 1 auto; }
+.c3d-cal-head { display: flex; align-items: center; gap: 6px; }
+.c3d-cal-title { font-size: 15px; font-weight: 700; color: var(--df-text-strong); }
+.c3d-cal-actions { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.c3d-cal-body > .c3d-cal-actions { margin-top: auto; }
+.c3d-cal-actions .btn { margin: 0; min-height: 36px; display: inline-flex; align-items: center; justify-content: center; }
+.c3d-cal-actions .btn svg.bi { width: 1em; height: 1em; }
+
+.c3d-cal-panels {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
+  gap: 12px;
+  margin-top: 12px;
+}
+.c3d-cal-panel .c3d-panel-head { margin-bottom: 10px; }
+.c3d-cal-form { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px 12px; }
+@media (max-width: 991px) { .c3d-cal-form { grid-template-columns: minmax(0, 1fr); } }
+.c3d-cal-form .c3d-cal-actions { grid-column: 1 / -1; }
+/* .edit-page input (main.css + athena.css) carries height 39px, radius 0,
+   #3b3b3b fill and a #ddd border at class+element weight; the legacy markup
+   put its inputs in that scope, this one styles both fields and buttons here. */
+.c3d-cal-barrel .c3d-fig-label {
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--df-indicator);
+  margin-bottom: 4px;
+}
+.c3d-cal-barrel .form-control {
+  display: block;
+  width: 100%;
+  height: 36px;
+  min-height: 36px;
+  margin: 0;
+  padding: 6px 10px;
+  font-size: 13px;
+  line-height: 1.3;
+  color: var(--df-text-strong);
+  background-color: var(--df-surface-1);
+  border: 1px solid var(--df-border-subtle);
+  border-radius: var(--df-radius-sm);
+  box-shadow: none;
+}
+.c3d-cal-barrel .form-control:focus {
+  border-color: var(--brand-accent);
+  box-shadow: none;
+  outline: none;
+}
+.c3d-cal-grid--extra { margin-top: 12px; grid-template-columns: repeat(4, minmax(0, 1fr)); }
