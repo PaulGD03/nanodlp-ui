@@ -70,6 +70,14 @@ function renderChart(name, dataRows, series, chartConfig) {
     if (dataRows.length <= 1) return;
 
     let plotHeight = chartConfig?.height ?? 400;
+    const containerEl = $uplot[0];
+    const parentEl = containerEl ? containerEl.parentElement : null;
+    if (parentEl) {
+        const link = parentEl.querySelector('a[href="/analytic"]');
+        const chrome = link ? link.offsetHeight + 12 : 0;
+        const avail = parentEl.clientHeight - chrome;
+        if (avail > 150) plotHeight = Math.round(avail);
+    }
     const axes = prepareAxis(series);
     let opts = {
         title: name,
@@ -125,6 +133,10 @@ function renderChart(name, dataRows, series, chartConfig) {
     if (plotToUpdate && plotToUpdate.seriesLength === series.length) {
 
         // Chart already exists, update the data and return so we don't rebuilt the whole HTML
+        const w = $uplot.width();
+        if (plotToUpdate.uplot.width !== w || plotToUpdate.uplot.height !== plotHeight) {
+            plotToUpdate.uplot.setSize({ width: w, height: plotHeight });
+        }
         plotToUpdate.uplot.setData(dataRows);
         return;
     }
