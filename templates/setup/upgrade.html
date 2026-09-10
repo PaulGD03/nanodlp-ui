@@ -84,4 +84,21 @@
 			</div>
 		</div>
 	</div>
+	<script>
+	// The navbar wraps to a second row below ~1250px, so a hardcoded 66px navbar
+	// height would leave the page 65px taller than the viewport. Measure instead.
+	(function () {
+		var layout = document.querySelector('.c3d-upgrade-layout');
+		if (!layout) return;
+		var narrow = window.matchMedia('(max-height: 760px), (max-width: 991px)');
+		function fit() {
+			if (narrow.matches) { layout.style.height = ''; return; }
+			var top = layout.getBoundingClientRect().top;
+			layout.style.height = Math.max(320, Math.floor(window.innerHeight - top - 76)) + 'px';
+		}
+		fit();
+		window.addEventListener('load', fit);
+		window.addEventListener('resize', fit);
+	})();
+	</script>
 {% endblock %}
