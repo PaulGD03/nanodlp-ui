@@ -227,28 +227,35 @@ input[type="range"].slider, input[type="range"] { accent-color: var(--brand-acce
 .video-container, .uplot-container { border-radius: var(--df-radius-md); background: var(--df-surface-0); border: 1px solid var(--df-border-subtle); }
 
 /* ---------- Stat grid — label eyebrow + value ---------- */
-.c3d-stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 12px; }
+.c3d-stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 8px; }
 .c3d-stat {
   min-width: 0;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
   background: var(--df-surface-0);
   border: 1px solid var(--df-border-subtle);
-  border-radius: var(--df-radius-md);
-  padding: 10px 12px;
+  border-radius: var(--df-radius-sm);
+  padding: 7px 10px;
 }
 .c3d-stat-label {
   display: block;
-  font-size: 11px;
+  font-size: 10px;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--df-indicator);
-  margin-bottom: 4px;
+  margin-bottom: 0;
+  white-space: nowrap;
 }
 .c3d-stat-value {
   display: block;
-  font-size: 20px;
+  font-size: 15px;
   font-weight: 700;
   color: var(--df-text-strong);
   font-variant-numeric: tabular-nums;
+  text-align: right;
+  line-height: 1.2;
 }
 .c3d-stat--resin .c3d-stat-value { font-size: 13px; line-height: 1.6; }
 
@@ -342,7 +349,7 @@ body.c3d-printing #webcam-column .dashboard-panel { flex: 1 1 auto; }
 .c3d-status-body { flex: 1 1 460px; min-width: 0; display: flex; flex-direction: column; }
 .c3d-status-body .c3d-stat-grid { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); }
 .c3d-stat--action { grid-column: span 2; }
-.c3d-stat--action .c3d-stat-value { font-size: 16px; line-height: 1.35; }
+.c3d-stat--action .c3d-stat-value { font-size: 14px; line-height: 1.25; }
 .c3d-status-progress { margin-top: 16px; }
 .c3d-status-progress .progress { height: 18px; margin-bottom: 0; }
 .c3d-status-progress .print-progress-text { font-size: 11px; line-height: 16px; padding-right: 8px; }
