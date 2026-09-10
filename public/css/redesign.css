@@ -1261,3 +1261,227 @@ table#plates.table-bordered > tbody > tr > td { border-color: var(--df-border-su
 .c3d-job-live .add-on { color: var(--df-text-muted); font-size: 12px; }
 .c3d-job-actions .start-after-slice > .btn { min-height: 30px; padding: 4px 9px; font-size: 12px; }
 .c3d-btn-i svg { width: 1em; height: 1em; flex-shrink: 0; }
+
+/* ---------- Masked brand icons (external SVG artwork, tinted by the host) ---------- */
+.c3d-cal-icon {
+  display: inline-block;
+  flex: 0 0 auto;
+  width: 18px;
+  height: 18px;
+  background-color: currentColor;
+  -webkit-mask: url("/static/general/calibration-icon.svg") center / contain no-repeat;
+  mask: url("/static/general/calibration-icon.svg") center / contain no-repeat;
+}
+
+/* ---------- Layer preview page ---------- */
+.c3d-panel {
+  background-color: var(--df-surface-0);
+  border: 1px solid var(--df-border-subtle);
+  border-radius: var(--df-radius-lg);
+  padding: 14px;
+}
+.c3d-panel-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px; }
+.c3d-panel-head .c3d-section-label { margin: 0; }
+.c3d-btn-label { display: inline-flex; align-items: center; }
+.c3d-icon-pair { display: inline-flex; align-items: center; gap: 2px; }
+.c3d-btn-group { display: inline-flex; gap: 6px; }
+/* page-head controls share one geometry so the row reads as a single toolbar */
+.c3d-page-actions .btn {
+  margin: 0;
+  height: 36px;
+  min-height: 0;
+  padding: 0 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  font-size: 13px;
+  white-space: nowrap;
+}
+.c3d-page-actions .c3d-icon-btn { width: 36px; padding: 0; }
+.c3d-page-actions .c3d-cal-icon { width: 18px; height: 18px; }
+.c3d-preview-play { display: flex; width: 132px; margin-left: 6px; }
+.c3d-preview-play .form-control {
+  flex: 1 1 auto;
+  min-width: 0;
+  width: auto;
+  height: 36px;
+  min-height: 36px;
+  padding: 0 8px;
+  text-align: center;
+  border-radius: var(--df-radius-sm) 0 0 var(--df-radius-sm);
+}
+/* explicit width on the button column: letting it size from content made the
+   group's flex arithmetic squeeze the icon button to 14px */
+.c3d-preview-play .input-group-btn { display: flex; flex: 0 0 36px; width: 36px; }
+.c3d-preview-play .input-group-btn .btn {
+  flex: 0 0 36px;
+  width: 36px;
+  height: 36px;
+  min-height: 0;
+  padding: 0;
+  border-left: 0;
+  border-radius: 0;
+}
+.c3d-preview-play .input-group-btn .btn:last-child { border-radius: 0 var(--df-radius-sm) var(--df-radius-sm) 0; }
+/* the overhang toggle reuses its .btn-success state class, painted in brand gold */
+#toggle_compare.btn-success {
+  color: var(--brand-accent-ink);
+  background-color: var(--brand-accent);
+  border-color: var(--brand-accent);
+}
+#toggle_compare.btn-success:hover,
+#toggle_compare.btn-success:focus { background-color: var(--brand-accent-hover); border-color: var(--brand-accent-hover); }
+
+.c3d-preview-note {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 12px;
+  padding: 10px 14px;
+  font-size: 13px;
+  color: var(--df-text-strong);
+  background-color: color-mix(in srgb, var(--c3d-info), var(--df-surface-0) 92%);
+  border: 1px solid color-mix(in srgb, var(--c3d-info), var(--df-border-strong) 62%);
+  border-radius: var(--df-radius-md);
+}
+.c3d-preview-note.is-danger {
+  background-color: color-mix(in srgb, var(--df-danger), var(--df-surface-0) 90%);
+  border-color: color-mix(in srgb, var(--df-danger), var(--df-border-strong) 62%);
+  max-height: 92px;
+  overflow-y: auto;
+}
+.c3d-note-label { display: inline-flex; align-items: center; gap: 6px; color: var(--df-text-muted); font-weight: 600; }
+.c3d-preview-note .overhang {
+  display: inline-flex;
+  align-items: center;
+  padding: 1px 8px;
+  border: 1px solid color-mix(in srgb, var(--brand-accent), transparent 55%);
+  border-radius: 999px;
+  color: var(--brand-accent);
+  font-size: 12px;
+  font-weight: 600;
+  text-decoration: none;
+}
+.c3d-preview-note .overhang:hover { background-color: color-mix(in srgb, var(--brand-accent), transparent 84%); }
+
+.c3d-preview-scrub { margin-bottom: 14px; }
+.c3d-preview-scrub .c3d-panel-head { justify-content: flex-start; gap: 10px; }
+.c3d-preview-layer { font-size: 15px; font-weight: 700; color: var(--df-text-strong); }
+.c3d-preview-layer .c3d-count { font-weight: 400; }
+#preview_range {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 22px;
+  background: transparent;
+  cursor: pointer;
+}
+#preview_range:focus { outline: none; }
+#preview_range::-webkit-slider-runnable-track {
+  height: 6px;
+  border-radius: 999px;
+  background-color: var(--df-surface-2);
+  border: 1px solid var(--df-border-subtle);
+}
+#preview_range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  margin-top: -7px;
+  border: 2px solid var(--df-surface-0);
+  border-radius: 50%;
+  background-color: var(--brand-accent);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.55);
+}
+#preview_range:focus::-webkit-slider-thumb,
+#preview_range:hover::-webkit-slider-thumb { box-shadow: 0 0 0 3px color-mix(in srgb, var(--brand-accent), transparent 75%); }
+#preview_range::-moz-range-track {
+  height: 6px;
+  border-radius: 999px;
+  background-color: var(--df-surface-2);
+  border: 1px solid var(--df-border-subtle);
+}
+#preview_range::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border: 2px solid var(--df-surface-0);
+  border-radius: 50%;
+  background-color: var(--brand-accent);
+}
+
+/* viewers stay columns of the grid even though preview.js juggles col-md-* on them */
+.c3d-preview-grid { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); gap: 12px; align-items: stretch; }
+.c3d-preview-grid:has(> #details.hide) { grid-template-columns: minmax(0, 1fr); }
+.c3d-preview-viewers > .c3d-panel { float: none; width: auto; padding: 12px; }
+#preview {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background-color: #000;
+  border-radius: var(--df-radius-md);
+}
+#preview img { display: block; width: 100%; max-height: 62vh; object-fit: contain; }
+#threed { display: flex; align-items: center; justify-content: center; min-height: 0; }
+#details.hide { display: none; }
+#threed img {
+  width: 100%;
+  max-height: 62vh;
+  object-fit: contain;
+  border-radius: var(--df-radius-md);
+  background-color: #000;
+}
+.c3d-preview-details { grid-column: 1 / -1; }
+/* fixed tracks: auto-fit let a long value stretch its own tile wider than the rest */
+.c3d-preview-stats { grid-template-columns: repeat(4, minmax(0, 1fr)); margin-bottom: 14px; }
+@media (max-width: 1199px) { .c3d-preview-stats { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 767px) { .c3d-preview-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.c3d-preview-stats .c3d-stat-value { overflow-wrap: anywhere; }
+/* a tile with no data would just read as a blank box: those layers report
+   nothing for some fields (dynthickness, special, boundaries) */
+.c3d-preview-stats .c3d-stat:not(:has(.c3d-stat-value > span:not(:empty))) { display: none; }
+.c3d-preview-stats .c3d-stat-value { font-size: 14px; }
+/* 4-up to line up with the stat tiles above; auto-fit left a lone cell on its
+   own row whenever the cell count was one over a multiple of the track count */
+.c3d-preview-gcode {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px 18px;
+  margin: 0;
+  align-items: start;
+}
+@media (max-width: 1199px) { .c3d-preview-gcode { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 991px) { .c3d-preview-gcode { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 575px) { .c3d-preview-gcode { grid-template-columns: minmax(0, 1fr); } }
+.c3d-gcode-cell { min-width: 0; }
+/* a cell the printer reports nothing for is noise, not information */
+.c3d-preview-gcode .c3d-gcode-cell:not(:has(dd span:not(:empty))) { display: none; }
+.c3d-gcode-cell dt {
+  color: var(--df-text-muted);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.c3d-gcode-cell dd {
+  margin: 4px 0 0;
+  padding: 7px 9px;
+  max-height: 132px;
+  overflow: auto;
+  color: var(--df-text-strong);
+  background-color: var(--df-surface-1);
+  border: 1px solid var(--df-border-subtle);
+  border-radius: var(--df-radius-sm);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 11.5px;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+@media (max-width: 991px) {
+  .c3d-preview-grid { grid-template-columns: minmax(0, 1fr); }
+  #preview img, #threed img { max-height: 48vh; }
+}

@@ -8,13 +8,13 @@ function preview_init(){
 		var t=$("#preview_range");
 		if (t.data("clicked")){
 			t.data("clicked",false);
-			$(this).text("Preview");
+			$(this).find(".c3d-btn-label").text("Preview");
 			$.get("/projector/blank");
 		} else {
 			if (confirm_action($(this))) {
 				$.get("/projector/display/"+"plates***"+t.data("plate")+"***"+t.val()+".png");
 				t.data("clicked",true);
-				$(this).text("Close");
+				$(this).find(".c3d-btn-label").text("Close");
 			}
 		}
 	}).delegate("#preview_play", "click", function () {
@@ -83,6 +83,18 @@ function layer_url(){
 	return $('#preview img').data('path') + current_layer + '.png' + addon;
 }
 
+// info.json / layer data carry raw floats: 4622.943003065198 is not readable,
+// and the long string used to widen its stat tile past the others
+function format_metric(v){
+	if (v === null || v === undefined) return v;
+	var text = String(v);
+	if (text.trim() === "") return v;
+	var n = parseFloat(text);
+	if (isNaN(n) || !/^\s*-?[0-9.]+\s*$/.test(text)) return v;
+	if (Math.abs(n - Math.round(n)) < 1e-9) return String(Math.round(n));
+	return n.toFixed(Math.abs(n) >= 1000 ? 2 : 3);
+}
+
 function preview_update(){
 	var t = $('#preview_range');
 	var current_layer = t.val();
@@ -99,12 +111,12 @@ function preview_update(){
 	$.getJSON($('#preview img').data('path')+"info.json").done(function(data) {
 		d=data[current_layer-1];
 		$.each(d,function(k,v){
-			$("#"+k).html(v);
+			$("#"+k).html(format_metric(v));
 		});
 	});
 	$.getJSON("/layer/preview/"+t.data("plate")+"/"+current_layer).done(function(data) {
 		$.each(data,function(k,v){
-			$("#"+k).html(v.replace(/\n/g, "<br>"));
+			$("#"+k).html(format_metric(v).replace(/\n/g, "<br>"));
 		});
 	});
 	if (t.data("dynthickness")===null){

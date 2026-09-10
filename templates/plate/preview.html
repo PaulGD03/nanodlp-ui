@@ -1,123 +1,156 @@
 {% extends "../base.html" %}
 {% block content %}
-<legend>
-    <div class="row">
-        <div class="col-sm-10">
-            <translate>Job</translate> "{{plate.Path}}" &nbsp;
-
-            <button id="preview_layer" class="btn btn-danger" data-confirm="display-confirm"><span
-                    class="glyphicon glyphicon-facetime-video"></span> &nbsp;<translate>Display Layer</translate>
-            </button>
-            <button id="toggle_details" class="btn btn-info" data-display="true">
-                <span class="glyphicon glyphicon-eye-open"></span> / <span class="glyphicon glyphicon-eye-close"></span>
-                <translate>Information</translate>
-            </button>
-
-            <button id="toggle_compare" class="btn btn-success">
-                <span class="glyphicon glyphicon-transfer"></span>
-                <translate>Toggle Overhang Areas</translate>
-            </button>
-
-            <button id="preview_previous" class="btn btn-success">
-                <span class="glyphicon glyphicon-step-backward"></span></button> <button id="preview_next"
-                class="btn btn-success">
-                <span class="glyphicon glyphicon-step-forward"></span>
-            </button>
-        </div>
-
-        <div class="col-sm-2">
-            <span class="input-group">
-                <input type="text" class="form-control play-delay" value="0.1">
-                <span class="input-group-btn">
-                    <button class="btn btn-success" id="preview_play" type="button"><span
-                            class="glyphicon glyphicon-play"></span></button>
-                    <button class="btn btn-success hide" id="preview_stop" type="button"><span
-                            class="glyphicon glyphicon-stop"></span></button>
-                </span>
-            </span>
-        </div>
-    </div>
-</legend>
+<div class="c3d-page-head">
+	<div>
+		<div class="c3d-page-eyebrow"><translate>Job</translate></div>
+		<h1 class="c3d-page-title">{{plate.Path}}</h1>
+	</div>
+	<div class="c3d-page-actions">
+		<button id="preview_layer" class="btn btn-primary c3d-btn-i tip" data-confirm="display-confirm"
+			title="Display the current layer on the printer">
+			<span class="glyphicon glyphicon-facetime-video"></span><span class="c3d-btn-label"><translate>Display Layer</translate></span>
+		</button>
+		<button id="toggle_details" class="btn c3d-ghost c3d-btn-i tip" data-display="true"
+			title="Show layer information">
+			<span class="c3d-icon-pair"><span class="glyphicon glyphicon-eye-open"></span><span class="glyphicon glyphicon-eye-close"></span></span><translate>Information</translate>
+		</button>
+		<button id="toggle_compare" class="btn c3d-ghost btn-success c3d-btn-i tip"
+			title="Highlight the areas that appear on this layer">
+			<span class="glyphicon glyphicon-transfer"></span><translate>Toggle Overhang Areas</translate>
+		</button>
+		<span class="c3d-btn-group">
+			<button id="preview_previous" class="btn c3d-ghost c3d-icon-btn tip" title="Previous layer"><span
+					class="glyphicon glyphicon-step-backward"></span></button>
+			<button id="preview_next" class="btn c3d-ghost c3d-icon-btn tip" title="Next layer"><span
+					class="glyphicon glyphicon-step-forward"></span></button>
+		</span>
+		<span class="input-group c3d-preview-play">
+			<input type="text" class="form-control play-delay" value="0.1" title="Delay between layers (seconds)">
+			<span class="input-group-btn">
+				<button class="btn c3d-ghost c3d-icon-btn" id="preview_play" type="button" title="Play"><span
+						class="glyphicon glyphicon-play"></span></button>
+				<button class="btn c3d-ghost c3d-icon-btn hide" id="preview_stop" type="button" title="Stop"><span
+						class="glyphicon glyphicon-stop"></span></button>
+			</span>
+		</span>
+	</div>
+</div>
 <translate class="hide" id="display-confirm">Are you sure you want to display the current layer on the main
     Projector/LCD unit of the printer?</translate>
-<div class="row">
-    <div class="col-md-12">
-        {% if slicing %}
-        <div class="alert alert-info" role="alert" translate>This plate is still being processed, the image of some
-            layers is still missing.</div>
-        {% endif %}
-        {% if faulty||risky %}
-        <div class="alert alert-danger faulty-box" role="alert">
-            {% if faulty %}
-            <translate>Faulty layers:</translate>
-            {% for fault in faulties %}
-            <a href="#" class="overhang">{{fault}}</a>
-            {% endfor %}
-            {% endif %}
-            {% if risky %}
-            {% if faulty %}<br>{% endif %}
-            <translate>Overhang areas on layers:</translate>
-            {% for hang in overhangs %}
-            <a href="#" class="overhang">{{hang}}</a>
-            {% endfor %}
-            {% endif %}
-        </div>
-        {% endif %}
-        <input type="range" max="{{plate.LayersCount}}" min="1" value="{{layerID}}" data-plate="{{plate.PlateID}}"
-            data-default="{{layerID}}" class="form-control" id="preview_range" data-dynthickness='{{dynthickness}}'
-            data-mc='{{multicure}}' data-cc='{{curetimes}}' data-w='{{width}}' data-h='{{height}}' autofocus>
-        <br>
-    </div>
-    <div class="row">
-        <div id="details" class="small alert col-md-4">
-            <dl class="small dl-horizontal">
-                <dt translate>Layer</dt>
-                <dd><span id="current_layer">{{layerID}}</span>/{{plate.LayersCount}}</dd>
-                <dt translate>Area Count</dt>
-                <dd><span id="AreaCount"></span></dd>
-                <dt translate>Layer Thickness</dt>
-                <dd><span id="LayerThickness"></span></dd>
-                <dt translate>Total Solid Area</dt>
-                <dd><span id="TotalSolidArea"></span></dd>
-                <dt translate>Largest Area</dt>
-                <dd><span id="LargestArea"></span></dd>
-                <dt translate>Smallest Area</dt>
-                <dd><span id="SmallestArea"></span></dd>
-                <!--<dt translate>Pixel Difference</dt><dd><span id="PixDiff"></span></dd>-->
-                <dt translate>Boundary - X</dt>
-                <dd><span id="MinX"></span> - <span id="MaxX"></span></dd>
-                <dt translate>Boundary - Y</dt>
-                <dd><span id="MinY"></span> - <span id="MaxY"></span></dd>
-                <dt translate>Special</dt>
-                <dd><span id="special"></span></dd>
-                <dt translate>Code Before</dt>
-                <dd><span id="beforeGcode"></span></dd>
-                <dt translate>Wait Before Cure</dt>
-                <dd><span id="waitBeforePrint"></span></dd>
-                <dt translate>Cure Time</dt>
-                <dd><span id="cureTime"></span></dd>
-                <dt translate>Code During Cure</dt>
-                <dd><span id="duringGcode"></span></dd>
-                <dt translate>Wait After Cure</dt>
-                <dd><span id="waitAfterPrint"></span></dd>
-                <dt translate>Code After</dt>
-                <dd><span id="afterGcode"></span></dd>
-                <dt translate>Wait After Lift</dt>
-                <dd><span id="afterLiftWait"></span></dd>
-            </dl>
-        </div>
-        <div class="col-md-4">
-            <div id="preview">
-                <img src="/static/plates/{{plate.PlateID}}/{{layerID}}.png"
-                     data-path="/static/plates/{{plate.PlateID}}/"
-                     style="aspect-ratio: {{ width | float / height | float }}"
-                />
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="threed" id="threed"> 
-            </div>
-        </div>
-    </div>
+
+{% if slicing %}
+<div class="c3d-preview-note">
+	<span class="glyphicon glyphicon-time"></span>
+	<translate>This plate is still being processed, the image of some layers is still missing.</translate>
+</div>
+{% endif %}
+{% if faulty||risky %}
+<div class="c3d-preview-note is-danger faulty-box">
+	{% if faulty %}
+	<span class="c3d-note-label"><span class="glyphicon glyphicon-alert"></span> <translate>Faulty layers:</translate></span>
+	{% for fault in faulties %}
+	<a href="#" class="overhang">{{fault}}</a>
+	{% endfor %}
+	{% endif %}
+	{% if risky %}
+	<span class="c3d-note-label"><span class="glyphicon glyphicon-alert"></span> <translate>Overhang areas on layers:</translate></span>
+	{% for hang in overhangs %}
+	<a href="#" class="overhang">{{hang}}</a>
+	{% endfor %}
+	{% endif %}
+</div>
+{% endif %}
+
+<div class="c3d-panel c3d-preview-scrub">
+	<div class="c3d-panel-head">
+		<span class="c3d-section-label"><translate>Layer</translate></span>
+		<span class="c3d-preview-layer"><span id="current_layer">{{layerID}}</span> <span class="c3d-count">/ {{plate.LayersCount}}</span></span>
+	</div>
+	<input type="range" max="{{plate.LayersCount}}" min="1" value="{{layerID}}" data-plate="{{plate.PlateID}}"
+		data-default="{{layerID}}" id="preview_range" data-dynthickness='{{dynthickness}}'
+		data-mc='{{multicure}}' data-cc='{{curetimes}}' data-w='{{width}}' data-h='{{height}}' autofocus>
+</div>
+
+<div class="c3d-preview-grid">
+	<div class="c3d-preview-viewers">
+		<div class="c3d-panel c3d-preview-canvas">
+			<div id="preview">
+				<img src="/static/plates/{{plate.PlateID}}/{{layerID}}.png"
+					data-path="/static/plates/{{plate.PlateID}}/"
+					style="aspect-ratio: {{ width | float / height | float }}"
+				/>
+			</div>
+		</div>
+	</div>
+	<div id="threed" class="c3d-panel c3d-preview-render"></div>
+	<div id="details" class="c3d-panel c3d-preview-details">
+		<div class="c3d-panel-head">
+			<span class="c3d-section-label"><translate>Layer Information</translate></span>
+		</div>
+		<div class="c3d-stat-grid c3d-preview-stats">
+			<div class="c3d-stat">
+				<span class="c3d-stat-label"><translate>Layer Thickness</translate></span>
+				<span class="c3d-stat-value"><span id="LayerThickness"></span></span>
+			</div>
+			<div class="c3d-stat">
+				<span class="c3d-stat-label"><translate>Area Count</translate></span>
+				<span class="c3d-stat-value"><span id="AreaCount"></span></span>
+			</div>
+			<div class="c3d-stat">
+				<span class="c3d-stat-label"><translate>Total Solid Area</translate></span>
+				<span class="c3d-stat-value"><span id="TotalSolidArea"></span></span>
+			</div>
+			<div class="c3d-stat">
+				<span class="c3d-stat-label"><translate>Largest Area</translate></span>
+				<span class="c3d-stat-value"><span id="LargestArea"></span></span>
+			</div>
+			<div class="c3d-stat">
+				<span class="c3d-stat-label"><translate>Smallest Area</translate></span>
+				<span class="c3d-stat-value"><span id="SmallestArea"></span></span>
+			</div>
+			<div class="c3d-stat">
+				<span class="c3d-stat-label"><translate>Boundary - X</translate></span>
+				<span class="c3d-stat-value"><span id="MinX"></span> - <span id="MaxX"></span></span>
+			</div>
+			<div class="c3d-stat">
+				<span class="c3d-stat-label"><translate>Boundary - Y</translate></span>
+				<span class="c3d-stat-value"><span id="MinY"></span> - <span id="MaxY"></span></span>
+			</div>
+			<div class="c3d-stat">
+				<span class="c3d-stat-label"><translate>Special</translate></span>
+				<span class="c3d-stat-value"><span id="special"></span></span>
+			</div>
+		</div>
+		<dl class="c3d-preview-gcode">
+			<div class="c3d-gcode-cell">
+				<dt translate>Code Before</dt>
+				<dd><span id="beforeGcode"></span></dd>
+			</div>
+			<div class="c3d-gcode-cell">
+				<dt translate>Wait Before Cure</dt>
+				<dd><span id="waitBeforePrint"></span></dd>
+			</div>
+			<div class="c3d-gcode-cell">
+				<dt translate>Cure Time</dt>
+				<dd><span id="cureTime"></span></dd>
+			</div>
+			<div class="c3d-gcode-cell">
+				<dt translate>Code During Cure</dt>
+				<dd><span id="duringGcode"></span></dd>
+			</div>
+			<div class="c3d-gcode-cell">
+				<dt translate>Wait After Cure</dt>
+				<dd><span id="waitAfterPrint"></span></dd>
+			</div>
+			<div class="c3d-gcode-cell">
+				<dt translate>Code After</dt>
+				<dd><span id="afterGcode"></span></dd>
+			</div>
+			<div class="c3d-gcode-cell">
+				<dt translate>Wait After Lift</dt>
+				<dd><span id="afterLiftWait"></span></dd>
+			</div>
+		</dl>
+	</div>
 </div>
 {% endblock %}
