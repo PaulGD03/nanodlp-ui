@@ -118,9 +118,19 @@ a:hover, a:focus { color: var(--brand-accent); filter: brightness(1.08); }
   line-height: 1.2;
   transition: background-color 140ms ease, border-color 140ms ease, color 140ms ease;
 }
-/* Icon + label alignment: lives on an INNER span so it's immune to the
-   button's own display being forced (block/flex, or jQuery's inline display). */
-.c3d-btn-i { display: inline-flex; align-items: center; justify-content: center; gap: 8px; white-space: nowrap; }
+/* Icon + label alignment: the content span is absolutely centred, so it stays
+   optically centred regardless of the host button's display mode (block/flex,
+   or jQuery's inline display when show()/hide() toggles print buttons). */
+a:has(> .c3d-btn-i), button:has(> .c3d-btn-i) { position: relative; min-height: 40px; }
+.c3d-btn-i {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  white-space: nowrap;
+}
 .c3d-btn-i .glyphicon { top: 0; line-height: 1; }
 .btn-default {
   background-color: var(--df-surface-1);
