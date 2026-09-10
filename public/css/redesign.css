@@ -54,6 +54,13 @@ body {
   padding-bottom: 76px;
 }
 .container { width: 100% !important; max-width: var(--c3d-max-width); padding-left: 24px; padding-right: 24px; }
+.c3d-viewport-center {
+  min-height: calc(100vh - 210px);
+  min-height: calc(100dvh - 210px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
 a { color: var(--brand-accent); }
 a:hover, a:focus { color: var(--brand-accent); filter: brightness(1.08); }
 
