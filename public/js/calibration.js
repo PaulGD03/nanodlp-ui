@@ -1,6 +1,6 @@
 const multicureConfig = {
     1: {
-        name: "J3D Calibration RERF",
+        name: "Concepts 3D Exposure Calibration - RERF",
         models: 6
     },
     2: {

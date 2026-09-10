@@ -23,7 +23,7 @@
 		</div>
 		<div class="row flex-row" id="options">
 			<div class="col-md-4 i_basic i_option {{isHidden(basic.Title)}} tip">
-				<label for="Title" translate>Name</label>
+				<label for="Title" class="profile-help-label"><span translate>Name</span><a class="help" data-toggle="tooltip" data-placement="top" title="A name to identify this resin profile.">i</a></label>
 				<input class="form-control" value="{{profile.Title}}" name="Title" id="Title" required> <translate class="hide">Enter a descriptive name for this resin profile</translate>
 			</div>
 			<div class="col-md-4 i_basic i_option {{isHidden(basic.ResinID)}}">
@@ -53,7 +53,7 @@
 					type="number"> <translate class="hide">Set the optimal working temperature for this resin</translate>
 			</div>
 			<div class="col-md-4 i_basic i_option {{isHidden(basic.Desc)}} tip">
-				<label for="Desc" translate>Description</label>
+				<label for="Desc" class="profile-help-label"><span translate>Description</span><a class="help" data-toggle="tooltip" data-placement="top" title="Notes about the resin, recommended uses, or profile settings.">i</a></label>
 				<textarea class="form-control" name="Desc" id="Desc">{{profile.Desc}}</textarea>
 				<translate class="hide">Add notes or description about this resin profile</translate>
 			</div>
@@ -856,6 +856,7 @@
 	<!-- ************************** ATHENA SIMPLE RESIN PAGE -->
 	<div id="setup-profile2">
 
+		
 		<script>
 			$(document).ready(() => {
 				const liftSpeed = `{{profile.DynamicSpeed}}`;
@@ -873,298 +874,322 @@
 					</h3>
 			</div>
 			<div class="col-md-12 easy_mode">
-				<div class="alert alert-info" role="alert">
+				<div class="easy-mode-toolbar">
 					<strong><translate>Easy Mode</translate></strong>
-					<p><translate>You are currently editing this profile in Easy Mode. Only Layer Thickness and Normal Exposure Time can be changed.</translate></p>
-					<p><translate>To access all resin profile settings, open the System menu and select Advanced Mode.</translate></p>
-					<button type="button" class="btn btn-primary" id="profileEasyModeSwitchBtn" translate>Switch to Advanced Mode</button>
+					<a class="help" data-toggle="tooltip" data-placement="top"
+					   title="Easy Mode shows the most commonly adjusted resin settings and is recommended for most users. Use Advanced Mode only when you need additional controls.">i</a>
+					<button type="button" class="btn btn-default btn-sm" id="profileEasyModeSwitchBtn" translate>Advanced Mode</button>
 				</div>
 			</div>
-			<div class="col-md-4 i_basic i_option advance_mode">
-				<label for="ResinID" translate>Resin</label>
-				<select name="ResinID" id="ResinID" class="form-control">
-					<option value="0">-</option>
-					{% for p in resins %}
-						<option value="{{p.ID}}" {% if profile.ResinID == p.ID %}selected{% endif %}>{{p.Brand}} {{p.Model}}</option>
-					{% endfor %}
-				</select>
-			</div>
+			<input type="hidden" name="ResinID" value="{{profile.ResinID}}">
 			<div class="col-md-4 i_basic i_option">
-				<label for="Title" translate>Name</label>
+				<label for="TitleSimple" class="profile-help-label"><span translate>Name</span><a class="help" data-toggle="tooltip" data-placement="top" title="A name to identify this resin profile.">i</a></label>
 				<input class="form-control" value="{{profile.Title}}" name="Title" id="TitleSimple" required>
 			</div>
-			<div class="col-md-4 i_basic i_option advance_mode">
-				<label for="ResinPrice" translate>Price (<b>$/L</b>)</label>
+			<div class="col-md-4 i_basic i_option">
+				<label for="ResinPrice" class="profile-help-label"><span translate>Price (<b>$/L</b>)</span><a class="help" data-toggle="tooltip" data-placement="top" title="Resin cost per litre, used for print cost estimates.">i</a></label>
 				<input class="form-control" value="{{profile.ResinPrice}}" name="ResinPrice" id="ResinPrice" type="number" step="0.01">
 			</div>
 			<div class="col-md-12 i_basic i_option" style="padding-top:5px;">
-				<label for="Desc" translate>Description</label>
+				<label for="Desc" class="profile-help-label profile-help-label-inline"><span translate>Description</span><a class="help" data-toggle="tooltip" data-placement="top" title="Notes about the resin, recommended uses, or profile settings.">i</a></label>
 				<textarea class="form-control" name="Desc" id="Desc">{{profile.Desc}}</textarea>
 			</div>
-			<div class="col-md-4 i_basic i_option advance_mode" style="padding-top:5px;">
+			<div class="i_basic i_option compact-profile-field" style="padding:5px 15px 0 15px; float:left;">
 				<div class="row row-marginless">
-					<label for="ResinPreheatTemperature">
-						<translate>Resin Preheat Temperature (<b>C</b>)</translate>
+					<label for="ResinPreheatTemperature" class="profile-help-label">
+						<span><translate>Resin Preheat Temperature (<b>C</b>)</translate></span>
+						<a class="help" data-toggle="tooltip" data-placement="top" title="Target resin temperature used by the preheat routine before printing.">i</a>
 					</label>
 					<input class="form-control" value="{{profile.CustomValues.ResinPreheatTemperature}}"
 						   name="ResinPreheatTemperature" id="ResinPreheatTemperature" step="1" min="0" max="50"
 						   type="number">
 				</div>
-				<div class="row">
-					<div class="col-md-4 i_burnin i_option">
-						<label for="PreheatMixSimple">Mix Before Print</label>
-					</div>
-					<div class="col-md-4 i_burnin i_option text-nowrap checkbox-sm">
-						<input type="checkbox" id="PreheatMixSimple" value="{{profile.CustomValues.PreheatMixEnable}}"
-							   name="PreheatMixEnable" style="margin-top: -10px; width:16px; accent-color: #f0ad4e;">
-					</div>
+				<div class="mix-before-row">
+					<label for="PreheatMixSimple" class="profile-help-label profile-help-label-inline">
+						<span>Mix Before Print</span>
+						<a class="help" data-toggle="tooltip" data-placement="top" title="Runs the resin mixing routine before the print starts.">i</a>
+					</label>
+					<input type="checkbox" id="PreheatMixSimple" value="{{profile.CustomValues.PreheatMixEnable}}"
+						   name="PreheatMixEnable" style="accent-color: #f0ad4e;">
 				</div>
 			</div>
 
 			<!-- Physical Properties Details -->
-			<div class="col-md-12 i_basic i_option advance_mode" style="padding-top:10px;">
+			<div class="col-md-12 i_basic i_option advance_mode profile-section-heading">
 				<div class="col-md-6 i_basic i_option" style="padding-left: 0px;">
 					<h5><span translate><strong>Physical Properties</strong></span></h5>
 				</div>
 			</div>
-			<div class="col-md-4 col-sm-3 i_basic i_option advance_mode" style="padding-top:5px;">
+			<div class="i_basic i_option advance_mode profile-top-field compact-profile-field" style="padding:5px 15px 0 15px; float:left;">
 				<label for="ViscositySimple">
-					<translate>Viscosity at room temperature (<b>cps or mPa</b>)</translate>
+					<translate>Viscosity (<b>cP / mPa·s</b>)</translate>
 					<a class="help" data-toggle="tooltip" data-placement="top"
-					   title="The resins viscosity as found in the TDS">i</a>
+					   title="Enter the resin viscosity at room temperature from the manufacturer datasheet or specifications, usually in cP or mPa·s. It is used to adjust lift and retract motion for how easily the resin flows.">i</a>
 				</label>
 				<input class="form-control" value="{{profile.CustomValues.Viscosity}}" name="Viscosity" id="ViscositySimple" step="1" type="number">
 			</div>
 
-			<div class="col-md-2 col-sm-3 i_basic i_option advance_mode" style="padding-top:5px;">
+			<div class="col-md-2 col-sm-3 i_basic i_option advance_mode profile-top-field" style="padding-top:5px;">
 				<label for="YieldPressureSimple">
 					<translate>Material Modulus (<b>GPa</b>)</translate>
 					<a class="help" data-toggle="tooltip" data-placement="top"
-					   title="Used by Smart Kinematics to adjust lift motion based on material stiffness. Use Young's Modulus, Tensile Modulus, Modulus of Elasticity, or Flexural Modulus from the resin datasheet. If listed in MPa, divide by 1000. Do not use Tensile Strength or Flexural Strength.">i</a>
+					   title="Used to adjust motion based on resin stiffness. Use Young's Modulus, Tensile Modulus, Modulus of Elasticity, or Flexural Modulus from the resin datasheet. If listed in MPa, divide by 1000. Do not use Tensile Strength or Flexural Strength.">i</a>
 				</label>
 				<input class="form-control" value="{{profile.CustomValues.YieldPressure}}" name="YieldPressure" id="YieldPressureSimple" step="0.0001" type="number">
 			</div>
 
 
 			<!-- Layer Details -->
-			<div class="col-md-12 i_basic i_option" style="padding-top:10px;">
+			<div class="col-md-12 i_basic i_option profile-section-heading">
 				<div class="col-md-6 i_basic i_option" style="padding-left: 0px;">
 					<h5><span translate><strong>Layer Details</strong></span></h5>
 				</div>
 			</div>
 
-			<div class="col-md-2 col-sm-3 i_basic i_option" style="padding-top:5px;">
-				<label for="Depth"><translate>Layer Thickness (<b>μm</b>)</translate></label>
+			<div class="col-md-2 col-sm-3 i_basic i_option profile-top-field" style="padding-top:5px;">
+				<label for="Depth" class="profile-help-label"><span><translate>Layer Thickness (<b>μm</b>)</translate></span><a class="help" data-toggle="tooltip" data-placement="top" title="Height of each printed layer. Lower values increase Z detail but require more layers.">i</a></label>
 				<input class="form-control" value="{{profile.Depth}}" name="Depth" id="Depth" step="0.01" type="number" required>
 			</div>
-			<div class="col-md-2 col-sm-3 i_basic i_option advance_mode" style="padding-top:5px;">
-				<label for="SupportLayerNumber">
-					<translate>Number of Burn-in Layers</translate>
+			<div class="col-md-2 col-sm-3 i_basic i_option profile-top-field" style="padding-top:5px;">
+				<label for="SupportLayerNumber" class="profile-help-label">
+					<span><translate># Burn-in Layers</translate></span>
+					<a class="help" data-toggle="tooltip" data-placement="top" title="Number of bottom layers printed with the Bottom Exposure Time to secure the print to the build plate.">i</a>
 				</label>
 				<input class="form-control" value="{{profile.SupportLayerNumber}}" name="SupportLayerNumber"id="SupportLayerNumber" type="number" required step="1" min="0" max="50" type="number">
 			</div>
-			<div class="col-md-2 col-sm-3 i_basic i_option advance_mode" style="padding-top:5px;">
-				<label for="TransitionalLayer"><translate>Transitional Layers</translate></label>
+			<div class="col-md-2 col-sm-3 i_basic i_option advance_mode profile-top-field" style="padding-top:5px;">
+				<label for="TransitionalLayer" class="profile-help-label"><span><translate>Transitional Layers</translate></span><a class="help" data-toggle="tooltip" data-placement="top" title="Gradually transitions exposure from burn-in layers to normal layers.">i</a></label>
 				<select name="TransitionalLayer" id="TransitionalLayer" class="form-control">
 					<option value="0" {% if profile.TransitionalLayer==0 %}selected{% endif %} translate>Enable</option>
 					<option value="1" {% if profile.TransitionalLayer==1 %}selected{% endif %} translate>Disable</option>
 				</select>
 			</div>
-			<div class="col-md-2 col-sm-3 i_basic i_option advance_mode" style="padding-top:5px;">
-				<label for="UvPwmValue"><translate>UV-LED PWM Value(<b>%</b>)</translate></label>
+			<div class="col-md-2 col-sm-3 i_basic i_option advance_mode profile-top-field" style="padding-top:5px;">
+				<label for="UvPwmValue" class="profile-help-label"><span><translate>UV-LED PWM Value(<b>%</b>)</translate></span><a class="help" data-toggle="tooltip" data-placement="top" title="UV light power used for this profile. Changing it requires exposure recalibration.">i</a></label>
 				<input class="form-control" type="hidden" value="{{profile.CustomValues.UvPwmValue}}" name="UvPwmValue" id="UvPwmValueSimple" step="0.01" type="number">
 				<input class="form-control" value="{{profile.CustomValues.UvPwmValue}}" name="UvPwmValuePercent" id="UvPwmValuePercentSimple" step="1" type="number" required min="0" max="100">
 			</div>
 			<div class="col-md-4 i_basic i_option" > </div>
 
-			<!-- Bottom Layer Settings -->
-			<div class="col-md-6 i_basic i_option advance_mode" style="padding-left:0px; padding-top:10px;">
-				<div class="col-md-12 i_basic i_option">
-					<div class="col-md-6 i_basic i_option" style="padding-left:0px;">
-						<h5><span translate><strong>Bottom Layer Settings</strong></span></h5>
+			<!-- Bottom / Normal / Lift Settings -->
+			<div class="col-md-12 i_basic i_option profile-three-column" style="padding-left:0px; padding-right:0px;">
+
+				<!-- Bottom + Normal Layer Settings -->
+				<div class="profile-bottom-normal-group">
+
+					<div class="profile-paired-row profile-column-headings">
+						<div class="profile-paired-cell i_basic i_option" style="padding-top:10px;">
+							<h5><span translate><strong>Bottom Layer Settings</strong></span></h5>
+						</div>
+						<div class="profile-paired-cell i_basic i_option" style="padding-top:10px;">
+							<h5><span translate><strong>Normal Layer Settings</strong></span></h5>
+						</div>
+					</div>
+
+					<div class="profile-paired-row">
+						<div class="profile-paired-cell i_basic i_option">
+							<div class="profile-setting-row">
+								<div class="col-md-7 i_burnin i_option profile-setting-label">
+									<label for="SupportCureTime" class="profile-help-label"><span><translate>Bottom Exposure Time (<b>s</b>)</translate></span><a class="help" data-toggle="tooltip" data-placement="top" title="Exposure time used for the burn-in (bottom) layers.">i</a></label>
+								</div>
+								<div class="col-md-5 i_burnin i_option profile-setting-control">
+									<input class="form-control" value="{{profile.SupportCureTime}}" name="SupportCureTime" id="SupportCureTime" min="1" max="60" step="0.01" type="number" required>
+								</div>
+							</div>
+						</div>
+						<div class="profile-paired-cell i_basic i_option">
+							<div class="profile-setting-row">
+								<div class="col-md-7 i_burnin i_option profile-setting-label">
+									<label for="CureTime" class="profile-help-label"><span><translate>Exposure Time (<b>s</b>)</translate></span><a class="help" data-toggle="tooltip" data-placement="top" title="Exposure time used for normal layers.">i</a></label>
+								</div>
+								<div class="col-md-5 i_burnin i_option profile-setting-control">
+									<input class="form-control" value="{{profile.CureTime}}" name="CureTime" id="CureTime" step="0.01" type="number" required min="0" max="20">
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="profile-paired-row advance_mode">
+						<div class="profile-paired-cell i_basic i_option">
+							<div class="profile-setting-row">
+								<div class="col-md-7 i_burnin i_option profile-setting-label">
+									<label for="SupportWaitBeforePrint" class="profile-help-label"><span><translate>Bottom Wait Before Print (<b>s</b>)</translate></span><a class="help" data-toggle="tooltip" data-placement="top" title="Manual settling delay before bottom exposure. Ignored when Dynamic Wait is enabled.">i</a></label>
+								</div>
+								<div class="col-md-5 i_burnin i_option text-nowrap profile-setting-control">
+									<input class="form-control" value="{{profile.SupportWaitBeforePrint}}" name="SupportWaitBeforePrint" step="0.01" id="SupportWaitBeforePrintSimple" type="number" required min="0" max="60">
+								</div>
+							</div>
+						</div>
+						<div class="profile-paired-cell i_basic i_option">
+							<div class="profile-setting-row">
+								<div class="col-md-7 i_burnin i_option profile-setting-label">
+									<label for="WaitBeforePrint" class="profile-help-label"><span><translate>Wait Before Print (<b>s</b>)</translate></span><a class="help" data-toggle="tooltip" data-placement="top" title="Manual settling delay before normal exposure. Ignored when Dynamic Wait is enabled.">i</a></label>
+								</div>
+								<div class="col-md-5 i_burnin i_option text-nowrap profile-setting-control">
+									<input class="form-control" value='{{profile.WaitBeforePrint}}' name="WaitBeforePrint" step="0.01" id="WaitBeforePrintSimple" type="number" required min="0" max="60">
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="profile-paired-row advance_mode">
+						<div class="profile-paired-cell i_basic i_option">
+							<div class="profile-setting-row">
+								<div class="col-md-7 i_burnin i_option profile-setting-label">
+									<label for="SupportWaitAfterPrint" class="profile-help-label"><span><translate>Bottom Wait After Print (<b>s</b>)</translate></span><a class="help" data-toggle="tooltip" data-placement="top" title="Delay after bottom-layer exposure before lift begins.">i</a></label>
+								</div>
+								<div class="col-md-5 i_burnin i_option text-nowrap profile-setting-control">
+									<input class="form-control" value="{{profile.SupportWaitAfterPrint}}" name="SupportWaitAfterPrint" id="SupportWaitAfterPrint" step="0.01" type="number" required min="0" max="60">
+								</div>
+							</div>
+						</div>
+						<div class="profile-paired-cell i_basic i_option">
+							<div class="profile-setting-row">
+								<div class="col-md-7 i_burnin i_option profile-setting-label">
+									<label for="WaitAfterPrint" class="profile-help-label"><span><translate>Wait After Print (<b>s</b>)</translate></span><a class="help" data-toggle="tooltip" data-placement="top" title="Delay after normal-layer exposure before lift begins.">i</a></label>
+								</div>
+								<div class="col-md-5 i_burnin i_option text-nowrap profile-setting-control">
+									<input class="form-control" value="{{profile.WaitAfterPrint}}" name="WaitAfterPrint" id="WaitAfterPrint" step="0.01" type="number" required min="0" max="60">
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="profile-paired-row advance_mode">
+						<div class="profile-paired-cell i_basic i_option">
+							<div class="profile-setting-row">
+								<div class="col-md-7 i_burnin i_option profile-setting-label">
+									<label for="SupportTopWait" class="profile-help-label"><span><translate>Bottom Wait After Lift (<b>s</b>)</translate></span><a class="help" data-toggle="tooltip" data-placement="top" title="Delay at the top of the lift for burn-in layers.">i</a></label>
+								</div>
+								<div class="col-md-5 i_burnin i_option text-nowrap profile-setting-control">
+									<input class="form-control" value="{{profile.SupportTopWait}}" name="SupportTopWait" step="0.01" id="SupportTopWait" type="number" required min="0" max="60">
+								</div>
+							</div>
+						</div>
+						<div class="profile-paired-cell i_basic i_option">
+							<div class="profile-setting-row">
+								<div class="col-md-7 i_burnin i_option profile-setting-label">
+									<label for="TopWait" class="profile-help-label"><span><translate>Wait After Lift (<b>s</b>)</translate></span><a class="help" data-toggle="tooltip" data-placement="top" title="Delay at the top of the lift for normal layers.">i</a></label>
+								</div>
+								<div class="col-md-5 i_burnin i_option text-nowrap profile-setting-control">
+									<input class="form-control" value="{{profile.TopWait}}" name="TopWait" step="0.01" id="TopWait" type="number" required min="0" max="60">
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="profile-paired-row">
+						<div class="profile-paired-cell i_basic i_option">
+							<div class="profile-setting-row">
+								<div class="col-md-7 i_burnin i_option profile-setting-label">
+									<label for="SupportWaitHeight" class="profile-help-label"><span><translate>Bottom Lift Distance (<b>mm</b>)</translate></span><a class="help" data-toggle="tooltip" data-placement="top" title="Lift distance used for the burn-in (bottom) layers.">i</a></label>
+								</div>
+								<div class="col-md-5 i_burnin i_option text-nowrap profile-setting-control">
+									<input class="form-control" value="{{profile.SupportWaitHeight}}" name="SupportWaitHeight" step="0.001" id="SupportWaitHeight" type="number" required min="0" max="60">
+								</div>
+							</div>
+						</div>
+						<div class="profile-paired-cell i_basic i_option">
+							<div class="profile-setting-row">
+								<div class="col-md-7 i_burnin i_option profile-setting-label">
+									<label for="WaitHeight" class="profile-help-label"><span><translate>Normal Lift Distance (<b>mm</b>)</translate></span><a class="help" data-toggle="tooltip" data-placement="top" title="Lift distance used for normal layers.">i</a></label>
+								</div>
+								<div class="col-md-5 i_burnin i_option text-nowrap profile-setting-control">
+									<input class="form-control" value="{{profile.WaitHeight}}" name="WaitHeight" id="WaitHeight" step="0.001" type="number" required min="1" max="15">
+								</div>
+							</div>
+						</div>
 					</div>
 				</div>
-				<div class="col-md-12 i_basic i_option" style="padding-top:5px;">
-					<div class="col-md-5 i_burnin i_option">
-						<label for="SupportCureTime"><translate>Bottom Exposure Time (<b>s</b>)</translate></label>
+
+				<!-- Lift / Retract Options -->
+				<div class="profile-column-lift i_basic i_option" style="padding-top:10px; padding-right:0px;">
+					<div class="col-md-12 i_basic i_option profile-column-heading">
+						<h5><span translate><strong>Lift / Retract Options</strong></span></h5>
 					</div>
-					<div class="col-md-4 i_burnin i_option">
-						<input class="form-control" value="{{profile.SupportCureTime}}" name="SupportCureTime" id="SupportCureTime" min="1" max="60" step="0.01" type="number" required>
+
+					<div class="col-md-12 i_basic i_option advance_mode" style="padding-left:0px;">
+						<div class="profile-setting-row">
+							<div class="col-md-7 i_basic i_option profile-setting-label">
+								<label for="SimpleSlowLiftLayers" class="profile-help-label"><span>Slow Lift Layers</span><a class="help" data-toggle="tooltip" data-placement="top" title="Number of layers using slow lift speed. Lower speeds help prevent detachment, especially for base layers, thick, or flexible resins.">i</a></label>
+							</div>
+							<div class="col-md-5 i_basic i_option profile-setting-control">
+								<input class="form-control" name="SimpleSlowLiftLayers" id="SimpleSlowLiftLayers" type="number" required min="1">
+							</div>
+						</div>
 					</div>
-					<div class="clearfix "></div>
+
+					<div class="col-md-12 i_basic i_option advance_mode" style="padding-left:0px;">
+						<div class="profile-setting-row">
+							<div class="col-md-7 i_basic i_option profile-setting-label">
+								<label for="SimpleSlowLiftSpeed" class="profile-help-label"><span>Slow Lift Speed (mm/m)</span><a class="help" data-toggle="tooltip" data-placement="top" title="Lift speed (mm/min) for slow lift layers. Default: 40mm/min. Adjust to 20-30mm/min for thick or flexible resins.">i</a></label>
+							</div>
+							<div class="col-md-5 i_basic i_option profile-setting-control">
+								<input class="form-control" name="SimpleSlowLiftSpeed" id="SimpleSlowLiftSpeed" type="number" required min="10" max="300">
+							</div>
+						</div>
+					</div>
+
+					<div class="col-md-12 i_basic i_option" style="padding-left:0px;">
+						<div class="profile-setting-row">
+							<div class="col-md-7 i_basic i_option profile-setting-label">
+								<label for="SimpleLiftSpeed" class="profile-help-label"><span>Lift Speed (mm/m)</span><a class="help" data-toggle="tooltip" data-placement="top" title="Lift speed (mm/min) for normal layers. Default: 100mm/min. Reduce to 60mm/min or less if models detach from base. Thick or flexible resins need slower speeds. For thinner resins, this can be increased to 150-200mm/min.">i</a></label>
+							</div>
+							<div class="col-md-5 i_basic i_option profile-setting-control">
+								<input class="form-control" name="SimpleLiftSpeed" id="SimpleLiftSpeed" type="number" required min="10" max="750">
+							</div>
+						</div>
+					</div>
+
+					<div class="col-md-12 i_basic i_option advance_mode" style="padding-left:0px;">
+						<div class="profile-setting-row">
+							<div class="col-md-7 i_basic i_option profile-setting-label">
+								<label for="SimpleSlowRetractLayers" class="profile-help-label"><span>Slow Retract Layers</span><a class="help" data-toggle="tooltip" data-placement="top" title="Number of layers using slow retract speed. Increase for layers thinner than 50μm.">i</a></label>
+							</div>
+							<div class="col-md-5 i_basic i_option profile-setting-control">
+								<input class="form-control" name="SimpleSlowRetractLayers" id="SimpleSlowRetractLayers" type="number" required min="1">
+							</div>
+						</div>
+					</div>
+
+					<div class="col-md-12 i_basic i_option advance_mode" style="padding-left:0px;">
+						<div class="profile-setting-row">
+							<div class="col-md-7 i_basic i_option profile-setting-label">
+								<label for="SimpleSlowRetractSpeed" class="profile-help-label"><span>Slow Retract Speed (mm/m)</span><a class="help" data-toggle="tooltip" data-placement="top" title="Speed (mm/min) for slow retract layers. Default: 150mm/min. This setting is suitable for most resins.">i</a></label>
+							</div>
+							<div class="col-md-5 i_basic i_option profile-setting-control">
+								<input class="form-control" name="SimpleSlowRetractSpeed" id="SimpleSlowRetractSpeed" type="number" required min="10" max="1800">
+							</div>
+						</div>
+					</div>
+
+					<div class="col-md-12 i_basic i_option" style="padding-left:0px;">
+						<div class="profile-setting-row">
+							<div class="col-md-7 i_basic i_option profile-setting-label">
+								<label for="SimpleRetractSpeed" class="profile-help-label"><span>Retract Speed (mm/m)</span><a class="help" data-toggle="tooltip" data-placement="top" title="Retract speed (mm/min) for normal layers. Default: 600mm/min. Reduce below 300mm/min for thick resins or large models.">i</a></label>
+							</div>
+							<div class="col-md-5 i_basic i_option profile-setting-control">
+								<input class="form-control" name="SimpleRetractSpeed" id="SimpleRetractSpeed" type="number" required min="10" max="1800">
+							</div>
+						</div>
+					</div>
 				</div>
-				<div class="col-md-12 i_basic i_option" style="padding-top: 10px;">
-					<div class="col-md-5 i_burnin i_option">
-						<label for="SupportWaitBeforePrint"><translate>Bottom Wait Before Print (<b>s</b>)</translate></label>
-					</div>
-					<div class="col-md-4 i_burnin i_option text-nowrap">
-						<input class="form-control" value="{{profile.SupportWaitBeforePrint}}" name="SupportWaitBeforePrint" step="0.01" id="SupportWaitBeforePrintSimple" type="number" required min="0" max="60">
-					</div>
-				</div>
-				<div class="col-md-12 i_basic i_option">
-					<div class="col-md-5 i_burnin i_option">
-						<label for="SupportWaitAfterPrint"><translate>Bottom Wait After Print (<b>s</b>)</translate></label>
-					</div>
-					<div class="col-md-4 i_burnin i_option text-nowrap">
-						<input class="form-control" value="{{profile.SupportWaitAfterPrint}}" name="SupportWaitAfterPrint" id="SupportWaitAfterPrint" step="0.01" type="number" required min="0" max="60">
-					</div>
-					<div class="clearfix "></div>
-				</div>
-				<div class="col-md-12 i_basic i_option">
-					<div class="col-md-5 i_burnin i_option">
-						<label for="SupportTopWait"><translate>Bottom Wait After Lift (<b>s</b>)</translate></label>
-					</div>
-					<div class="col-md-4 i_burnin i_option text-nowrap">
-						<input class="form-control" value="{{profile.SupportTopWait}}" name="SupportTopWait" step="0.01" id="SupportTopWait" type="number" required min="0" max="60">
-					</div>
-					<div class="clearfix "></div>
-				</div>
-				<div class="col-md-12 i_basic i_option" style="padding-top: 10px;">
-					<div class="col-md-5 i_burnin i_option">
-						<label for="SupportWaitHeight"><translate>Bottom Lift Distance (<b>mm</b>)</translate></label>
-					</div>
-					<div class="col-md-4 i_burnin i_option text-nowrap">
-						<input class="form-control" value="{{profile.SupportWaitHeight}}" name="SupportWaitHeight" step="0.001" id="SupportWaitHeight" type="number" required min="0" max="60">
-					</div>
-					<div class="clearfix "></div>
-				</div>
+
+				<div class="clearfix"></div>
 			</div>
 
-
-
-			<!-- Normal Layers -->
-			<div class="col-md-6 i_basic i_option" style="padding-left:0px; padding-top:10px;">
-				<div class="col-md-12 i_basic i_option advance_mode">
-					<div class="col-md-6 i_basic i_option" style="padding-left:0px;">
-						<h5><span translate><strong>Normal Layer Settings</strong></span></h5>
-					</div>
-				</div>
-				<div class="col-md-12 i_basic i_option" style="padding-top:5px;">
-					<div class="col-md-5 i_burnin i_option advance_mode">
-						<label for="CureTime"><translate>Exposure Time (<b>s</b>)</translate></label>
-					</div>
-					<label class="easy_mode" for="CureTime"><translate>Exposure Time (<b>s</b>)</translate></label>
-
-					<div class="col-md-4 i_burnin i_option">
-						<input class="form-control" value="{{profile.CureTime}}" name="CureTime" id="CureTime" step="0.01" type="number" required min="0" max="20">
-					</div>
-					<div class="clearfix "></div>
-				</div>
-				<div class="col-md-12 i_basic i_option advance_mode" style="padding-top: 10px;">
-					<div class="col-md-5 i_burnin i_option">
-						<label for="WaitBeforePrint"><translate>Wait Before Print (<b>s</b>)</translate></label>
-					</div>
-					<div class="col-md-4 i_burnin i_option text-nowrap">
-						<input class="form-control" value='{{profile.WaitBeforePrint}}' name="WaitBeforePrint" step="0.01" id="WaitBeforePrintSimple" type="number" required min="0" max="60">
-					</div>
-					<div class="col-md-3 i_burnin i_option" style="padding: 0px;">
-						<div class="checkbox checkbox-inline checkbox-sm" style="padding-left: 0px;">
-							<label>
-								 <input type="checkbox" id="DwEnableSimple" value="{{profile.CustomValues.FssEnableDynamicwait}}" name="FssEnableDynamicwait" style="margin-top: -10px; accent-color: #f0ad4e;">Dynamic Wait
-							</label>
-						</div>
-					</div>
-					<!-- <div class="clearfix "></div> -->
-				</div>
-				<div class="col-md-12 i_basic i_option advance_mode">
-					<div class="col-md-5 i_burnin i_option">
-						<label for="WaitAfterPrint"><translate>Wait After Print (<b>s</b>)</translate></label>
-					</div>
-					<div class="col-md-4 i_burnin i_option text-nowrap">
-						<input class="form-control" value="{{profile.WaitAfterPrint}}" name="WaitAfterPrint" id="WaitAfterPrint" step="0.01" type="number" required min="0" max="60">
-					</div>
-					<div class="clearfix "></div>
-				</div>
-				<div class="col-md-12 i_basic i_option advance_mode">
-					<div class="col-md-5 i_burnin i_option">
-						<label for="TopWait"><translate>Wait After Lift (<b>s</b>)</translate></label>
-					</div>
-					<div class="col-md-4 i_burnin i_option text-nowrap">
-						<input class="form-control" value="{{profile.TopWait}}" name="TopWait" step="0.01" id="TopWait" type="number" required min="0" max="60">
-					</div>
-					<div class="clearfix "></div>
-				</div>
-				<div class="col-md-12 i_basic i_option advance_mode" style="padding-top: 10px;">
-					<div class="col-md-5 i_burnin i_option">
-						<label for="WaitHeight"><translate>Normal Lift Distance (<b>mm</b>)</translate></label>
-					</div>
-					<div class="col-md-4 i_burnin i_option text-nowrap">
-						<input class="form-control" value="{{profile.WaitHeight}}" name="WaitHeight" id="WaitHeight" step="0.001" type="number" required min="1" max="15">
-					</div>
-					<div class="clearfix "></div>
-				</div>
-			</div>
-
-			<div class="col-md-12 i_basic i_option advance_mode">
-				<div class="col-md-6 i_basic i_option" style="padding-left: 0px;">
-					<h5><span translate><strong>Lift / Retract Options</strong></span></h5>
-				</div>
-				<div class="col-md-12 i_basic i_option" style="padding-top:5px;">
-					<div class="row">
-						<div class="col-md-3 i_basic i_option" style="padding-left: 0px;">
-							<label for="SimpleSlowLiftLayers">
-								Slow Lift Layers
-								<a class="help" data-toggle="tooltip" data-placement="top"
-								   title="Number of layers using slow lift speed. Lower speeds help prevent detachment, especially for base layers, thick, or flexible resins.">i</a>
-							</label>
-							<input class="form-control" name="SimpleSlowLiftLayers" id="SimpleSlowLiftLayers" type="number" required min="1">
-						</div>
-						<div class="col-md-3 i_basic i_option" style="padding-left: 0px;">
-							<label for="SimpleSlowLiftSpeed">
-								Slow Lift Speed (mm/m)
-								<a class="help" data-toggle="tooltip" data-placement="top"
-								   title="Lift speed (mm/min) for slow lift layers. Default: 40mm/min. Adjust to 20-30mm/min for thick or flexible resins.">i</a>
-							</label>
-							<input class="form-control" name="SimpleSlowLiftSpeed" id="SimpleSlowLiftSpeed" type="number" required min="10" max="300">
-						</div>
-						<div class="col-md-3 i_basic i_option" style="padding-left: 0px;">
-							<label for="SimpleLiftSpeed">
-								Lift Speed (mm/m)
-								<a class="help" data-toggle="tooltip" data-placement="top"
-								   title="Lift speed (mm/min) for normal layers. Default: 100mm/min. Reduce to 60mm/min or less if models detach from base. Thick or flexible resins need slower speeds. For thinner resins, this can be increased to 150-200mm/min.">i</a>
-							</label>
-							<input class="form-control" name="SimpleLiftSpeed" id="SimpleLiftSpeed" type="number" required min="10" max="750">
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-md-3 i_basic i_option" style="padding-left: 0px;">
-							<label for="SimpleSlowRetractLayers">
-								Slow Retract Layers
-								<a class="help" data-toggle="tooltip" data-placement="top"
-								   title="Number of layers using slow retract speed. Increase for layers thinner than 50μm.">i</a>
-							</label>
-							<input class="form-control" name="SimpleSlowRetractLayers" id="SimpleSlowRetractLayers" type="number" required min="1">
-						</div>
-						<div class="col-md-3 i_basic i_option" style="padding-left: 0px;">
-							<label for="SimpleSlowRetractSpeed">
-								Slow Retract Speed (mm/m)
-								<a class="help" data-toggle="tooltip" data-placement="top"
-								   title="Speed (mm/min) for slow retract layers. Default: 150mm/min. This setting is suitable for most resins.">i</a>
-							</label>
-							<input class="form-control" name="SimpleSlowRetractSpeed" id="SimpleSlowRetractSpeed" type="number" required min="10" max="1800">
-						</div>
-						<div class="col-md-3 i_basic i_option" style="padding-left: 0px;">
-							<label for="SimpleRetractSpeed">
-								Retract Speed (mm/m)
-								<a class="help" data-toggle="tooltip" data-placement="top"
-								   title="Retract speed (mm/min) for normal layers. Default: 600mm/min. Reduce below 300mm/min for thick resins or large models.">i</a>
-							</label>
-							<input class="form-control" name="SimpleRetractSpeed" id="SimpleRetractSpeed" type="number" required min="10" max="1800">
-						</div>
-					</div>
-				</div>
-			</div>
-
-			<!-- Slicer Options -->
+			<!-- Onboard Slicing Options -->
 			<div class="col-md-12 i_basic i_option advance_mode" style="padding-top:10px;">
-				<div class="col-md-6 i_basic i_option" style="padding-left: 0px;">
-					<h5><span translate><strong>Slicer Options</strong></span></h5>
+				<div class="col-md-12 i_basic i_option" style="padding-left: 0px;">
+					<h5><span translate><strong>Onboard Slicing Options</strong></span></h5>
+					<p class="onboard-slicing-note"><translate>Only applies to models sliced on the printer. DragonFruit and other external slicers use their own slicing settings.</translate></p>
 				</div>
 			</div>
 			<div class="col-md-12 i_basic i_option advance_mode" style="padding-top:5px;">
 				<div class="col-md-3 i_basic i_option" style="padding-left: 0px;">
-					<label for="AntiAlias">
-						<translate>Anti-aliasing</translate>{{helpPage("https://docs.nano3dtech.com/manual/print-quality/#anti-aliasing")}}{{regenerateRequired()}}
+					<label for="AntiAlias" class="profile-help-label">
+						<span><translate>Anti-aliasing</translate></span>
+						<span><a class="help" data-toggle="tooltip" data-placement="top" title="Smooths pixel edges when slicing on the printer.">i</a></span>
 					</label>
 					<select name="AntiAlias" id="AntiAlias" class="form-control">
 						<option value="0" {% if profile.AntiAlias==0 %}selected{% endif %} translate>Enable</option>
@@ -1172,8 +1197,9 @@
 					</select>
 				</div>
 				<div class="col-md-3 i_basic i_option" style="padding-left: 0px;" data-condition="#PrinterType != 2 && ['i_burnin','i_slicing'].includes(#scategory)">
-					<label for="ElephantMidExposure">
-						<translate>Elephant Foot Middle Exposure</translate> {{helpPage("https://docs.nano3dtech.com/manual/elephant-foot/")}}
+					<label for="ElephantMidExposure" class="profile-help-label">
+						<span><translate>Elephant Foot Middle Exposure</translate></span>
+						<span><a class="help" data-toggle="tooltip" data-placement="top" title="Reduces first-layer overgrowth when slicing on the printer.">i</a></span>
 					</label>
 					<select name="ElephantMidExposure" id="ElephantMidExposure" class="form-control">
 						<option value="0" {% if profile.ElephantMidExposure==0 %}selected{% endif %} translate>Disable</option>
@@ -1186,9 +1212,9 @@
 
 
 			<!-- FSS Options -->
-			<div class="col-md-12 i_basic i_option advance_mode" style="padding-top:10px;">
-				<div class="col-md-6 i_basic i_option" style="padding-left: 0px;">
-					<h5><span translate><strong>Detection systems</strong></span></h5>
+			<div class="col-md-12 i_basic i_option" style="padding-top:10px;">
+				<div class="col-md-6 i_basic i_option advance_mode profile-section-heading" style="padding-left: 0px;">
+					<h5><span translate><strong>Detection Systems</strong></span></h5>
 				</div>
 
 				<div class="col-md-12 i_basic i_option" style="padding-left:0px;">
@@ -1196,30 +1222,39 @@
 						<h5><span translate><strong>Peel Detection</strong></span></h5>
 					</div>
 
-					<div class="col-md-12">
+					<div class="col-md-12 detection-system-content">
 						<div class="row">
 							<div class="col-md-1 i_burnin i_option">
-								<label for="PdEnableSimple"><translate>Enable</translate></label>
+								<label for="PdEnableSimple" class="profile-help-label"><span><translate>Enable</translate></span><a class="help" data-toggle="tooltip" data-placement="top" title="Uses the force sensor to detect when a layer separates from the film during lift.">i</a></label>
 							</div>
 							<div class="col-md-1 i_burnin i_option text-nowrap">
 								<input class="form-control checkbox-profile" value="{{profile.CustomValues.FssEnablePeeldetection}}" name="FssEnablePeeldetection" id="PdEnableSimple" type="checkbox">
 							</div>
 						</div>
-						<div class="row">
+						<div class="row easy_mode">
+							<div class="col-md-4 profile-peel-mode-readonly">
+								<span><translate>Mode</translate>:</span>
+								<span class="profile-mode-value">
+									{% if profile.CustomValues.PdPeelMode=="0" %}Minimal{% elif profile.CustomValues.PdPeelMode=="1" %}Full Lift{% elif profile.CustomValues.PdPeelMode=="2" %}Smooth{% elif profile.CustomValues.PdPeelMode=="3" %}Two-stage{% else %}-{% endif %}
+								</span>
+								<a class="help" data-toggle="tooltip" data-placement="top" title="Current peel-motion strategy. Change it in Advanced Mode.">i</a>
+							</div>
+						</div>
+						<div class="row advance_mode">
 							<div class="col-md-4">
 								<label for="PdPeelMode"><translate>Kinematic Mode</translate>
 									<a class="help" data-toggle="tooltip" data-placement="top"
-									   title="TBD">i</a>
+									   title="Minimal: fastest; retracts when peel is detected. Full Lift: switches to the second-stage speed after peel and completes the set lift. Smooth: S-curve motion. Two-stage: trapezoidal motion. Motion calculations also use layer area and resin properties.">i</a>
 								</label>
 								<select name="PdPeelMode" id="PdPeelMode" class="form-control">
 									<option value="0" {% if profile.CustomValues.PdPeelMode=="0" %}selected{% endif %}>Minimal</option>
-									<option value="1" {% if profile.CustomValues.PdPeelMode=="1" %}selected{% endif %}>Full</option>
-									<option value="2" {% if profile.CustomValues.PdPeelMode=="2" %}selected{% endif %}>Smart</option>
+									<option value="1" {% if profile.CustomValues.PdPeelMode=="1" %}selected{% endif %}>Full Lift</option>
+									<option value="2" {% if profile.CustomValues.PdPeelMode=="2" %}selected{% endif %}>Smooth</option>
 									<option value="3" {% if profile.CustomValues.PdPeelMode=="3" %}selected{% endif %}>Two-stage</option>
 								</select>
 							</div>
 						</div>
-						<div class="row peel-detection-settings">
+						<div class="row peel-detection-settings advance_mode">
 							<div class="col-md-4">
 								<label for="PdPeelStartSlopeSimple"><translate>Peel Detection Slope Start (<b>N</b>)</translate>
 									<a class="help" data-toggle="tooltip" data-placement="top"
@@ -1240,9 +1275,9 @@
 								<input class="form-control" value="{{profile.CustomValues.PdPeelMinLiftDistance}}" name="PdPeelMinLiftDistance" id="PdPeelMinLiftDistanceSimple" step="1" type="number">
 							</div>
 							<div class="col-md-4">
-								<label for="FullLiftSpeedSimple"><translate>Peel Detection Full Lift Speed (<b>mm/m</b>)</translate>
+								<label for="FullLiftSpeedSimple"><translate>Second Stage Lift Speed (<b>mm/m</b>)</translate>
 									<a class="help" data-toggle="tooltip" data-placement="top"
-									   title="In Full Lift Mode, after the peel is detected the plate will move at the specified speed">i</a>
+									   title="Lift speed used after peel is detected for the remaining lift distance.">i</a>
 								</label>
 								<input class="form-control" value="{{profile.CustomValues.FullLiftSpeed}}" name="FullLiftSpeed" id="FullLiftSpeedSimple" step="1" type="number">
 							</div>
@@ -1252,15 +1287,15 @@
 
 
 
-				<div class="col-md-12 i_basic i_option" style="padding-left:0px;">
+				<div class="col-md-12 i_basic i_option advance_mode" style="padding-left:0px;">
 					<div class="col-md-12 i_basic i_option" style="padding-left: 0px;">
 						<h5><span translate><strong>Crash Detection</strong></span></h5>
 					</div>
 
-					<div class="col-md-12">
+					<div class="col-md-12 detection-system-content">
 						<div class="row">
 							<div class="col-md-1 i_burnin i_option">
-								<label for="CdEnableSimple"><translate>Enable</translate></label>
+								<label for="CdEnableSimple" class="profile-help-label"><span><translate>Enable</translate></span><a class="help" data-toggle="tooltip" data-placement="top" title="Enables force-based crash detection on supported moves, including print start and Assisted Leveling. Not all downward moves are currently monitored.">i</a></label>
 							</div>
 							<div class="col-md-1 i_burnin i_option text-nowrap">
 								<input class="form-control checkbox-profile" value="{{profile.CustomValues.FssEnableCrashdetection}}" name="FssEnableCrashdetection" id="CdEnableSimple" type="checkbox">
@@ -1271,7 +1306,7 @@
 
 								<label for="CdThresholdSimple"><translate>Crash Detection Threshold (<b>N</b>)</translate>
 									<a class="help" data-toggle="tooltip" data-placement="top"
-									   title="Sets the threshold for crash detection. Thicker resins require a higher threshold to avoid false detections">i</a>
+									   title="Force threshold used when Crash Detection is active. Higher values are less sensitive.">i</a>
 								</label>
 								<input class="form-control" value="{{profile.CustomValues.CdThreshold}}" name="CdThreshold" id="CdThresholdSimple" step="1" type="number">
 
@@ -1281,19 +1316,27 @@
 					</div>
 				</div>
 
-				<div class="col-md-12 i_basic i_option" style="padding-left:0px;">
+				<div class="col-md-12 i_basic i_option advance_mode" style="padding-left:0px;">
 					<div class="col-md-12 i_basic i_option" style="padding-left: 0px;">
 						<h5><span translate><strong>Dynamic Wait</strong></span></h5>
 					</div>
 
-					<div class="col-md-12">
+					<div class="col-md-12 detection-system-content">
+						<div class="row">
+							<div class="col-md-1 i_burnin i_option">
+								<label for="DwEnableSimple" class="profile-help-label"><span><translate>Enable</translate></span><a class="help" data-toggle="tooltip" data-placement="top" title="Automatically waits for resin motion to settle before exposure. When enabled, the manual Wait Before Print values are set to 0 and disabled.">i</a></label>
+							</div>
+							<div class="col-md-1 i_burnin i_option text-nowrap">
+								<input class="form-control checkbox-profile" value="{{profile.CustomValues.FssEnableDynamicwait}}" name="FssEnableDynamicwait" id="DwEnableSimple" type="checkbox">
+							</div>
+						</div>
 						<div class="row dynamic-wait-settings">
 							<div class="col-md-4">
 
 								<label for="DwFlowEndSlopeSimple">
 									<translate>Dynamic Wait Flow End Slope (<b>N</b>)</translate>
 									<a class="help" data-toggle="tooltip" data-placement="top"
-									   title="Smaller value will give the plate more time to settle before Cure/Exposure. Prevents Blooming and Layer Separation">i</a>
+									   title="Controls how still the resin must be before exposure. Lower values wait for more settling.">i</a>
 								</label>
 								<input class="form-control" value="{{profile.CustomValues.DwFlowEndSlope}}" name="DwFlowEndSlope" id="DwFlowEndSlopeSimple" step="1" type="number">
 
@@ -1304,7 +1347,7 @@
 								<label for="DwFlowMinimumWaitSimple">
 									<translate>Dynamic Wait Minimum Wait Time (<b>ms</b>)</translate>
 									<a class="help" data-toggle="tooltip" data-placement="top"
-									   title="Minimum Time DynamicWait should wait before starting the exposure">i</a>
+									   title="Minimum settling time before exposure, even if the resin settles sooner.">i</a>
 								</label>
 								<input class="form-control" value="{{profile.CustomValues.DwMinimumWaitTimeMS}}" name="DwMinimumWaitTimeMS" id="DwFlowMinimumWaitSimple" step="1" type="number">
 
@@ -1314,15 +1357,15 @@
 					</div>
 				</div>
 
-				<div class="col-md-12 i_basic i_option" style="padding-left:0px;">
+				<div class="col-md-12 i_basic i_option advance_mode" style="padding-left:0px;">
 					<div class="col-md-12 i_basic i_option" style="padding-left: 0px;">
 						<h5><span translate><strong>Resin Level Detection</strong></span></h5>
 					</div>
 
-					<div class="col-md-12">
+					<div class="col-md-12 detection-system-content">
 						<div class="row">
 							<div class="col-md-1 i_burnin i_option">
-								<label for="RlEnableSimple"><translate>Enable</translate></label>
+								<label for="RlEnableSimple" class="profile-help-label"><span><translate>Enable</translate></span><a class="help" data-toggle="tooltip" data-placement="top" title="Checks that enough resin is in the vat to complete the print, sets the mixing lift height, and detects overfilled vats above 800 mL.">i</a></label>
 							</div>
 							<div class="col-md-1 i_burnin i_option text-nowrap">
 								<input class="form-control checkbox-profile" value="{{profile.CustomValues.FssEnableResinleveldetection}}" name="FssEnableResinleveldetection" id="RlEnableSimple" type="checkbox">

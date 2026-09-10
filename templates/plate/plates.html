@@ -1,5 +1,6 @@
 {% extends "../base.html" %}
 {% block content %}
+
 {% if restore %}
 <div class="row">
 	<div class="col-md-12">
@@ -8,37 +9,53 @@
 	</div>
 </div>
 {% endif %}
-<div class="row">
-	<div class="col-md-6">
+
+<div class="jobs-toolbar">
+	<div class="jobs-toolbar-left">
 		<h2>
-		{% if !restore %}<span translate>Jobs</span> <a class="btn btn-default tip" href="/plate/add" role="button"><span
-			class="glyphicon glyphicon-plus"></span><translate class="hide">Add a new job</translate></a>
-			<a class="btn btn-default tip svg" target="_blank" href="/static/editor/?ApplicationMode=embedded" role="button">{{ icon(threed_icon) }}
-			<translate class="hide">Add a new job using 3D editor</translate></a>
+			{% if !restore %}<span translate>Jobs</span>{% else %}<span translate>Deleted Jobs</span>{% endif %}
+		</h2>
+
+		{% if !restore %}
+		<div class="jobs-toolbar-actions">
+			<a class="btn btn-default tip" href="/plate/add" role="button">
+				<span class="glyphicon glyphicon-plus"></span><translate>New Job</translate>
+				<translate class="hide">Add a new job</translate>
+			</a>
+
+			<a class="btn btn-default tip" href="/custom/calibration" role="button">
+				<img src="/static/general/calibration-icon.svg" alt="Icon" width="16" height="16">
+				<translate>Exposure Calibration</translate>
+				<translate class="hide">Open exposure calibration</translate>
+			</a>
+
 			<div class="btn-group">
-				<button type="button" class="btn btn-default tip dropdown-toggle svg" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="" data-original-title="More">
+				<button type="button" class="btn btn-default tip dropdown-toggle svg"
+						data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+						title="" data-original-title="More">
 					{{ icon(list_icon) }} <translate class="hide">More options</translate>
 				</button>
 				<ul class="dropdown-menu">
-<!--					<li><a href="/plate/generator"><span class="glyphicon glyphicon-refresh"></span> &nbsp; <translate>Generate calibration job</translate></a></li>-->
-<!--					<li><a href="/plate/preview/0"><span class="glyphicon glyphicon-eye-open"></span> &nbsp; <translate>Preview calibration job</translate></a></li>-->
-<!--					<li><a href="/printer/start/0" class="ask" data-ask="calibrate-confirm"><span class="glyphicon glyphicon-play"></span> &nbsp; <translate>Start the calibration print</translate></a></li>-->
-<!--					<li role="separator" class="divider"></li>-->
-<!--					<li><a href="/plate/calibration-advanced"><span class="glyphicon glyphicon-wrench"></span> &nbsp; <translate>Advanced calibration</translate></a></li>-->
-<!--					<li role="separator" class="divider"></li>-->
-					<li><a href="/plates/delete" class="ask" data-ask="deleteall-confirm"><span class="glyphicon glyphicon-trash"></span> &nbsp; <translate>Move all jobs to trash</translate></a></li>
-					<li><a href="/plates/restore"><span class="glyphicon glyphicon-trash"></span> &nbsp; <translate>View trash</translate></a></li>
-<!--					<li role="separator" class="divider"></li>-->
-<!--					<li><a href="/plate/layer-generator"><span class="glyphicon glyphicon-picture"></span> &nbsp; <translate>Use a single layer to generate a job</translate></a></li>-->
-<!--					<li><a href="/plate/paint"><span class="glyphicon glyphicon-adjust"></span> &nbsp; <translate>Create a job using paint</translate></a></li>-->
-<!--					<li><a href="/plate/paint"><span class="glyphicon glyphicon-th"></span> &nbsp; <translate>Create a PCB job</translate></a></li>-->
+					<li>
+						<a href="/plates/delete" class="ask" data-ask="deleteall-confirm">
+							<span class="glyphicon glyphicon-trash"></span> &nbsp;
+							<translate>Move all jobs to trash</translate>
+						</a>
+					</li>
+					<li>
+						<a href="/plates/restore">
+							<span class="glyphicon glyphicon-trash"></span> &nbsp;
+							<translate>View trash</translate>
+						</a>
+					</li>
 				</ul>
 			</div>
-		{% else %}<span translate>Deleted Jobs</span>{% endif %}
-		<a class="btn btn-default tip" href="/custom/calibration" role="button"><img src="/static/general/calibration-icon.svg" alt="Icon" width="16" height="16"> Calibrate Exposure<translate class="hide">Calibrate resin with multicure exposure</translate></a>
-		</h2>
+		</div>
+		{% endif %}
 	</div>
-	<div class="col-md-3">
+
+	{% if !restore %}
+	<div class="jobs-toolbar-search">
 		<div class="input-group">
 			<select id="plates-profile-search" class="form-control">
 				<option value="" translate>Filter by Resin Profile</option>
@@ -52,8 +69,7 @@
 				</button>
 			</span>
 		</div>
-	</div>
-	<div class="col-md-3">
+
 		<div class="input-group">
 			<input id="search" placeholder="Search Jobs" class="form-control compact-input">
 			<span class="input-group-btn">
@@ -64,7 +80,9 @@
 		</div>
 		<translate class="hide">Search Jobs</translate>
 	</div>
+	{% endif %}
 </div>
+
 <div class="row">
 	<div class="col-md-12">
 		{% if freeSpace < 1000 && freeSpace>0 %}
@@ -73,20 +91,18 @@
 		{% endif %}
 	</div>
 </div>
+
 <div id="plates-list">
 	{% include "list.html" %}
 	</table>
 </div>
 <br>
 <br>
-<!--<div><span class="glyphicon glyphicon-resize-small"></span>
-	<translate>Plate Size</translate>: {{width|floatformat}}x{{height|floatformat}}<translate>mm</translate>
-</div>-->
+
 <div id="emmc-freespace-container">
 <span class="glyphicon glyphicon-hdd"></span>
 <span id="emmc-freespace-text"><translate>Free Disk Space</translate></span>: <span id="emmc-freespace-value">{{freeSpace}}MB</span>
 </div>
-
 
 <div id="ssd-freespace-container" class="hidden">
 	<span class="glyphicon glyphicon-hdd"></span>

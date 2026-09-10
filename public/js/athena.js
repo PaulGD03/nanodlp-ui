@@ -60,10 +60,22 @@ function setUpCheckboxToggle($checkboxElem, $toggleSection) {
 }
 
 setUpCheckboxToggle($("#PdEnableSimple"), $('.peel-detection-settings'));
+$("#PdEnableSimple").change(updatePeelDetectionSettingsVisibility);
 setUpCheckboxToggle($("#RlEnableSimple"));
 setUpCheckboxToggle($("#DwEnableSimple"));
 setUpCheckboxToggle($("#CdEnableSimple"), $('.crash-detection-settings'));
 setUpCheckboxToggle($("#PreheatMixSimple"));
+
+function updatePeelDetectionSettingsVisibility(){
+	const peelDetectionSettings = $('.peel-detection-settings');
+	if (!peelDetectionSettings.length) return;
+
+	if (!isEasyModeEnabled() && $("#PdEnableSimple").is(':checked')) {
+		peelDetectionSettings.show();
+	} else {
+		peelDetectionSettings.hide();
+	}
+}
 
 function isEasyModeEnabled(){
 	return window.localStorage.getItem("ProfileEasyMode") !== "false";
@@ -99,6 +111,7 @@ function updateEasyModeProfileFieldVisibility(){
 			$(".easy_mode").hide();
 		}
 
+		updatePeelDetectionSettingsVisibility();
 }
 
 
@@ -351,6 +364,7 @@ $(document).ready(function(){
 	loadInitialCheckboxState(cdEnable, $('.crash-detection-settings'));
 	const pdEnable = $("#PdEnableSimple");
 	loadInitialCheckboxState(pdEnable, $('.peel-detection-settings'));
+	updatePeelDetectionSettingsVisibility();
 	const rlEnable = $("#RlEnableSimple");
 	loadInitialCheckboxState(rlEnable);
 	const dwEnable = $("#DwEnableSimple");
@@ -1222,3 +1236,30 @@ $(document).ready(function () {
 	})
 
 })
+
+// Dashboard live Z-position updater
+function setupDashboardZPosition() {
+    const zPosition = $("#dashboard-z-position");
+
+    // athena.js is loaded on every Athena page. Only poll on the Dashboard.
+    if (!zPosition.length) {
+        return;
+    }
+
+    function updateDashboardZPosition() {
+        $.getJSON("/z-axis/info")
+            .done(function (data) {
+                const z = parseFloat(data["current-height-mm"]);
+                if (!isNaN(z)) {
+                    zPosition.text(z.toFixed(2) + " mm");
+                }
+            });
+    }
+
+    updateDashboardZPosition();
+    setInterval(updateDashboardZPosition, 1500);
+}
+
+$(document).ready(function () {
+    setupDashboardZPosition();
+});

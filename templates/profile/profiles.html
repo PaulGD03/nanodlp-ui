@@ -1,56 +1,57 @@
 {% extends "../base.html" %}
 {% block content %}
+
 <h2>
     <translate>Resin Profiles</translate>
 
-    <!-- Hack to only show button if the first profile exists for us to clone -->
-    {% if profiles %}
-        {% for profile in profiles %}
-            {% if profile.ProfileID == 1 %}
-                <!-- Athena profiles cannot be created from scratch, they must be cloned from an AFP -->
-                <a class="btn btn-default tip" href="/profile/clone/1" role="button"><span class="glyphicon glyphicon-plus"></span>
-                    <translate class="hide">Add a new resin profile</translate>
-                </a>
-            {% endif %}
-        {% endfor %}
-    {% endif %}
+    <span class="resin-profile-page-actions">
+        <!-- Athena profiles cannot be created from scratch; create one by cloning the first factory profile. -->
+        {% if profiles %}
+            {% for profile in profiles %}
+                {% if profile.ProfileID == 1 %}
+                    <a class="btn btn-default tip" href="/profile/clone/1" role="button">
+                        <span class="glyphicon glyphicon-plus"></span><translate>New Profile</translate>
+                        <translate class="hide">Create a new resin profile from the factory template</translate>
+                    </a>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
 
-
-    <a class="btn btn-default tip" href="/import"><span class="glyphicon glyphicon-import"></span>
-        <translate class="hide">Import a resin profile</translate>
-    </a>
-    
-    <!-- Resin Database Integration Button -->
-    <a class="btn btn-primary tip" href="#" id="resin-db-toggle" role="button">
-        <span class="glyphicon glyphicon-cloud"></span>
-        <translate class="hide">Browse Resin Database</translate>
-    </a>
+        <a class="btn btn-default tip" href="/import" role="button">
+            <span class="glyphicon glyphicon-import"></span><translate>Import Profile</translate>
+            <translate class="hide">Import a resin profile from a file</translate>
+        </a>
+    </span>
 </h2>
 
-<!-- Resin Database Integration Container -->
-<div id="resin-database-container" style="display: none; margin-top: 20px; margin-bottom: 20px;">
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <h3 class="panel-title">
-                <translate>Resin Profile Database</translate>
-                <span id="machine-type-badge" class="badge" style="display: none; margin-left: 10px;"></span>
-                <button type="button" class="close" id="resin-db-close" style="margin-top: -2px;">&times;</button>
-            </h3>
-        </div>
-        <div class="panel-body" style="padding: 0;">
-            <div id="resin-database-iframe-container" style="width: 100%; height: 800px; border: 1px solid #ddd;">
-                <iframe id="resin-database-iframe" 
-                        src="" 
-                        style="width: 100%; height: 100%; border: none;"
-                        title="Resin Database">
-                </iframe>
-            </div>
+<!-- Persistent Athena Resin Database bar. Clicking anywhere on the bar expands/collapses the existing iframe. -->
+<div class="athena-resin-db-panel">
+    <a href="#" id="resin-db-toggle" class="athena-resin-db-toggle" role="button" aria-expanded="false" aria-controls="resin-database-container">
+        <span class="glyphicon glyphicon-cloud athena-resin-db-icon"></span>
+        <span class="athena-resin-db-copy">
+            <span class="athena-resin-db-title"><translate>Athena Resin Database</translate></span>
+            <span class="athena-resin-db-description">
+                <translate>Pre-tested starting profiles for Athena printers. Exposure calibration is still recommended.</translate>
+            </span>
+        </span>
+        <span class="glyphicon glyphicon-chevron-down athena-resin-db-chevron"></span>
+    </a>
+
+    <div id="resin-database-container" style="display: none;">
+        <div id="resin-database-iframe-container">
+            <iframe id="resin-database-iframe"
+                    src=""
+                    title="Athena Resin Database">
+            </iframe>
         </div>
     </div>
 </div>
 
-<!-- Integration Script -->
+<!-- Existing Resin Database integration handles lazy iframe initialization and profile upload messages. -->
 <script src="/static/js/resin-database-integration.js"></script>
+
+<h4 class="local-resin-profiles-heading"><translate>Profiles on This Printer</translate></h4>
+
 <table class="table table-striped table-bordered model-list">
     <thead>
         <tr>
@@ -119,4 +120,3 @@
 </table>
 <br>
 {% endblock %}
-

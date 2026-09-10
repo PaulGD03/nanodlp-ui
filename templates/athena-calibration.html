@@ -15,7 +15,7 @@
                         <label for="calibration-model">Choose Calibration Model:</label>
                     </div>
                     <div class="col-md-8">
-                        <!--                        Populated by calibration.js on page load-->
+                        <!-- Populated by calibration.js on page load -->
                         <select id="calibration-model" class="form-control" name="calibration-model">
                         </select>
                     </div>
@@ -24,7 +24,7 @@
                         <label for="profile-id">Profile:</label>
                     </div>
                     <div class="col-md-8">
-                        <!--                        Populated by calibration.js on page load-->
+                        <!-- Populated by calibration.js on page load -->
                         <select id="profile-id" class="form-control" name="profile-id">
                         </select>
                     </div>
@@ -33,44 +33,119 @@
                         <label for="start-exposure">Set Starting Exposure Time (s):</label>
                     </div>
                     <div class="col-md-8">
-                        <input class="form-control" id="start-exposure" value="1.5" name="start-exposure" type="number"
-                               step="0.01" min="0.1">
+                        <input class="form-control"
+                               id="start-exposure"
+                               value="1.5"
+                               name="start-exposure"
+                               type="number"
+                               step="0.01"
+                               min="0.1">
                     </div>
-
 
                     <div class="col-md-4">
                         <label for="exposure-increment">Exposure Time Increment (s)</label>
                     </div>
                     <div class="col-md-8">
-                        <input class="form-control" id="exposure-increment" value="0.2" name="exposure-increment"
-                               type="number" step="0.01" min="0.1">
+                        <input class="form-control"
+                               id="exposure-increment"
+                               value="0.2"
+                               name="exposure-increment"
+                               type="number"
+                               step="0.01"
+                               min="0.1">
                     </div>
 
                     <span id="exposure-value-preview"></span><br/><br>
                 </form>
+
                 <div class="col-md-12 text-center">
-                    <button id="calibration-form-button-submit" class="btn btn-success"
-                            data-toggle="modal" data-target="#calibrationModal">Submit and Print
+                    <button id="calibration-form-button-submit"
+                            class="btn btn-success"
+                            data-toggle="modal"
+                            data-target="#calibrationModal">
+                        Submit and Print
                     </button>
                 </div>
-
             </div>
+
             <div class="col-md-4">
-                <img src="/static/shots/calibration-images/1.png" alt="An image of the calibration piece"
-                     style="width:100%" id="calibration-model-image"/>
+                <img src="/static/shots/calibration-images/1.png"
+                     alt="An image of the calibration piece"
+                     style="width:100%"
+                     id="calibration-model-image"/>
             </div>
         </div>
     </div>
+
     <div id="model-evaluation-instructions-row" class="row">
         <h4>How To Evaluate Calibration Model</h4>
 
         <div id="model-evaluation-1" class="evaluation-text">
-            Check out <a
-                href="https://docs.google.com/document/d/1aoMSE6GBGMcoYXNGfPP9s_Jg8vr1wQmmZuvqP3suago/edit?tab=t.0#bookmark=kix.5d6umuu6x6ur"
-                target="_blank">J3D's instructions</a> for a guide on how to read the RERF test.<br><br>
+            <p>
+                The Concepts 3D Exposure Calibration prints six test tiles using increasing exposure times.
+                Tile 1 uses the shortest exposure and Tile 6 uses the longest.
+            </p>
 
-            Once you find the optimal exposure time, you can print another type of calibration model to verify it, or
-            create a new resin profile with the normal exposure time you determined here.
+            <p>
+                After printing, wash and dry all six tiles thoroughly, then compare the fine details to determine
+                which exposure gives the best overall result.
+            </p>
+
+            <ul>
+                <li>
+                    <strong>Concepts3D logo:</strong>
+                    Look for crisp, complete lettering without bloating or merging.
+                </li>
+                <li>
+                    <strong>Holes and pins:</strong>
+                    A balanced number of visible holes and pins indicates a good exposure.
+                </li>
+                <li>
+                    <strong>Three triangles:</strong>
+                    The tips should meet cleanly in the center without a gap or blob.
+                </li>
+                <li>
+                    <strong>6 mm square:</strong>
+                    The square should measure close to 6.0 mm.
+                </li>
+                <li>
+                    <strong>Fine lines and gaps:</strong>
+                    Raised lines should remain separate while fine gaps remain open.
+                </li>
+            </ul>
+
+            <p>
+                For detailed evaluation examples, troubleshooting, Z-offset checks, and instructions for choosing
+                your final exposure time, open the full calibration guide:
+            </p>
+
+            <p>
+                <a href="https://help.concepts3d.ca/en-US/exposure-calibration-guide-8083022"
+                   target="_blank"
+                   rel="noopener noreferrer">
+                    <strong>Open the Concepts 3D Exposure Calibration Guide</strong>
+                </a>
+            </p>
+
+            <div style="margin-top: 20px; text-align: center;">
+                <a href="https://help.concepts3d.ca/en-US/exposure-calibration-guide-8083022"
+                   target="_blank"
+                   rel="noopener noreferrer">
+                    <img src="/static/shots/calibration-images/ExposureCalibration-RERF-QR.png"
+                         alt="QR code for the Concepts 3D Exposure Calibration Guide"
+                         style="width: 220px; max-width: 100%; height: auto;">
+                </a>
+
+                <p style="margin-top: 10px;">
+                    <strong>Scan the QR code to open the full calibration guide.</strong>
+                </p>
+            </div>
+
+            <p>
+                Once you identify the best tile, use that tile's exposure time as the normal-layer exposure
+                for your resin profile. If Tile 1 or Tile 6 is clearly best, run the calibration again with
+                the starting exposure shifted so the best result falls closer to the middle of the range.
+            </p>
         </div>
 
         <div id="model-evaluation-2" class="evaluation-text" style="display: none">
@@ -82,29 +157,53 @@
             create a new resin profile with the normal exposure time you determined here.
         </div>
     </div>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
 
 </div>
 
-<div class="modal fade" id="calibrationModal" tabindex="-1" role="dialog" aria-labelledby="calibrationModalLabel"
+<div class="modal fade"
+     id="calibrationModal"
+     tabindex="-1"
+     role="dialog"
+     aria-labelledby="calibrationModalLabel"
      aria-hidden="true">
+
     <div class="modal-dialog" role="document">
         <div class="modal-content">
+
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button"
+                        class="close"
+                        data-dismiss="modal"
+                        aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
+
                 <h5 class="modal-title" id="modalLabel">Please confirm setup</h5>
             </div>
+
             <div class="modal-body">
                 <div id="calibration-progress" style="display: none">
                     <span>This could take a few moments...</span>
+
                     <div class="progress text-center" style="display: block">
                         <div id="calibration-modal-progress-bar"
-                             class="progress-bar progress-bar-warning progress-bar-striped active" role="progressbar"
-                             aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0"></div>
+                             class="progress-bar progress-bar-warning progress-bar-striped active"
+                             role="progressbar"
+                             aria-valuenow="0"
+                             aria-valuemin="0"
+                             aria-valuemax="100"
+                             style="width: 0">
+                        </div>
+
                         <span style="color: black" id="upload-modal-progress-text"></span>
                     </div>
                 </div>
+
                 <div id="calibration-confirm">
                     <div>
                         <span>Before starting the print, ensure the following are properly installed:</span>
@@ -116,11 +215,16 @@
                     </div>
                 </div>
             </div>
+
             <div class="modal-footer">
-                <button id="calibration-form-confirm" type="submit" class="btn btn-default" form="calibration-form">
+                <button id="calibration-form-confirm"
+                        type="submit"
+                        class="btn btn-default"
+                        form="calibration-form">
                     Continue
                 </button>
             </div>
+
         </div>
     </div>
 </div>
