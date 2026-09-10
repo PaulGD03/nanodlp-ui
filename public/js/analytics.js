@@ -111,8 +111,8 @@ function renderChart(name, dataRows, series, chartConfig) {
     // Dark theme: match dashboard surfaces (grid, ticks, axes, cursor)
     opts.axes = opts.axes.map(ax => ({
         ...ax,
-        stroke: 'rgba(255,255,255,0.30)',
-        ticks: { ...(ax.ticks || {}), stroke: 'rgba(255,255,255,0.15)', width: 1 },
+        stroke: 'rgba(255,255,255,0.88)',
+        ticks: { ...(ax.ticks || {}), stroke: 'rgba(255,255,255,0.45)', width: 1 },
         grid: { ...(ax.grid || {}), stroke: 'rgba(255,255,255,0.06)', width: 1 },
     }));
     opts.cursor = { ...opts.cursor, stroke: 'rgba(255,255,255,0.55)' };
