@@ -214,10 +214,9 @@ input[type="range"].slider, input[type="range"] { accent-color: var(--brand-acce
 .video-container, .uplot-container { border-radius: var(--df-radius-md); background: var(--df-surface-0); border: 1px solid var(--df-border-subtle); }
 
 /* ---------- Stat grid — label eyebrow + value ---------- */
-.c3d-stat-grid { display: flex; flex-wrap: wrap; gap: 12px; }
+.c3d-stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 12px; }
 .c3d-stat {
-  flex: 1 1 120px;
-  min-width: 120px;
+  min-width: 0;
   background: var(--df-surface-0);
   border: 1px solid var(--df-border-subtle);
   border-radius: var(--df-radius-md);
@@ -241,25 +240,30 @@ input[type="range"].slider, input[type="range"] { accent-color: var(--brand-acce
 .c3d-stat--resin .c3d-stat-value { font-size: 13px; line-height: 1.6; }
 
 /* ---------- Machine Status (print progress) ---------- */
-.c3d-status { display: flex; gap: 18px; align-items: flex-start; flex-wrap: wrap; min-height: 200px; }
-.c3d-status-preview { flex: 0 1 320px; min-width: 220px; display: flex; flex-direction: column; gap: 10px; }
+.c3d-status { display: flex; gap: 18px; align-items: stretch; flex-wrap: wrap; min-height: 200px; }
+.c3d-status-preview { flex: 0 1 340px; min-width: 240px; display: flex; flex-direction: column; gap: 10px; }
 .c3d-preview-frame {
   position: relative;
   display: block;
+  flex: 1 1 auto;
   width: 100%;
-  aspect-ratio: 16 / 9;
+  min-height: 260px;
   background: #000;
   border: 1px solid var(--df-border-subtle);
   border-radius: var(--df-radius-md);
   overflow: hidden;
 }
 .c3d-preview-frame .image_enlarge { position: absolute; inset: 0; }
-.c3d-preview-frame .image_enlarge img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.c3d-preview-frame .image_enlarge img { width: 100%; height: 100%; object-fit: contain; display: block; }
 #change-preview { position: absolute; right: 8px; top: 8px; z-index: 2; cursor: pointer; }
 .c3d-preview-actions .btn { width: 100%; margin: 0; }
 .c3d-status-body { flex: 1 1 460px; min-width: 0; display: flex; flex-direction: column; }
-.c3d-status-progress { margin-top: 14px; }
-.c3d-status-progress .progress { margin-bottom: 6px; }
+.c3d-status-body .c3d-stat-grid { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); }
+.c3d-stat--action { grid-column: span 2; }
+.c3d-stat--action .c3d-stat-value { font-size: 16px; line-height: 1.35; }
+.c3d-status-progress { margin-top: 16px; }
+.c3d-status-progress .progress { height: 18px; margin-bottom: 0; }
+.c3d-status-progress .print-progress-text { font-size: 11px; line-height: 16px; padding-right: 8px; }
 .c3d-status-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 14px; flex-wrap: wrap; }
 .c3d-status-actions .btn { margin: 0; }
 .c3d-status-actions .c3d-force-stop { font-weight: 700; }
