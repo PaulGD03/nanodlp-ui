@@ -60,6 +60,9 @@ body {
   justify-content: center;
   min-height: 0;
 }
+.c3d-viewport-center ~ br {
+  display: none;
+}
 a { color: var(--brand-accent); }
 a:hover, a:focus { color: var(--brand-accent); filter: brightness(1.08); }
 
