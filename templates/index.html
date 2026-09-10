@@ -105,5 +105,21 @@
     el.textContent = g;
 })();
 </script>
+<script>
+(function () {
+    var wrap = document.querySelector('.c3d-viewport-center');
+    var footer = document.querySelector('.c3d-footer');
+    if (!wrap) return;
+    function fit() {
+        var top = wrap.getBoundingClientRect().top;
+        var footerHeight = footer ? footer.offsetHeight : 76;
+        var available = Math.floor(window.innerHeight - top - footerHeight) - 1;
+        wrap.style.minHeight = Math.max(0, available) + 'px';
+    }
+    fit();
+    window.addEventListener('load', fit);
+    window.addEventListener('resize', fit);
+})();
+</script>
 <script src='/static/js/updates-feed.js?{{version}}(c3dv2)'></script>
 {% endblock %}
