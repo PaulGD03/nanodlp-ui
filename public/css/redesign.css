@@ -348,6 +348,41 @@ a.c3d-badge:hover, a.c3d-badge:focus { text-decoration: none; color: var(--brand
 .c3d-list-meta { font-size: 12px; color: var(--df-text-muted); white-space: nowrap; }
 .c3d-list-actions { display: flex; align-items: center; gap: 6px; margin-left: auto; flex-shrink: 0; }
 .c3d-list-actions .btn { margin: 0; min-height: 30px; padding: 4px 9px; font-size: 12px; }
+/* ---------- Resin library: hero default, toolbar, chips ---------- */
+.c3d-list--hero { margin-bottom: 4px; }
+.c3d-list-row--default {
+  background-color: color-mix(in srgb, var(--df-success), var(--df-surface-0) 90%);
+}
+.c3d-list-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin: 14px 0 8px;
+}
+.c3d-list-toolbar .c3d-section-label { margin: 0; }
+.c3d-count { color: var(--df-text-muted); font-weight: 400; }
+.c3d-chips { display: flex; gap: 6px; flex-wrap: wrap; }
+.c3d-chip {
+  min-height: 34px;
+  padding: 5px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  border-radius: 999px;
+  border: 1px solid var(--df-border-strong);
+  background-color: transparent;
+  color: var(--df-text-muted);
+  cursor: pointer;
+  transition: background-color 140ms ease, border-color 140ms ease, color 140ms ease;
+}
+.c3d-chip:hover { color: var(--df-text-strong); border-color: var(--brand-accent); }
+.c3d-chip.is-active {
+  color: var(--brand-accent-ink);
+  background-color: var(--brand-accent);
+  border-color: var(--brand-accent);
+}
+.c3d-lock { color: var(--brand-accent); font-size: 12px; flex-shrink: 0; }
 /* Printing: the control cards are irrelevant, so Machine Status takes their
    place in the left column and the webcam stretches alongside it. */
 body.c3d-printing .c3d-dash-row .control-row { display: none !important; }

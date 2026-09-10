@@ -43,33 +43,134 @@
 <script src="/static/js/resin-database-integration.js"></script>
 
 {% if profiles %}
-<div class="c3d-list">
-    {% for profile in profiles %}
-    <div class="c3d-list-row">
-        <div class="c3d-list-main">
-            <span class="c3d-list-title">{{profile.Title}}</span>
-            {% if defaultProfile==profile.ProfileID %}
-            <span class="c3d-badge c3d-badge--default"><span class="glyphicon glyphicon-ok"></span> <translate>Default</translate></span>
-            {% endif %}
-            <span class="c3d-list-meta"><translate>Layer</translate> {{profile.Depth|floatformat}} µm &nbsp;·&nbsp; <translate>Cure</translate> {{profile.CureTime|floatformat}} s</span>
+<div id="c3d-resin-default">
+    <div class="c3d-section-label"><translate>Current default</translate></div>
+    <div class="c3d-list c3d-list--hero">
+        {% for profile in profiles %}
+        {% if defaultProfile==profile.ProfileID %}
+        <div class="c3d-list-row c3d-list-row--default">
+            <div class="c3d-list-main">
+                {% if profile.ManufacturerLock %}<span class="glyphicon glyphicon-lock c3d-lock" title="Factory profile"></span>{% endif %}
+                <span class="c3d-list-title">{{profile.Title}}</span>
+                <span class="c3d-badge c3d-badge--default"><span class="glyphicon glyphicon-ok"></span> <translate>Default</translate></span>
+                <span class="c3d-list-meta"><translate>Layer</translate> {{profile.Depth|floatformat}} µm &nbsp;·&nbsp; <translate>Cure</translate> {{profile.CureTime|floatformat}} s</span>
+            </div>
+            <div class="c3d-list-actions">
+                {% if !profile.ManufacturerLock %}
+                <a class="btn c3d-ghost c3d-btn-i tip" href="/profile/edit/{{profile.ProfileID}}"><span class="glyphicon glyphicon-pencil"></span><translate class="hide">Edit</translate></a>
+                {% endif %}
+                <a class="btn c3d-ghost c3d-btn-i tip" href="/profile/clone/{{profile.ProfileID}}"><span class="glyphicon glyphicon-duplicate"></span><translate class="hide">Clone</translate></a>
+                <a class="btn c3d-ghost c3d-btn-i tip" href="/profile/compare/{{profile.ProfileID}}"><span class="glyphicon glyphicon-random"></span><translate class="hide">Compare</translate></a>
+                <a class="btn c3d-ghost c3d-btn-i tip" href="/profile/export/{{profile.ProfileID}}"><span class="glyphicon glyphicon-export"></span><translate class="hide">Export</translate></a>
+                {% if !profile.ManufacturerLock %}
+                <a class="btn c3d-ghost c3d-ghost-danger c3d-btn-i ask tip" data-ask="delete-confirm" href="/profile/delete/{{profile.ProfileID}}"><span class="glyphicon glyphicon-trash"></span><translate class="hide">Delete</translate></a>
+                {% endif %}
+            </div>
         </div>
-        <div class="c3d-list-actions">
-            {% if defaultProfile!=profile.ProfileID %}
-            <a class="c3d-badge c3d-badge--set tip" href="/profile/default/{{profile.ProfileID}}"><span class="glyphicon glyphicon-ok"></span> <translate>Set default</translate></a>
-            {% endif %}
-            {% if !profile.ManufacturerLock %}
-            <a class="btn c3d-ghost c3d-btn-i tip" href="/profile/edit/{{profile.ProfileID}}"><span class="glyphicon glyphicon-pencil"></span><translate class="hide">Edit</translate></a>
-            {% endif %}
-            <a class="btn c3d-ghost c3d-btn-i tip" href="/profile/clone/{{profile.ProfileID}}"><span class="glyphicon glyphicon-duplicate"></span><translate class="hide">Clone</translate></a>
-            <a class="btn c3d-ghost c3d-btn-i tip" href="/profile/compare/{{profile.ProfileID}}"><span class="glyphicon glyphicon-random"></span><translate class="hide">Compare</translate></a>
-            <a class="btn c3d-ghost c3d-btn-i tip" href="/profile/export/{{profile.ProfileID}}"><span class="glyphicon glyphicon-export"></span><translate class="hide">Export</translate></a>
-            {% if !profile.ManufacturerLock %}
-            <a class="btn c3d-ghost c3d-ghost-danger c3d-btn-i ask tip" data-ask="delete-confirm" href="/profile/delete/{{profile.ProfileID}}"><span class="glyphicon glyphicon-trash"></span><translate class="hide">Delete</translate></a>
-            {% endif %}
+        {% endif %}
+        {% endfor %}
+    </div>
+</div>
+
+<div id="c3d-resin-all">
+    <div class="c3d-list-toolbar">
+        <span class="c3d-section-label"><translate>All resins</translate> <span id="c3d-resin-count" class="c3d-count"></span></span>
+        <div class="c3d-chips" role="group" aria-label="Sort resins">
+            <button type="button" class="c3d-chip" data-sort="name" title="Tap again to reset"><translate>Name</translate></button>
+            <button type="button" class="c3d-chip" data-sort="depth-asc" title="Tap again to reset"><translate>Thinnest</translate></button>
+            <button type="button" class="c3d-chip" data-sort="depth-desc" title="Tap again to reset"><translate>Thickest</translate></button>
+            <button type="button" class="c3d-chip" data-sort="cure-asc" title="Tap again to reset"><translate>Fastest</translate></button>
+            <button type="button" class="c3d-chip" data-sort="cure-desc" title="Tap again to reset"><translate>Slowest</translate></button>
         </div>
     </div>
-    {% endfor %}
+    <div class="c3d-list" id="c3d-resin-list">
+        {% for profile in profiles %}
+        {% if defaultProfile!=profile.ProfileID %}
+        <div class="c3d-list-row" data-idx="{{forloop.Counter}}" data-depth="{{profile.Depth}}" data-cure="{{profile.CureTime}}">
+            <div class="c3d-list-main">
+                {% if profile.ManufacturerLock %}<span class="glyphicon glyphicon-lock c3d-lock" title="Factory profile"></span>{% endif %}
+                <span class="c3d-list-title">{{profile.Title}}</span>
+                <span class="c3d-list-meta"><translate>Layer</translate> {{profile.Depth|floatformat}} µm &nbsp;·&nbsp; <translate>Cure</translate> {{profile.CureTime|floatformat}} s</span>
+            </div>
+            <div class="c3d-list-actions">
+                <a class="c3d-badge c3d-badge--set tip" href="/profile/default/{{profile.ProfileID}}"><span class="glyphicon glyphicon-ok"></span> <translate>Set default</translate></a>
+                {% if !profile.ManufacturerLock %}
+                <a class="btn c3d-ghost c3d-btn-i tip" href="/profile/edit/{{profile.ProfileID}}"><span class="glyphicon glyphicon-pencil"></span><translate class="hide">Edit</translate></a>
+                {% endif %}
+                <a class="btn c3d-ghost c3d-btn-i tip" href="/profile/clone/{{profile.ProfileID}}"><span class="glyphicon glyphicon-duplicate"></span><translate class="hide">Clone</translate></a>
+                <a class="btn c3d-ghost c3d-btn-i tip" href="/profile/compare/{{profile.ProfileID}}"><span class="glyphicon glyphicon-random"></span><translate class="hide">Compare</translate></a>
+                <a class="btn c3d-ghost c3d-btn-i tip" href="/profile/export/{{profile.ProfileID}}"><span class="glyphicon glyphicon-export"></span><translate class="hide">Export</translate></a>
+                {% if !profile.ManufacturerLock %}
+                <a class="btn c3d-ghost c3d-ghost-danger c3d-btn-i ask tip" data-ask="delete-confirm" href="/profile/delete/{{profile.ProfileID}}"><span class="glyphicon glyphicon-trash"></span><translate class="hide">Delete</translate></a>
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+        {% endfor %}
+    </div>
 </div>
+
+<script>
+(function () {
+    'use strict';
+    var hero = document.getElementById('c3d-resin-default');
+    if (hero && !hero.querySelector('.c3d-list-row')) hero.style.display = 'none';
+
+    var list = document.getElementById('c3d-resin-list');
+    var chips = Array.prototype.slice.call(document.querySelectorAll('.c3d-chip'));
+    if (!list) return;
+    if (!list.querySelector('.c3d-list-row')) {
+        var all = document.getElementById('c3d-resin-all');
+        if (all) all.style.display = 'none';
+        return;
+    }
+
+    function rows() {
+        return Array.prototype.slice.call(list.children);
+    }
+    function num(row, key) {
+        var v = parseFloat(row.getAttribute('data-' + key));
+        return isNaN(v) ? 0 : v;
+    }
+    function title(row) {
+        var t = row.querySelector('.c3d-list-title');
+        return t ? t.textContent.trim().toLowerCase() : '';
+    }
+    function decorate() {
+        var c = document.getElementById('c3d-resin-count');
+        if (c) c.textContent = '(' + rows().length + ')';
+    }
+    function setActive(mode) {
+        chips.forEach(function (c) {
+            c.classList.toggle('is-active', c.getAttribute('data-sort') === mode);
+        });
+    }
+    function sortBy(mode) {
+        var r = rows(), cmp = null;
+        if (mode === 'name') cmp = function (a, b) { return title(a) < title(b) ? -1 : (title(a) > title(b) ? 1 : 0); };
+        else if (mode === 'depth-asc') cmp = function (a, b) { return num(a, 'depth') - num(b, 'depth'); };
+        else if (mode === 'depth-desc') cmp = function (a, b) { return num(b, 'depth') - num(a, 'depth'); };
+        else if (mode === 'cure-asc') cmp = function (a, b) { return num(a, 'cure') - num(b, 'cure'); };
+        else if (mode === 'cure-desc') cmp = function (a, b) { return num(b, 'cure') - num(a, 'cure'); };
+        if (cmp) r.sort(cmp).forEach(function (el) { list.appendChild(el); });
+        setActive(mode);
+    }
+    function reset() {
+        rows().sort(function (a, b) {
+            return (+a.getAttribute('data-idx')) - (+b.getAttribute('data-idx'));
+        }).forEach(function (el) { list.appendChild(el); });
+        setActive(null);
+    }
+    chips.forEach(function (c) {
+        c.addEventListener('click', function (e) {
+            e.preventDefault();
+            if (c.classList.contains('is-active')) reset();
+            else sortBy(c.getAttribute('data-sort'));
+        });
+    });
+    decorate();
+})();
+</script>
 {% else %}
 <div class="c3d-empty"><translate>No Profile</translate></div>
 {% endif %}
