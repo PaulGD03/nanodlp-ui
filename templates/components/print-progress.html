@@ -71,14 +71,14 @@
 
         <div class="c3d-status-actions">
             {% if autoShutdown %}
-            <a class="btn c3d-ghost c3d-ghost-gold c3d-btn-i c3d-shutdown" href="/printer/auto-shutdown/disable"><span class="glyphicon glyphicon-off"></span><translate>Disable Shutdown After Print</translate></a>
+            <a class="btn c3d-ghost c3d-ghost-gold c3d-shutdown" href="/printer/auto-shutdown/disable"><span class="c3d-btn-i"><span class="glyphicon glyphicon-off"></span><translate>Disable Shutdown After Print</translate></span></a>
             {% else %}
-            <a class="ask btn c3d-ghost c3d-ghost-info c3d-btn-i c3d-shutdown" href="/printer/auto-shutdown/enable" data-ask="shutdown-after-print-confirm" translate>Shutdown After Print</a>
+            <a class="ask btn c3d-ghost c3d-ghost-info c3d-shutdown" href="/printer/auto-shutdown/enable" data-ask="shutdown-after-print-confirm" translate><span class="c3d-btn-i">Shutdown After Print</span></a>
             {% endif %}
-            <a class="ask btn c3d-ghost c3d-ghost-gold c3d-btn-i print-btn pause-obj" href="/printer/unpause"><span class="glyphicon glyphicon-play"></span><translate>Resume</translate></a>
-            <a class="ask btn c3d-ghost c3d-ghost-gold c3d-btn-i print-btn printing-obj" href="/printer/pause"><span class="glyphicon glyphicon-pause"></span><translate>Pause</translate></a>
-            <a class="ask btn c3d-ghost c3d-ghost-danger c3d-btn-i print-btn" href="/printer/stop" data-ask="stop-confirm" translate><span class="glyphicon glyphicon-stop"></span> Stop</a>
-            <a class="ask btn btn-danger c3d-btn-i print-btn c3d-force-stop" href="/printer/force-stop" data-ask="force-stop-confirm" translate><span class="glyphicon glyphicon-exclamation-sign"></span> Force Stop</a>
+            <a class="ask btn c3d-ghost c3d-ghost-gold print-btn pause-obj" href="/printer/unpause"><span class="c3d-btn-i"><span class="glyphicon glyphicon-play"></span><translate>Resume</translate></span></a>
+            <a class="ask btn c3d-ghost c3d-ghost-gold print-btn printing-obj" href="/printer/pause"><span class="c3d-btn-i"><span class="glyphicon glyphicon-pause"></span><translate>Pause</translate></span></a>
+            <a class="ask btn c3d-ghost c3d-ghost-danger print-btn" href="/printer/stop" data-ask="stop-confirm" translate><span class="c3d-btn-i"><span class="glyphicon glyphicon-stop"></span> Stop</span></a>
+            <a class="ask btn btn-danger print-btn c3d-force-stop" href="/printer/force-stop" data-ask="force-stop-confirm" translate><span class="c3d-btn-i"><span class="glyphicon glyphicon-exclamation-sign"></span> Force Stop</span></a>
         </div>
 
         <translate class="hide" id="stop-confirm">Are you sure you want to stop printing? It will stop after the current layer is completed. If you want to abort the current layer, use Force Stop.</translate>
