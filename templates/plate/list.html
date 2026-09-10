@@ -102,7 +102,7 @@
 				<a href="/plate/preview/{{ row.PlateID }}" translate>Source file contains faulty structure.</a>
 					{% if !row.Repaired %} &nbsp;
 					<a class="ask req-no-slicing btn c3d-ghost repair svg tip" href="/plate/repair-regenerate/{{ row.PlateID }}"
-					data-ask="regenerate-confirm">{{ icon(repair_icon) }}<translate class="hide">Repair and re-slice</translate></a>
+					data-ask="regenerate-confirm"><span class="c3d-btn-i">{{ icon(repair_icon) }}<translate>Repair</translate></span></a>
 					{% endif %}
 			</div>
 			{% endif %}
@@ -192,6 +192,7 @@
 			<div class="hide sort">{{row.LastPrint}}</div>
 		</td>
 		<td>
+		<div class="c3d-job-actions">
 		{% if status.Printing == false %}
 			{% if !row.profileError %}
 			<form action="/printer/start/{{ row.PlateID }}" method="post" class="{% if row.PlateID == status.PlateID && status.ResumeID<row.LayersCount %}{% else %}hide{% endif %}">
@@ -200,46 +201,40 @@
 						value="{% if row.PlateID == status.PlateID && status.ResumeID<row.LayersCount %}{{status.ResumeID}}{% endif %}"
 						type="number" min="0" size="3" max="{{row.LayersCount}}">
 					<span class="input-group-btn">
-					<button class="btn btn-default layer-id" disabled>/ {{row.LayersCount}}</button>
+					<button class="btn c3d-ghost-info layer-id" disabled>/ {{row.LayersCount}}</button>
 					<translate class="hide">Layer ID</translate>
 					{% if !row.profileError %}
 					<button type="submit" class="btn btn-warning resume req-processed tip"
 						data-confirm='Are you sure you want to resume plate {{row.Path}} from layer [LayerID]?'
-						value="Submit"><span class="glyphicon glyphicon-play"></span><span class="glyphicon glyphicon-pause"></span>
-						<translate class="hide">Resume from the middle</translate>
-					</button>
+						value="Submit"><span class="c3d-btn-i"><span class="glyphicon glyphicon-play"></span><span class="glyphicon glyphicon-pause"></span><translate>Resume</translate></span></button>
 					{% endif %}
 					</span>
 				</span>
 			</form>
 			<a class="btn btn-success ask req-processed tip" href="/printer/start/{{ row.PlateID }}"
-				data-ask="start-confirm"><span class="glyphicon glyphicon-play"><translate class="hide">Start</translate></span>
+				data-ask="start-confirm"><span class="c3d-btn-i"><span class="glyphicon glyphicon-play"></span><translate>Start Print</translate></span>
 			</a>
 			{% endif %}
 			{% else %}
 			{% if row.PlateID == status.PlateID %}
 			<div class="input-append">
 				{% if status.Halted %}
-					<a class="ask btn-danger btn" href="/printer/force-stop" data-ask="force-stop-confirm" translate>Force Stop</a>
+					<a class="ask btn-danger btn" href="/printer/force-stop" data-ask="force-stop-confirm" translate><span class="c3d-btn-i">Force Stop</span></a>
 				{% else %}
-					<a class="btn btn-danger ask tip" href="/printer/stop" title="stop" data-ask="stop-confirm">
-						<span class="glyphicon glyphicon-stop"></span>
-						<translate class="hide">Stop the job</translate>
-					</a>
+					<a class="btn btn-danger ask tip" href="/printer/stop" title="stop" data-ask="stop-confirm"><span class="c3d-btn-i"><span class="glyphicon glyphicon-stop"></span><translate>Stop</translate></span></a>
 				{% endif %}
 				<span class="add-on"><span translate>Layer</span> {{ status.ResumeID }} <span translate>of</span>
 					{{row.LayersCount}}</span>
 			</div>
 			{% endif %}
 			{% endif %}
-			<a class="btn c3d-ghost tip" href="/plate/preview/{{ row.PlateID }}"><span
-					class="glyphicon glyphicon-eye-open"><translate class="hide">Preview</translate></span></a>
+			<a class="btn c3d-ghost tip" href="/plate/preview/{{ row.PlateID }}"><span class="c3d-btn-i"><span class="glyphicon glyphicon-eye-open"></span><translate>Preview</translate></span></a>
 			{% if row.Type=="stl" && !row.Repaired %}
 			<a class="btn btn-default repair tip svg" href="/plate/repair/{{ row.PlateID }}">{{ icon(repair_icon) }}<translate class="hide">Repair</translate></a>
 			{% endif %}
 			<div class="btn-group">
-				<button id="show-more-{{ row.PlateID }}" type="button" class="btn c3d-ghost tip dropdown-toggle list-more-button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-					<span class="glyphicon glyphicon-option-vertical" style="pointer-events: none"></span> <translate class="hide">More</translate>
+				<button id="show-more-{{ row.PlateID }}" type="button" class="btn c3d-ghost-info tip dropdown-toggle list-more-button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					<span class="c3d-btn-i"><span class="glyphicon glyphicon-option-vertical" style="pointer-events: none"></span><translate>More Options</translate></span>
 				</button>
 				<ul class="dropdown-menu">					
 					<li><a href="#" class="print-from-middle"><span
@@ -302,19 +297,18 @@
 				{% if printAfterSlice == row.PlateID %}
 				<span class="start-after-slice">
 					<a class="btn btn-warning ask" href="/printer/start-after-slice/{{ row.PlateID }}"
-						data-ask="start-confirm"><span class="glyphicon glyphicon-stop"></span>
-						<translate>Cancel Scheduled Print</translate>
+						data-ask="start-confirm"><span class="c3d-btn-i"><span class="glyphicon glyphicon-stop"></span><translate>Cancel Scheduled Print</translate></span>
 					</a>
 				</span>
 				{% else %}
 				<span class="start-after-slice">
-					<a class="btn btn-default ask" href="/printer/start-after-slice/{{ row.PlateID }}"
-						data-ask="start-confirm"><span class="glyphicon glyphicon-play"></span>
-						<translate>Print After Sliced</translate>
+					<a class="btn c3d-ghost-info ask" href="/printer/start-after-slice/{{ row.PlateID }}"
+						data-ask="start-confirm"><span class="c3d-btn-i"><span class="glyphicon glyphicon-play"></span><translate>Print After Sliced</translate></span>
 					</a>
 				</span>
 				{% endif %}
 			{% endif %}
+		</div>
 		</td>
 	</tr>
 	{% endif %}{% endfor %}

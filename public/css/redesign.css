@@ -879,3 +879,16 @@ table#plates.table-bordered > tbody > tr > td { border-color: var(--df-border-su
   outline: none;
 }
 .c3d-led-btn .glyphicon { font-size: 11px; }
+/* ---------- Job action column: vertically stacked, labeled buttons ---------- */
+#plates .c3d-job-actions { display: flex; flex-direction: column; align-items: stretch; gap: 6px; min-width: 172px; }
+#plates .c3d-job-actions > .btn,
+#plates .c3d-job-actions > .btn-group,
+#plates .c3d-job-actions > form,
+#plates .c3d-job-actions > .start-after-slice { margin: 0; width: 100%; }
+#plates .c3d-job-actions .btn-group { display: flex; }
+#plates .c3d-job-actions .btn-group > .btn { flex: 1; }
+#plates .c3d-job-actions .start-after-slice { display: flex; }
+#plates .c3d-job-actions .start-after-slice > .btn { flex: 1; }
+#plates .c3d-job-actions form .input-group { width: 100%; }
+#plates .c3d-job-actions form .input-group .form-control { min-width: 0; }
+.c3d-btn-i svg { width: 1em; height: 1em; flex-shrink: 0; }
