@@ -1716,3 +1716,127 @@ body:has(.c3d-preview-layout) > br { display: none; }
     color-mix(in srgb, var(--brand-accent), var(--df-surface-2) 34%)
   );
 }
+
+/* ---------- Software update page ----------
+   Same one-viewport idiom as the layer preview: the readouts and the channel
+   switcher are fixed rows and the changelog takes the leftover height, so the
+   release notes scroll inside the page instead of running it off the screen
+   (the endpoint returns every release newer than the installed build). */
+.c3d-upgrade-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  height: calc(100vh - 142px);
+  min-height: 520px;
+}
+/* the shell appends three <br> after the content block: 60px that would push
+   the document past the viewport */
+.c3d-upgrade-layout ~ br { display: none; }
+.c3d-upgrade-layout > .c3d-page-head { flex: 0 0 auto; padding-bottom: 0; }
+.c3d-upgrade-meta,
+.c3d-upgrade-channels { flex: 0 0 auto; }
+.c3d-upgrade-log { display: flex; flex-direction: column; flex: 1 1 auto; min-height: 0; }
+@media (max-height: 760px), (max-width: 991px) {
+  .c3d-upgrade-layout { height: auto; min-height: 0; }
+  .c3d-changelog { max-height: 60vh; }
+}
+
+/* readouts — four tiles then the image string on its own full-width row */
+.c3d-upgrade-stats { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.c3d-upgrade-stats .c3d-stat { padding: 7px 12px; }
+.c3d-upgrade-stats .c3d-stat--wide { grid-column: 1 / -1; }
+.c3d-upgrade-stats .c3d-stat-value--mono {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 12.5px;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+@media (max-width: 1199px) { .c3d-upgrade-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 767px) { .c3d-upgrade-stats { grid-template-columns: minmax(0, 1fr); } }
+
+/* update state chip (checking -> available | current | error) */
+.c3d-update-state {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 36px;
+  padding: 0 12px;
+  border: 1px solid var(--df-border-subtle);
+  border-radius: var(--df-radius-sm);
+  background-color: var(--df-surface-0);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--df-text-strong);
+}
+.c3d-update-dot { flex: 0 0 auto; width: 8px; height: 8px; border-radius: 50%; background-color: var(--df-text-muted); }
+.c3d-update-state.is-checking .c3d-update-dot { background-color: var(--df-warn); animation: c3d-update-pulse 1.2s ease-in-out infinite; }
+.c3d-update-state.is-available { border-color: color-mix(in srgb, var(--brand-accent), transparent 45%); }
+.c3d-update-state.is-available .c3d-update-dot { background-color: var(--brand-accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--brand-accent), transparent 76%); }
+.c3d-update-state.is-available #update-state-text { color: var(--brand-accent); }
+.c3d-update-state.is-current .c3d-update-dot { background-color: var(--df-success); }
+.c3d-update-state.is-error { border-color: color-mix(in srgb, var(--df-danger), transparent 45%); }
+.c3d-update-state.is-error .c3d-update-dot { background-color: var(--df-danger); }
+.c3d-update-state.is-error #update-state-text { color: var(--df-danger); }
+@keyframes c3d-update-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+/* the update CTA is revealed by removeClass(), which strips every class on the
+   element, so this one has to be styled by id */
+#btn-update-container { display: inline-flex; }
+
+/* changelog — the endpoint sends h5/h6/div>p with </br> separators */
+.c3d-changelog {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: auto;
+  padding-right: 8px;
+  scrollbar-gutter: stable;
+}
+.c3d-changelog > br { display: none; }
+.c3d-changelog p:has(> br:only-child) { display: none; }
+.c3d-changelog h5 {
+  margin: 16px 0 10px;
+  padding-top: 14px;
+  border-top: 1px solid var(--df-border-subtle);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--brand-accent);
+}
+.c3d-changelog > h5:first-child { margin-top: 0; padding-top: 0; border-top: 0; }
+.c3d-changelog h6 {
+  margin: 12px 0 4px;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--df-indicator);
+}
+.c3d-changelog p,
+.c3d-changelog li {
+  margin: 0 0 8px;
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--df-text-muted);
+}
+.c3d-changelog ul { margin: 0 0 8px; padding-left: 18px; }
+.c3d-changelog a { color: var(--brand-accent); }
+.c3d-changelog div { margin: 0; }
+.c3d-upgrade-empty { margin: 0; font-size: 13px; color: var(--df-text-muted); }
+
+/* channel switcher — the running channel is the lit chip */
+.c3d-channel-group { display: flex; flex-wrap: wrap; gap: 6px; }
+.c3d-channel-btn { flex: 0 1 auto; min-width: 74px; }
+.c3d-channel-btn.is-active {
+  background-color: color-mix(in srgb, var(--brand-accent), var(--df-surface-1) 76%);
+  border-color: var(--brand-accent);
+  color: var(--brand-accent);
+}
+.c3d-channel-btn.is-active:hover,
+.c3d-channel-btn.is-active:focus { color: var(--brand-accent); }
+
+/* progress modal */
+.c3d-update-progress-message { margin: 14px 0 6px; text-align: center; font-size: 13px; color: var(--df-text-strong); }
+.c3d-update-hint { margin: 0; text-align: center; font-size: 12px; line-height: 1.5; color: var(--df-text-muted); }
+#update_notification .modal-body { padding: 18px 20px 20px; }
+#update_notification .progress { margin-bottom: 0; }

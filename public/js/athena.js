@@ -475,24 +475,31 @@ function update_channel() {
 		url: "/static/channel",
 		cache: false,
 		success: function (result) {
-			channel = result;
-			$("#channel").html("Current Software Channel: " + result);
+			channel = result.trim();
+			$("#channel").text(channel);
+			mark_active_channel(channel);
 			update_changelog();
 		},
 		error: function (result) {
 			channel = "stable";
-			$("#channel").html("Current Software Channel: " + channel);
+			$("#channel").text(channel);
+			mark_active_channel(channel);
 			update_changelog();
 		}
 	});
+}
+// The page's labels live in the template now, so the JS only writes the value.
+function mark_active_channel(name) {
+	$(".c3d-channel-btn").removeClass("is-active");
+	$("#btn-" + name).addClass("is-active");
 }
 function update_printertype() {
 	$.ajax({
 		url: "/static/printer_type",
 		cache: false,
 		success: function (result) {
-			printer_type = result;
-			$("#printer_type").html("Printer Type: " + result);
+			printer_type = result.trim();
+			$("#printer_type").text(printer_type);
 			update_changelog();
 			aegis_checkbox_init();
 		}
@@ -504,11 +511,11 @@ function update_image_version() {
 		url: "/static/image_version",
 		cache: false,
 		success: function (result) {
-			image_version = result;
-			$("#image_version").html("Image Version: " + result);
+			image_version = result.trim();
+			$("#image_version").text(image_version);
 			parts = image_version.split('+');
 			version_str = parts[1];
-			$("#version_str").html("Upgrade from Version: " + parts[1]);
+			$("#version_str").text(parts[1]);
 			update_changelog();
 		}
 	});
@@ -541,18 +548,29 @@ function update_changelog(){
 					version_str.html("Update Available");
 					version_str.addClass("label");
 					version_str.addClass("label-success");
+					set_update_state("available", "Update available");
 				}
 				else{
 					version_str.html("Build: "+parts[1]);
+					set_update_state("current", "Up to date");
 				}
 			},
 			error: function( result){
 				console.error('Error: ${result}');
+				set_update_state("error", "Could not reach the update server");
 			}
 
 		});
 
 	}
+}
+
+// The header chip on the upgrade page: checking -> available | current | error.
+function set_update_state(state, text) {
+	let chip = $("#update-state");
+	if (chip.length === 0) return;
+	chip.removeClass("is-checking is-available is-current is-error").addClass("is-" + state);
+	$("#update-state-text").text(text);
 }
 
 async function changeUpdateChannel(channel) {

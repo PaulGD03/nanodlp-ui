@@ -4,68 +4,84 @@
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h4 class="modal-title" id="modalLabelSmall"><center>Software Update</center></h4>
+					<h4 class="modal-title" id="modalLabelSmall"><translate>Software Update</translate></h4>
 				</div>
 				<div class="modal-body">
 					<div class="progress">
-						<div id="theBar" class="progress-bar progress-bar-warning progress-bar-striped active" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
+						<div id="theBar" class="progress-bar progress-bar-main progress-bar-striped active" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
 						0%
 						</div>
 					</div>
-					<div>
-						<p style="text-align: center;" id="progress-message"></p>
-						<div style="text-align: center;">
-							This page will reload automatically</br> please check the screen of your printer for further information
-						</div>
-					</div>
+					<p class="c3d-update-progress-message" id="progress-message"></p>
+					<p class="c3d-update-hint"><translate>This page will reload automatically, please check the screen of your printer for further information.</translate></p>
 				</div>
-			</div> 
+			</div>
 		</div>
 	</div>
-					
-	<div class="row">
-		<div class="col-md-12">
-			<h1 id="version_str" translate></h1>
-			<div class="alert">
-				<dt>
-				<li id="channel" translate></li>
-				<li id="printer_type" translate></li>
-				<li id="image_version" translate></li>
-				<li id="nanodlp_build" translate>NanoDLP Build: {{version}}</li>
-				</dt>
-			</div>
-			<br>
-			<br>
-			<br>
 
-			<h4> Changelog </h4>
-			<div id="changelog-display">
-			Nothing to see here (yet)
+	<div class="c3d-upgrade-layout">
+		<div class="c3d-page-head">
+			<div>
+				<div class="c3d-page-eyebrow"><translate>System</translate></div>
+				<h1 class="c3d-page-title"><translate>Software Update</translate></h1>
 			</div>
-			<br>
-			<br>
-			<br>
-			<br>
-			<br>
-			<br>
-			<div id="btn-update-container" class="{% if viewMode == 0 %}hidden{% endif %}">
-				<button id="btn-update" class="btn btn-danger" translate>Start Software Update</button>
-				<br>
-				<br>
-				<br>
+			<div class="c3d-page-actions">
+				<span id="update-state" class="c3d-update-state is-checking">
+					<span class="c3d-update-dot"></span><span id="update-state-text"><translate>Checking for updates</translate></span>
+				</span>
+				<div id="btn-update-container" class="{% if viewMode == 0 %}hidden{% endif %}">
+					<button id="btn-update" class="btn btn-primary c3d-btn-i"><span class="glyphicon glyphicon-cloud-download"></span><translate>Start Software Update</translate></button>
+				</div>
 			</div>
-			
-			<div id="Channel Change buttons" class="{% if viewMode == 0 %}hidden{% endif %}">
-				<h4> Switch Software channel (reboot required) </h4>
-				<br>
-				<button id="btn-lts" class="btn btn-danger" translate>LTS</button >
-				<button id="btn-stable" class="btn btn-danger" translate>Stable</button>
-				<button id="btn-beta" class="btn btn-danger" translate>Beta</button>
-				<button id="btn-alpha" class="btn btn-danger" translate>Alpha</button>
-				<button id="btn-master" class="btn btn-danger" translate>Master</button>
+		</div>
+
+		<div class="c3d-panel c3d-upgrade-meta">
+			<div class="c3d-stat-grid c3d-upgrade-stats">
+				<div class="c3d-stat">
+					<span class="c3d-stat-label"><translate>Channel</translate></span>
+					<span class="c3d-stat-value" id="channel"></span>
+				</div>
+				<div class="c3d-stat">
+					<span class="c3d-stat-label"><translate>Current Version</translate></span>
+					<span class="c3d-stat-value" id="version_str"></span>
+				</div>
+				<div class="c3d-stat">
+					<span class="c3d-stat-label"><translate>NanoDLP Build</translate></span>
+					<span class="c3d-stat-value" id="nanodlp_build">{{version}}</span>
+				</div>
+				<div class="c3d-stat">
+					<span class="c3d-stat-label"><translate>Printer Type</translate></span>
+					<span class="c3d-stat-value" id="printer_type"></span>
+				</div>
+				<div class="c3d-stat c3d-stat--wide">
+					<span class="c3d-stat-label"><translate>Image Version</translate></span>
+					<span class="c3d-stat-value c3d-stat-value--mono" id="image_version"></span>
+				</div>
 			</div>
-			
+		</div>
+
+		<div class="c3d-panel c3d-upgrade-log">
+			<div class="c3d-panel-head">
+				<span class="c3d-section-label"><translate>Changelog</translate></span>
+				<span class="c3d-count"><translate>Updates newer than the installed version</translate></span>
+			</div>
+			<div id="changelog-display" class="c3d-changelog c3d-scroll">
+				<p class="c3d-upgrade-empty"><translate>Nothing to see here (yet)</translate></p>
+			</div>
+		</div>
+
+		<div id="channel-panel" class="c3d-panel c3d-upgrade-channels {% if viewMode == 0 %}hidden{% endif %}">
+			<div class="c3d-panel-head">
+				<span class="c3d-section-label"><translate>Software Channel</translate></span>
+				<span class="c3d-count"><translate>Reboot required after switching</translate></span>
+			</div>
+			<div class="c3d-channel-group" role="group" aria-label="Software channel">
+				<button id="btn-lts" class="btn c3d-ghost c3d-channel-btn" translate>LTS</button>
+				<button id="btn-stable" class="btn c3d-ghost c3d-channel-btn" translate>Stable</button>
+				<button id="btn-beta" class="btn c3d-ghost c3d-channel-btn" translate>Beta</button>
+				<button id="btn-alpha" class="btn c3d-ghost c3d-channel-btn" translate>Alpha</button>
+				<button id="btn-master" class="btn c3d-ghost c3d-channel-btn" translate>Master</button>
+			</div>
 		</div>
 	</div>
-	
 {% endblock %}
