@@ -241,13 +241,13 @@ input[type="range"].slider, input[type="range"] { accent-color: var(--brand-acce
 
 /* ---------- Machine Status (print progress) ---------- */
 .c3d-status { display: flex; gap: 18px; align-items: stretch; flex-wrap: wrap; min-height: 200px; }
-.c3d-status-preview { flex: 0 1 340px; min-width: 240px; display: flex; flex-direction: column; gap: 10px; }
+.c3d-status-preview { flex: 0 1 380px; min-width: 260px; align-self: stretch; display: flex; flex-direction: column; gap: 10px; }
 .c3d-preview-frame {
   position: relative;
   display: block;
   flex: 1 1 auto;
   width: 100%;
-  min-height: 260px;
+  min-height: 240px;
   background: #000;
   border: 1px solid var(--df-border-subtle);
   border-radius: var(--df-radius-md);
@@ -256,7 +256,7 @@ input[type="range"].slider, input[type="range"] { accent-color: var(--brand-acce
 .c3d-preview-frame .image_enlarge { position: absolute; inset: 0; }
 .c3d-preview-frame .image_enlarge img { width: 100%; height: 100%; object-fit: contain; display: block; }
 #change-preview { position: absolute; right: 8px; top: 8px; z-index: 2; cursor: pointer; }
-.c3d-preview-actions .btn { width: 100%; margin: 0; }
+.c3d-preview-actions .btn { width: 100%; min-height: 36px; padding: 4px 10px; font-size: 13px; margin: 0; }
 .c3d-status-body { flex: 1 1 460px; min-width: 0; display: flex; flex-direction: column; }
 .c3d-status-body .c3d-stat-grid { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); }
 .c3d-stat--action { grid-column: span 2; }
