@@ -370,7 +370,7 @@ body.c3d-printing #webcam-column .dashboard-panel { flex: 1 1 auto; }
 .c3d-status-actions .c3d-force-stop { font-weight: 700; }
 
 /* ---------- Dashboard header identity ---------- */
-.c3d-dash-head { display: flex; align-items: center; justify-content: space-between; padding: 16px 8px 12px; }
+.c3d-dash-head { display: flex; align-items: center; justify-content: space-between; margin-top: 24px; padding: 16px 8px 12px; }
 .c3d-dash-head .btn { margin-bottom: 0; }
 .c3d-dash-name { font-size: 28px; font-weight: 700; color: var(--df-text-strong); margin: 0; }
 
