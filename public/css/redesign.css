@@ -1033,6 +1033,10 @@ table#plates.table-bordered > tbody > tr > td { border-color: var(--df-border-su
   flex: 0 0 58px;
   width: 58px;
   height: 58px;
+  /* resting state: a quiet well instead of a hole, filled in when the render lands */
+  background-color: var(--df-surface-1);
+  border: 1px solid var(--df-border-subtle);
+  border-radius: 8px;
 }
 #plates .c3d-job-thumb img.threed {
   width: 58px;
@@ -1055,8 +1059,15 @@ table#plates.table-bordered > tbody > tr > td { border-color: var(--df-border-su
   box-shadow: 0 18px 40px rgba(0, 0, 0, 0.6);
   outline: 1px solid var(--df-border-strong);
 }
-.c3d-job-thumb-ph { color: var(--df-border-strong); font-size: 20px; }
-.c3d-job-thumb img[src]:not(.hide) + .c3d-job-thumb-ph { display: none; }
+.c3d-job-thumb-ph { color: var(--df-text-muted); opacity: 0.42; font-size: 20px; }
+.c3d-job-thumb img.c3d-thumb-pending,
+.c3d-print-result-thumb.c3d-thumb-pending { opacity: 0; }
+.c3d-job-thumb img.c3d-thumb-ready,
+.c3d-print-result-thumb.c3d-thumb-ready { opacity: 1; transition: opacity 150ms ease; }
+/* the soft glyph marks a slot whose render has not landed yet, and stays for
+   jobs the server has no preview for; it disappears once the image can paint */
+.c3d-job-thumb img[src]:not(.hide):not(.c3d-thumb-pending) + .c3d-job-thumb-ph,
+.c3d-job-thumb img.c3d-thumb-ready + .c3d-job-thumb-ph { display: none; }
 /* ---------- Last print result: one compact strip, not a panel ---------- */
 .c3d-print-result-label {
   margin: 4px 0 8px;
@@ -1079,6 +1090,8 @@ table#plates.table-bordered > tbody > tr > td { border-color: var(--df-border-su
   width: 48px;
   height: 48px;
   object-fit: cover;
+  background-color: color-mix(in srgb, var(--c3d-info), var(--df-surface-1) 88%);
+  border-radius: 8px;
 }
 .c3d-print-result-info { flex: 1 1 300px; min-width: 0; }
 .c3d-print-result-head { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }

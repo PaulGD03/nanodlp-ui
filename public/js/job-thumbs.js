@@ -58,9 +58,31 @@
 		return !img.isConnected || sourceOf(img) !== url;
 	}
 
+	/* Paint an image only once it can actually draw: until then the slot shows
+	   its resting state instead of an empty box (see .c3d-thumb-pending). */
+	function markReady(img) {
+		img.classList.remove('c3d-thumb-pending');
+		img.classList.add('c3d-thumb-ready');
+	}
+
 	function show(img, url) {
-		if (img.getAttribute('src') !== url) img.setAttribute('src', url);
+		if (img.getAttribute('src') !== url) {
+			img.classList.remove('c3d-thumb-ready');
+			img.classList.add('c3d-thumb-pending');
+			img.setAttribute('src', url);
+		}
 		img.classList.remove('hide', 'retry');
+		if (img.complete && img.naturalWidth > 0) {
+			markReady(img);
+			return;
+		}
+		var settle = function () {
+			img.removeEventListener('load', settle);
+			img.removeEventListener('error', settle);
+			markReady(img);
+		};
+		img.addEventListener('load', settle);
+		img.addEventListener('error', settle);
 	}
 
 	/* Swap a known-good url (object URL or render path) into every element
@@ -79,7 +101,7 @@
 			var img = imgs[i];
 			if (sourceOf(img) !== url || img.getAttribute('src')) continue;
 			img.loading = 'eager';
-			img.setAttribute('src', url);
+			show(img, url);
 			enqueue(img, url);
 		}
 		pump();
@@ -229,7 +251,15 @@
 						img.removeEventListener('error', onError);
 					};
 					var onLoad = function () { release(); active--; capture(img, url); };
-					var onError = function () { release(); active--; failed.add(url); pump(); };
+					var onError = function () {
+						release();
+						active--;
+						failed.add(url);
+						/* no bytes and nothing to show: fall back to the resting slot */
+						if (!img.classList.contains('retry')) img.removeAttribute('src');
+						markReady(img);
+						pump();
+					};
 					img.addEventListener('load', onLoad);
 					img.addEventListener('error', onError);
 				})(item.img, item.url);
