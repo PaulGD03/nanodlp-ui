@@ -241,9 +241,8 @@ input[type="range"].slider, input[type="range"] { accent-color: var(--brand-acce
 .c3d-stat--resin .c3d-stat-value { font-size: 13px; line-height: 1.6; }
 
 /* ---------- Dashboard header identity ---------- */
-.c3d-dash-head { display: flex; align-items: flex-end; justify-content: space-between; padding: 16px 8px 12px; }
+.c3d-dash-head { display: flex; align-items: center; justify-content: space-between; padding: 16px 8px 12px; }
 .c3d-dash-head .btn { margin-bottom: 0; }
-.c3d-dash-tag { font-size: 15px; color: var(--df-text-muted); margin: 2px 0 0; }
 .c3d-dash-name { font-size: 28px; font-weight: 700; color: var(--df-text-strong); margin: 0; }
 
 /* ---------- Updates notification center ---------- */

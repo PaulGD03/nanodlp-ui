@@ -3,8 +3,7 @@
 
 <div class="c3d-dash-head">
     <div>
-        <h1 class="c3d-dash-name" id="c3d-greeting">Good morning</h1>
-        <p class="c3d-dash-tag"><translate>What are we printing today?</translate></p>
+        <h1 class="c3d-dash-name" id="c3d-greeting">Good Morning!</h1>
     </div>
     <div class="c3d-updates">
         <button type="button" class="btn btn-default c3d-updates-toggle" id="updates-toggle" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-bullhorn"></span>&nbsp; <translate>Updates</translate></button>
@@ -102,7 +101,7 @@
     var el = document.getElementById('c3d-greeting');
     if (!el) return;
     var h = new Date().getHours();
-    var g = (h >= 5 && h < 12) ? 'Good morning' : (h >= 12 && h < 17) ? 'Good afternoon' : 'Good evening';
+    var g = (h >= 5 && h < 12) ? 'Good Morning!' : (h >= 12 && h < 17) ? 'Good Afternoon!' : 'Good Evening!';
     el.textContent = g;
 })();
 </script>
