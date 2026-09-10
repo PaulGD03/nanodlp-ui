@@ -4,13 +4,19 @@
 }
 
 .uplot {
-    background-color: #fff;
+    background-color: #111216;
     width: 100%;
     margin-bottom: 32px;
+    border-radius: 10px;
 }
 
 .u-label, .u-value, .u-title {
-    color: #000;
+    color: #c3c7cf;
+}
+
+.u-series {
+    color: #e6ebf2;
+    font-size: small;
 }
 
 .u-legend.u-inline .u-value {

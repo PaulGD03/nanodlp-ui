@@ -100,6 +100,20 @@ function renderChart(name, dataRows, series, chartConfig) {
         }
     };
 
+    // Dark theme: match dashboard surfaces (grid, ticks, axes, cursor)
+    opts.axes = opts.axes.map(ax => ({
+        ...ax,
+        stroke: 'rgba(255,255,255,0.30)',
+        ticks: { ...(ax.ticks || {}), stroke: 'rgba(255,255,255,0.15)', width: 1 },
+        grid: { ...(ax.grid || {}), stroke: 'rgba(255,255,255,0.06)', width: 1 },
+    }));
+    opts.cursor = {
+        ...opts.cursor,
+        stroke: 'rgba(255,255,255,0.55)',
+        dash: '3,4',
+        points: { show: true, size: 5, fill: '#e6ebf2', stroke: '#0b0f14' },
+    };
+
     if (isZoomed) {
         return;
     }
@@ -220,7 +234,7 @@ function getSeries(axes) {
             label,
             scale: element.Type,
             value: (self, rawValue) => (rawValue != null ? rawValue.toFixed(element.Decimal) + unit : ""),
-            stroke: "#" + ColourValues[key] + "88",
+            stroke: "#" + ColourValues[key] + "cc",
             width: 1,
         });
     });
