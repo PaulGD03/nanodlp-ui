@@ -20,6 +20,14 @@ const ColourValues = [
     "E00000", "00E000", "0000E0", "E0E000", "E000E0", "00E0E0", "E0E0E0",
 ];
 
+// Readable series colors on dark surfaces, indexed by metric id (see ALL_CHART_CONFIG)
+const DARK_PALETTE = [
+    "#f0ad4e", "#4dd0e1", "#66bb6a", "#ffa726", "#ab47bc", "#ec407a", "#ffd166",
+    "#ef5350", "#26a69a", "#5c6bc0", "#ff7043", "#8d6e63", "#ffca28", "#29b6f6",
+    "#9ccc65", "#f06292", "#ba68c8", "#ff8a65", "#4db6ac", "#7986cb", "#ffb74d",
+    "#aed581", "#e57373", "#64b5f6", "#81c784", "#dce775", "#4dd0e1", "#f48fb1",
+];
+
 const ALL_CHART_CONFIG = [
     { key: 'LayerHeight', id: 0 },
     { key: 'SolidArea', id: 1 },
@@ -229,8 +237,8 @@ function getSeries(axes) {
             label,
             scale: element.Type,
             value: (self, rawValue) => (rawValue != null ? rawValue.toFixed(element.Decimal) + unit : ""),
-            stroke: "#" + ColourValues[key] + "cc",
-            width: 1,
+            stroke: (config && DARK_PALETTE[config.id]) ? DARK_PALETTE[config.id] : ("#" + ColourValues[key] + "cc"),
+            width: 1.5,
         });
     });
     return series;
