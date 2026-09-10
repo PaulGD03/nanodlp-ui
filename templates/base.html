@@ -1,5 +1,6 @@
 {% macro printHistory(PrintResult) %}
 {% if PrintResult.Path %}
+<div class="c3d-section-label c3d-print-result-label"><translate>Last Print Job</translate></div>
 <div class="c3d-print-result-bar">
 	<img class="c3d-print-result-thumb" src="/print/preview/{{PrintResult.PrintID}}">
 	<div class="c3d-print-result-info">
@@ -194,7 +195,7 @@
 	<!-- Custom styles for this template -->
 	<link href='/static/css/main.css?{{version}}(athenav7)' rel="stylesheet">
 	<link href='/static/css/athena.css?{{version}}(athenav7)' rel="stylesheet">
-	<link href='/static/css/redesign.css?{{version}}(redesignv60)' rel="stylesheet">
+	<link href='/static/css/redesign.css?{{version}}(redesignv63)' rel="stylesheet">
 	<title>{% if title %}{{ title }}{% endif %}</title>
 	{% block head %} {% endblock %}
 	<script src='/static/boot3/js/jquery.min.js'></script>

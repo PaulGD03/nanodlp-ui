@@ -43,6 +43,7 @@
 <div class="c3d-jobs-tools">
 	<div class="c3d-jobs-filter">
 		<div class="input-group">
+			<span class="input-group-addon c3d-input-icon"><span class="glyphicon glyphicon-tint"></span></span>
 			<select id="plates-profile-search" class="form-control">
 				<option value="" translate>Filter by Resin Profile</option>
 				{% for row in profiles %}
@@ -50,32 +51,23 @@
 				{% endfor %}
 			</select>
 			<span class="input-group-btn">
-				<button class="btn c3d-ghost hide" type="button" id="clear-profile-filter" title="Clear filter">
+				<button class="btn c3d-ghost c3d-input-btn hide" type="button" id="clear-profile-filter" title="Clear filter">
 					<span class="glyphicon glyphicon-remove"></span>
 				</button>
 			</span>
 		</div>
 	</div>
-	<div class="c3d-jobs-filter">
+	<div class="c3d-jobs-filter c3d-jobs-search">
 		<div class="input-group">
+			<span class="input-group-addon c3d-input-icon"><span class="glyphicon glyphicon-search"></span></span>
 			<input id="search" placeholder="Search Jobs" class="form-control compact-input">
 			<span class="input-group-btn">
-				<button class="btn c3d-ghost hide" type="button" id="clear-search" title="Clear search">
+				<button class="btn c3d-ghost c3d-input-btn hide" type="button" id="clear-search" title="Clear search">
 					<span class="glyphicon glyphicon-remove"></span>
 				</button>
 			</span>
 		</div>
 		<translate class="hide">Search Jobs</translate>
-	</div>
-</div>
-<div class="c3d-list-toolbar">
-	<span class="c3d-section-label"><translate>All jobs</translate> <span id="c3d-jobs-count" class="c3d-count"></span></span>
-	<div class="c3d-chips" id="c3d-jobs-sort" role="group" aria-label="Sort jobs">
-		<button type="button" class="c3d-chip" data-sort="id-desc" title="Tap again to reset"><translate>Newest</translate></button>
-		<button type="button" class="c3d-chip" data-sort="id-asc" title="Tap again to reset"><translate>Oldest</translate></button>
-		<button type="button" class="c3d-chip" data-sort="name" title="Tap again to reset"><translate>Name</translate></button>
-		<button type="button" class="c3d-chip" data-sort="lastprint-desc" title="Tap again to reset"><translate>Recently Printed</translate></button>
-		<button type="button" class="c3d-chip" data-sort="layers-desc" title="Tap again to reset"><translate>Most Layers</translate></button>
 	</div>
 </div>
 <div class="row">

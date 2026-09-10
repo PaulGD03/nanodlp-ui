@@ -4,6 +4,7 @@
 {% endmacro %}
 {% macro printHistory(PrintResult) %}
 {% if PrintResult.Path %}
+<div class="c3d-section-label c3d-print-result-label"><translate>Last Print Job</translate></div>
 <div class="c3d-print-result-bar">
 	<img class="c3d-print-result-thumb" src="/print/preview/{{PrintResult.PrintID}}">
 	<div class="c3d-print-result-info">
@@ -43,6 +44,16 @@
 <translate class="hide" id="force-stop-confirm">Are you sure you want to force stop printing? Warning, Force Stop will reset the printer. Printing progress will be lost.</translate>
 <translate class="hide" id="start-confirm">Are you sure you want to print job from the start?</translate>
 <translate class="hide" id="calibrate-confirm">Are you sure you want to print the calibration job?</translate>
+<div class="c3d-list-toolbar">
+	<span class="c3d-section-label"><translate>All jobs</translate> <span id="c3d-jobs-count" class="c3d-count"></span></span>
+	<div class="c3d-chips" id="c3d-jobs-sort" role="group" aria-label="Sort jobs">
+		<button type="button" class="c3d-chip" data-sort="id-desc" title="Tap again to reset"><translate>Newest</translate></button>
+		<button type="button" class="c3d-chip" data-sort="id-asc" title="Tap again to reset"><translate>Oldest</translate></button>
+		<button type="button" class="c3d-chip" data-sort="name" title="Tap again to reset"><translate>Name</translate></button>
+		<button type="button" class="c3d-chip" data-sort="lastprint-desc" title="Tap again to reset"><translate>Recently Printed</translate></button>
+		<button type="button" class="c3d-chip" data-sort="layers-desc" title="Tap again to reset"><translate>Most Layers</translate></button>
+	</div>
+</div>
 <div id="plates" class="c3d-list c3d-job-list">
 	{% if plates %}
 	{% for row in plates %}{% if row.PlateID != 0 %}
