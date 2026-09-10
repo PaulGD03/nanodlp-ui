@@ -267,6 +267,7 @@ input[type="range"].slider, input[type="range"] { accent-color: var(--brand-acce
 .c3d-status-progress .print-progress-text { font-size: 11px; line-height: 16px; padding-right: 8px; }
 .c3d-status-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 14px; flex-wrap: wrap; }
 .c3d-status-actions .btn { margin: 0; }
+.c3d-status-actions .c3d-shutdown { margin-right: auto; }
 .c3d-status-actions .c3d-force-stop { font-weight: 700; }
 
 /* ---------- Dashboard header identity ---------- */

@@ -13,13 +13,6 @@
                         <span class="glyphicon glyphicon-refresh text-success" id="change-preview"></span>
                     </a>
                 </div>
-                <div class="c3d-preview-actions button-group">
-                    {% if autoShutdown %}
-                    <a class="btn c3d-ghost c3d-ghost-gold" href="/printer/auto-shutdown/disable"><span class="glyphicon glyphicon-off"></span>&nbsp; <translate>Disable Shutdown After Print</translate></a>
-                    {% else %}
-                    <a class="ask btn c3d-ghost c3d-ghost-info" href="/printer/auto-shutdown/enable" data-ask="shutdown-after-print-confirm" translate>Shutdown After Print</a>
-                    {% endif %}
-                </div>
             </div>
 
             <div class="c3d-status-body">
@@ -77,6 +70,11 @@
         </div>
 
         <div class="c3d-status-actions">
+            {% if autoShutdown %}
+            <a class="btn c3d-ghost c3d-ghost-gold c3d-shutdown" href="/printer/auto-shutdown/disable"><span class="glyphicon glyphicon-off"></span>&nbsp; <translate>Disable Shutdown After Print</translate></a>
+            {% else %}
+            <a class="ask btn c3d-ghost c3d-ghost-info c3d-shutdown" href="/printer/auto-shutdown/enable" data-ask="shutdown-after-print-confirm" translate>Shutdown After Print</a>
+            {% endif %}
             <a class="ask btn c3d-ghost c3d-ghost-gold print-btn pause-obj" href="/printer/unpause"><span class="glyphicon glyphicon-play"></span>&nbsp; <translate>Resume</translate></a>
             <a class="ask btn c3d-ghost c3d-ghost-gold print-btn printing-obj" href="/printer/pause"><span class="glyphicon glyphicon-pause"></span>&nbsp; <translate>Pause</translate></a>
             <a class="ask btn c3d-ghost c3d-ghost-danger print-btn" href="/printer/stop" data-ask="stop-confirm" translate><span class="glyphicon glyphicon-stop"></span>&nbsp; Stop</a>
