@@ -900,11 +900,23 @@ body.c3d-printing #webcam-column .dashboard-panel { flex: 1 1 auto; }
 .c3d-jobs-tools { display: flex; gap: 10px; margin: 2px 0 14px; flex-wrap: wrap; align-items: center; }
 .c3d-jobs-filter { display: flex; flex: 1 1 240px; max-width: 340px; }
 .c3d-jobs-filter.c3d-jobs-search { flex: 1 1 280px; max-width: 420px; }
+/* The group is the field: one hairline box, radius on the outside only, so the
+   control keeps a closed right edge whether or not the clear button is shown. */
 .c3d-jobs-filter .input-group {
   display: flex;
   align-items: stretch;
   width: 100%;
+  overflow: hidden;
+  background-color: var(--df-surface-0);
+  border: 1px solid var(--df-border-subtle);
   border-radius: var(--df-radius-sm);
+}
+.c3d-jobs-filter .input-group:focus-within { border-color: var(--brand-accent); }
+.c3d-jobs-filter .input-group > * {
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  background-color: transparent;
 }
 .c3d-jobs-filter .input-group-addon.c3d-input-icon {
   display: flex;
@@ -913,14 +925,11 @@ body.c3d-printing #webcam-column .dashboard-panel { flex: 1 1 auto; }
   flex: 0 0 36px;
   height: 36px;
   padding: 0;
-  background-color: var(--df-surface-0);
-  border: 1px solid var(--df-border-subtle);
-  border-right: 0;
-  border-radius: var(--df-radius-sm) 0 0 var(--df-radius-sm);
   color: var(--df-text-muted);
   font-size: 12px;
 }
-/* #search / #plates-profile-search carry id-level legacy rules in main.css + athena.css */
+/* #search / #plates-profile-search still carry id-level legacy rules in
+   main.css + athena.css (height, padding, border, opacity, margin). */
 .c3d-jobs-tools .form-control,
 .c3d-jobs-tools #search,
 .c3d-jobs-tools #plates-profile-search {
@@ -934,27 +943,12 @@ body.c3d-printing #webcam-column .dashboard-panel { flex: 1 1 auto; }
   font-size: 13px;
   line-height: 1.3;
   color: var(--df-text-strong);
-  background-color: var(--df-surface-0);
-  border: 1px solid var(--df-border-subtle);
-  border-left: 0;
-  border-right: 0;
+  background-color: transparent;
+  border: 0;
   border-radius: 0;
   box-shadow: none;
 }
 .c3d-jobs-tools #plates-profile-search { padding-right: 30px; }
-.c3d-jobs-tools .form-control:focus,
-.c3d-jobs-tools #search:focus,
-.c3d-jobs-tools #plates-profile-search:focus {
-  border-color: var(--df-border-subtle);
-  box-shadow: none;
-}
-.c3d-jobs-filter .input-group:focus-within .form-control,
-.c3d-jobs-filter .input-group:focus-within #search,
-.c3d-jobs-filter .input-group:focus-within #plates-profile-search,
-.c3d-jobs-filter .input-group:focus-within .input-group-addon,
-.c3d-jobs-filter .input-group:focus-within .c3d-input-btn {
-  border-color: var(--brand-accent);
-}
 .c3d-jobs-filter .input-group-btn { display: flex; }
 .c3d-jobs-filter .input-group-btn .c3d-input-btn {
   height: 36px;
@@ -964,11 +958,9 @@ body.c3d-printing #webcam-column .dashboard-panel { flex: 1 1 auto; }
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background-color: var(--df-surface-0);
-  border: 1px solid var(--df-border-subtle);
-  border-left: 0;
-  border-right: 1px solid var(--df-border-subtle);
-  border-radius: 0 var(--df-radius-sm) var(--df-radius-sm) 0;
+  background-color: transparent;
+  border: 0;
+  border-radius: 0;
   color: var(--df-text-muted);
   font-size: 12px;
 }
