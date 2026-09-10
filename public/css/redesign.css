@@ -237,7 +237,7 @@ input[type="range"].slider, input[type="range"] { accent-color: var(--brand-acce
   background: var(--df-surface-0);
   border: 1px solid var(--df-border-subtle);
   border-radius: var(--df-radius-sm);
-  padding: 7px 10px;
+  padding: 5px 10px;
 }
 .c3d-stat-label {
   display: block;
@@ -347,7 +347,7 @@ body.c3d-printing #webcam-column .dashboard-panel { flex: 1 1 auto; }
 #change-preview { position: absolute; right: 8px; top: 8px; z-index: 2; cursor: pointer; }
 .c3d-preview-actions .btn { width: 100%; min-height: 36px; padding: 4px 10px; font-size: 13px; margin: 0; }
 .c3d-status-body { flex: 1 1 460px; min-width: 0; display: flex; flex-direction: column; }
-.c3d-status-body .c3d-stat-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.c3d-status-body .c3d-stat-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .c3d-stat--action { grid-column: 1 / -1; }
 .c3d-stat--action .c3d-stat-value { font-size: 14px; line-height: 1.25; }
 .c3d-status-progress { margin-top: 12px; }
