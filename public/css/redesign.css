@@ -329,14 +329,15 @@ body.c3d-printing #webcam-column .dashboard-panel { flex: 1 1 auto; }
 
 /* ---------- Machine Status (print progress) ---------- */
 .c3d-status { display: flex; gap: 14px; align-items: stretch; flex-wrap: wrap; min-height: 0; }
-.c3d-status-preview { flex: 0 1 300px; min-width: 220px; align-self: flex-start; display: flex; flex-direction: column; gap: 10px; }
-#print-preview-img { display: block; }
+.c3d-status-preview { flex: 0 1 420px; min-width: 240px; align-self: stretch; display: flex; flex-direction: column; gap: 10px; }
+#print-preview-img { flex: 1 1 auto; display: flex; flex-direction: column; min-height: 0; }
 .c3d-preview-frame {
   position: relative;
   display: block;
+  flex: 1 1 auto;
   width: 100%;
-  aspect-ratio: 16 / 9;   /* matches the plate 3D render (1600x960) */
-  min-height: 0;
+  aspect-ratio: auto;
+  min-height: 180px;
   background: #000;
   border: 1px solid var(--df-border-subtle);
   border-radius: var(--df-radius-md);
@@ -348,7 +349,8 @@ body.c3d-printing #webcam-column .dashboard-panel { flex: 1 1 auto; }
 .c3d-preview-actions .btn { width: 100%; min-height: 36px; padding: 4px 10px; font-size: 13px; margin: 0; }
 .c3d-status-body { flex: 1 1 460px; min-width: 0; display: flex; flex-direction: column; }
 .c3d-status-body .c3d-stat-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-.c3d-stat--action { grid-column: 1 / -1; }
+.c3d-stat-grid--resin { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.c3d-stat--action { grid-column: auto; }
 .c3d-stat--action .c3d-stat-value { font-size: 14px; line-height: 1.25; }
 .c3d-status-progress { margin-top: 12px; }
 .c3d-status-progress .progress { height: 18px; margin-bottom: 0; }

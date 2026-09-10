@@ -17,6 +17,10 @@
 
             <div class="c3d-status-body">
                 <div class="c3d-stat-grid">
+                    <div class="c3d-stat c3d-stat--action">
+                        <span class="c3d-stat-label"><span class="glyphicon glyphicon-eye-open text-success"></span> <a href="/printer" class="key" translate>Action</a></span>
+                        <span class="c3d-stat-value val last_action"></span>
+                    </div>
                     <div class="c3d-stat">
                         <span class="c3d-stat-label"><span class="glyphicon glyphicon-align-left text-success"></span> <translate class="key">Layer</translate></span>
                         <span class="c3d-stat-value val last_location"></span>
@@ -37,14 +41,10 @@
                         <span class="c3d-stat-label"><span class="glyphicon glyphicon-time text-success"></span> <translate class="key">Elapsed</translate></span>
                         <span class="c3d-stat-value val last_elapsed"></span>
                     </div>
-                    <div class="c3d-stat c3d-stat--action">
-                        <span class="c3d-stat-label"><span class="glyphicon glyphicon-eye-open text-success"></span> <a href="/printer" class="key" translate>Action</a></span>
-                        <span class="c3d-stat-value val last_action"></span>
-                    </div>
                 </div>
 
                 <div class="c3d-section-label"><span class="glyphicon glyphicon-tint text-success"></span> <translate>Resin Consumption</translate></div>
-                <div class="c3d-stat-grid">
+                <div class="c3d-stat-grid c3d-stat-grid--resin">
                     <div class="c3d-stat">
                         <span class="c3d-stat-label"><translate>Level</translate></span>
                         <span class="c3d-stat-value"><span class="append last_level"></span><span class="append"> mm</span></span>
