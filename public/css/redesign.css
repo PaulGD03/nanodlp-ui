@@ -383,6 +383,17 @@ a.c3d-badge:hover, a.c3d-badge:focus { text-decoration: none; color: var(--brand
   border-color: var(--brand-accent);
 }
 .c3d-lock { color: var(--brand-accent); font-size: 12px; flex-shrink: 0; }
+/* Locked factory actions: same buttons, visibly dead */
+.c3d-list-actions .btn[disabled] {
+  opacity: 0.42;
+  cursor: not-allowed;
+}
+.c3d-list-actions a.btn[disabled] { pointer-events: none; }
+.c3d-list-actions .btn[disabled]:hover,
+.c3d-list-actions .btn[disabled]:focus {
+  background-color: inherit;
+  color: inherit;
+}
 /* Printing: the control cards are irrelevant, so Machine Status takes their
    place in the left column and the webcam stretches alongside it. */
 body.c3d-printing .c3d-dash-row .control-row { display: none !important; }

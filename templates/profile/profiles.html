@@ -58,12 +58,16 @@
             <div class="c3d-list-actions">
                 {% if !profile.ManufacturerLock %}
                 <a class="btn c3d-ghost c3d-btn-i tip" href="/profile/edit/{{profile.ProfileID}}"><span class="glyphicon glyphicon-pencil"></span><translate class="hide">Edit</translate></a>
+                {% else %}
+                <a class="btn c3d-ghost c3d-btn-i tip" href="#" disabled tabindex="-1" aria-disabled="true"><span class="glyphicon glyphicon-pencil"></span><translate class="hide">Edit</translate></a>
                 {% endif %}
                 <a class="btn c3d-ghost c3d-btn-i tip" href="/profile/clone/{{profile.ProfileID}}"><span class="glyphicon glyphicon-duplicate"></span><translate class="hide">Clone</translate></a>
                 <a class="btn c3d-ghost c3d-btn-i tip" href="/profile/compare/{{profile.ProfileID}}"><span class="glyphicon glyphicon-random"></span><translate class="hide">Compare</translate></a>
                 <a class="btn c3d-ghost c3d-btn-i tip" href="/profile/export/{{profile.ProfileID}}"><span class="glyphicon glyphicon-export"></span><translate class="hide">Export</translate></a>
                 {% if !profile.ManufacturerLock %}
                 <a class="btn c3d-ghost c3d-ghost-danger c3d-btn-i ask tip" data-ask="delete-confirm" href="/profile/delete/{{profile.ProfileID}}"><span class="glyphicon glyphicon-trash"></span><translate class="hide">Delete</translate></a>
+                {% else %}
+                <a class="btn c3d-ghost c3d-ghost-danger c3d-btn-i tip" href="#" disabled tabindex="-1" aria-disabled="true"><span class="glyphicon glyphicon-trash"></span><translate class="hide">Delete</translate></a>
                 {% endif %}
             </div>
         </div>
@@ -96,12 +100,16 @@
                 <a class="c3d-badge c3d-badge--set tip" href="/profile/default/{{profile.ProfileID}}"><span class="glyphicon glyphicon-ok"></span> <translate>Set default</translate></a>
                 {% if !profile.ManufacturerLock %}
                 <a class="btn c3d-ghost c3d-btn-i tip" href="/profile/edit/{{profile.ProfileID}}"><span class="glyphicon glyphicon-pencil"></span><translate class="hide">Edit</translate></a>
+                {% else %}
+                <a class="btn c3d-ghost c3d-btn-i tip" href="#" disabled tabindex="-1" aria-disabled="true"><span class="glyphicon glyphicon-pencil"></span><translate class="hide">Edit</translate></a>
                 {% endif %}
                 <a class="btn c3d-ghost c3d-btn-i tip" href="/profile/clone/{{profile.ProfileID}}"><span class="glyphicon glyphicon-duplicate"></span><translate class="hide">Clone</translate></a>
                 <a class="btn c3d-ghost c3d-btn-i tip" href="/profile/compare/{{profile.ProfileID}}"><span class="glyphicon glyphicon-random"></span><translate class="hide">Compare</translate></a>
                 <a class="btn c3d-ghost c3d-btn-i tip" href="/profile/export/{{profile.ProfileID}}"><span class="glyphicon glyphicon-export"></span><translate class="hide">Export</translate></a>
                 {% if !profile.ManufacturerLock %}
                 <a class="btn c3d-ghost c3d-ghost-danger c3d-btn-i ask tip" data-ask="delete-confirm" href="/profile/delete/{{profile.ProfileID}}"><span class="glyphicon glyphicon-trash"></span><translate class="hide">Delete</translate></a>
+                {% else %}
+                <a class="btn c3d-ghost c3d-ghost-danger c3d-btn-i tip" href="#" disabled tabindex="-1" aria-disabled="true"><span class="glyphicon glyphicon-trash"></span><translate class="hide">Delete</translate></a>
                 {% endif %}
             </div>
         </div>
