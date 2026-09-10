@@ -198,9 +198,9 @@ function prepareAxis(series) {
             const config = ALL_CHART_CONFIG.find(config => config.key === serie.key);
             const label = config?.overrideAxisLabel ?? scale;
             axes.push({
-                    labelSize: 15,
-                    gap: 0,
-                    size: 40,
+                    labelSize: 16,
+                    gap: 8,
+                    size: 62,
                     side: 3,
                     grid: {show: false},
                     label,
