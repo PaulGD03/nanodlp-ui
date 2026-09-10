@@ -338,22 +338,21 @@ body.c3d-printing #webcam-column .dashboard-panel { flex: 1 1 auto; }
 
 /* ---------- Machine Status (print progress) ---------- */
 .c3d-status { display: flex; gap: 14px; align-items: stretch; flex-wrap: wrap; min-height: 0; }
-.c3d-status-preview { flex: 0 1 420px; min-width: 240px; align-self: stretch; display: flex; flex-direction: column; gap: 10px; }
-#print-preview-img { flex: 1 1 auto; display: flex; flex-direction: column; min-height: 0; }
+.c3d-status-preview { flex: 0 1 420px; min-width: 240px; align-self: flex-start; display: flex; flex-direction: column; gap: 10px; }
+#print-preview-img { display: block; }
 .c3d-preview-frame {
   position: relative;
   display: block;
-  flex: 1 1 auto;
   width: 100%;
-  aspect-ratio: auto;
-  min-height: 180px;
-  background: #000;
+  aspect-ratio: 16 / 9;
+  min-height: 0;
+  background: transparent;
   border: 1px solid var(--df-border-subtle);
   border-radius: var(--df-radius-md);
   overflow: hidden;
 }
 .c3d-preview-frame .image_enlarge { position: absolute; inset: 0; }
-.c3d-preview-frame .image_enlarge img { width: 100%; height: 100%; object-fit: contain; display: block; }
+.c3d-preview-frame .image_enlarge img { width: 100% !important; height: 100% !important; object-fit: contain; display: block; }
 #change-preview { position: absolute; right: 8px; top: 8px; z-index: 2; cursor: pointer; }
 .c3d-preview-actions .btn { width: 100%; min-height: 36px; padding: 4px 10px; font-size: 13px; margin: 0; }
 .c3d-status-body { flex: 1 1 460px; min-width: 0; display: flex; flex-direction: column; }
