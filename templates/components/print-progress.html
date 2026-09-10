@@ -5,81 +5,90 @@
         Machine Status
     </div>
     <div class="panel-body layer_details" data-ratio="{{displayRatio}}">
-        <div class="col-md-12 no-padding" style="min-height: 250px">
-            <div class="row">
-                <div id="print-preview" class="col-md-12">
-                    <div id="print-preview-img" class="col-md-5">
-                        <a class="embed-responsive embed-responsive-16by9" id="image_wrapper" href="/plate/preview">
-                            <div class="image_enlarge embed-responsive-item"></div>
-                            <span class="glyphicon glyphicon-refresh text-success" id="change-preview"></span>
-                        </a>
+        <div class="c3d-status">
+            <div id="print-preview" class="c3d-status-preview">
+                <div id="print-preview-img">
+                    <a class="c3d-preview-frame" id="image_wrapper" href="/plate/preview">
+                        <div class="image_enlarge"></div>
+                        <span class="glyphicon glyphicon-refresh text-success" id="change-preview"></span>
+                    </a>
+                </div>
+                <div class="c3d-preview-actions button-group">
+                    {% if autoShutdown %}
+                    <a class="btn c3d-ghost c3d-ghost-gold" href="/printer/auto-shutdown/disable"><span class="glyphicon glyphicon-off"></span>&nbsp; <translate>Disable Shutdown After Print</translate></a>
+                    {% else %}
+                    <a class="ask btn c3d-ghost c3d-ghost-info" href="/printer/auto-shutdown/enable" data-ask="shutdown-after-print-confirm" translate>Shutdown After Print</a>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="c3d-status-body">
+                <div class="c3d-stat-grid">
+                    <div class="c3d-stat">
+                        <span class="c3d-stat-label"><span class="glyphicon glyphicon-align-left text-success"></span> <translate class="key">Layer</translate></span>
+                        <span class="c3d-stat-value val last_location"></span>
                     </div>
-                    <div class="col-md-7">
-                        <div class="c3d-stat-grid">
-                            <div class="c3d-stat">
-                                <span class="c3d-stat-label"><span class="glyphicon glyphicon-align-left text-success"></span> <translate class="key">Layer</translate></span>
-                                <span class="c3d-stat-value val last_location"></span>
-                            </div>
-                            <div class="c3d-stat">
-                                <span class="c3d-stat-label"><span class="glyphicon glyphicon-resize-vertical text-success"></span> <translate class="key">Height</translate></span>
-                                <span class="c3d-stat-value val last_height"></span>
-                            </div>
-                            <div class="c3d-stat">
-                                <span class="c3d-stat-label"><span class="glyphicon glyphicon-hourglass text-success"></span> <translate class="key">Remaining</translate></span>
-                                <span class="c3d-stat-value val last_remaining"></span>
-                            </div>
-                            <div class="c3d-stat">
-                                <span class="c3d-stat-label"><span class="glyphicon glyphicon-time text-success"></span> <translate class="key">ETA</translate></span>
-                                <span class="c3d-stat-value val last_eta"></span>
-                            </div>
-                            <div class="c3d-stat">
-                                <span class="c3d-stat-label"><span class="glyphicon glyphicon-time text-success"></span> <translate class="key">Elapsed</translate></span>
-                                <span class="c3d-stat-value val last_elapsed"></span>
-                            </div>
-                            <div class="c3d-stat">
-                                <span class="c3d-stat-label"><span class="glyphicon glyphicon-eye-open text-success"></span> <a href="/printer" class="key" translate>Action</a></span>
-                                <span class="c3d-stat-value val last_action"></span>
-                            </div>
-                            <div class="c3d-stat c3d-stat--resin">
-                                <span class="c3d-stat-label"><span class="glyphicon glyphicon-tint text-success"></span> <translate class="key">Resin Consumption</translate></span>
-                                <span class="c3d-stat-value">
-                                    <span class="val">Level:</span> <span class="append last_level"></span><span class="append">mm</span>
-                                    &nbsp; <span class="val">Remaining:</span> <span class="append last_amount"></span><span class="append">ml</span>
-                                    &nbsp; <span class="val">Required:</span> <span class="append">{{ job.TotalSolidArea|floatformat:0 }}</span><span class="append">ml</span>
-                                </span>
-                            </div>
+                    <div class="c3d-stat">
+                        <span class="c3d-stat-label"><span class="glyphicon glyphicon-resize-vertical text-success"></span> <translate class="key">Height</translate></span>
+                        <span class="c3d-stat-value val last_height"></span>
+                    </div>
+                    <div class="c3d-stat">
+                        <span class="c3d-stat-label"><span class="glyphicon glyphicon-hourglass text-success"></span> <translate class="key">Remaining</translate></span>
+                        <span class="c3d-stat-value val last_remaining"></span>
+                    </div>
+                    <div class="c3d-stat">
+                        <span class="c3d-stat-label"><span class="glyphicon glyphicon-time text-success"></span> <translate class="key">ETA</translate></span>
+                        <span class="c3d-stat-value val last_eta"></span>
+                    </div>
+                    <div class="c3d-stat">
+                        <span class="c3d-stat-label"><span class="glyphicon glyphicon-time text-success"></span> <translate class="key">Elapsed</translate></span>
+                        <span class="c3d-stat-value val last_elapsed"></span>
+                    </div>
+                    <div class="c3d-stat">
+                        <span class="c3d-stat-label"><span class="glyphicon glyphicon-eye-open text-success"></span> <a href="/printer" class="key" translate>Action</a></span>
+                        <span class="c3d-stat-value val last_action"></span>
+                    </div>
+                </div>
+
+                <div class="c3d-section-label"><span class="glyphicon glyphicon-tint text-success"></span> <translate>Resin Consumption</translate></div>
+                <div class="c3d-stat-grid">
+                    <div class="c3d-stat">
+                        <span class="c3d-stat-label"><translate>Level</translate></span>
+                        <span class="c3d-stat-value"><span class="append last_level"></span><span class="append"> mm</span></span>
+                    </div>
+                    <div class="c3d-stat">
+                        <span class="c3d-stat-label"><translate>Remaining</translate></span>
+                        <span class="c3d-stat-value"><span class="append last_amount"></span><span class="append"> ml</span></span>
+                    </div>
+                    <div class="c3d-stat">
+                        <span class="c3d-stat-label"><translate>Required</translate></span>
+                        <span class="c3d-stat-value"><span class="append">{{ job.TotalSolidArea|floatformat:0 }}</span><span class="append"> ml</span></span>
+                    </div>
+                </div>
+
+                <div class="c3d-status-progress printing-obj">
+                    <div class="layer-progress progress">
+                        <div style="width: 0%" class="progress-bar progress-bar-layer progress-bar-warning"></div>
+                    </div>
+                    <div class="progress progress-striped">
+                        <div style="width: 0%" class="progress-bar progress-bar-main progress-bar-warning">
+                            <span class="print-progress-text">0%</span>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="layer-progress progress printing-obj">
-                <div style="width: 0%" class="progress-bar progress-bar-layer progress-bar-warning"></div>
-            </div>
-            <div class="progress progress-striped printing-obj">
-                <div style="width: 0%" class="progress-bar progress-bar-main progress-bar-warning">
-                    <span class="print-progress-text">0%</span>
-                </div>
-            </div>
-
-            <div class="button-group pull-left">
-                {% if autoShutdown %}
-                <a class="btn btn-default" href="/printer/auto-shutdown/disable">Disable Shutdown After Print</a>
-                {% else %}
-                <a class="ask btn btn-default" href="/printer/auto-shutdown/enable" data-ask="shutdown-after-print-confirm" translate>Shutdown After Print</a>
-                {% endif %}&nbsp;
-            </div>
-
-            <div class="button-group pull-right">
-                <a class="ask btn btn-success print-btn pause-obj" href="/printer/unpause"><span class="glyphicon glyphicon-play"></span> Resume</a>
-                <a class="ask btn btn-warning print-btn printing-obj" href="/printer/pause"><span class="glyphicon glyphicon-pause"></span> Pause</a>
-                <a class="ask btn btn-danger print-btn" href="/printer/stop" data-ask="stop-confirm" translate><span class="glyphicon glyphicon-stop"></span> Stop</a>
-                <a class="ask btn btn-danger print-btn" href="/printer/force-stop" data-ask="force-stop-confirm" translate><span class="glyphicon glyphicon-exclamation-sign"></span> Force Stop</a>
-            </div>
-
-            <translate class="hide" id="stop-confirm">Are you sure you want to stop printing? It will stop after the current layer is completed. If you want to abort the current layer, use Force Stop.</translate>
-            <translate class="hide" id="force-stop-confirm">Are you sure you want to force stop printing? Warning, Force Stop will reset the printer. Printing progress will be lost.</translate>
-            <translate class="hide" id="shutdown-after-print-confirm">Shutdown after print may cause timelapses and filtration cycles not to be run after print. Please confirm?</translate>
         </div>
+
+        <div class="c3d-status-actions">
+            <a class="ask btn c3d-ghost c3d-ghost-gold print-btn pause-obj" href="/printer/unpause"><span class="glyphicon glyphicon-play"></span>&nbsp; <translate>Resume</translate></a>
+            <a class="ask btn c3d-ghost c3d-ghost-gold print-btn printing-obj" href="/printer/pause"><span class="glyphicon glyphicon-pause"></span>&nbsp; <translate>Pause</translate></a>
+            <a class="ask btn c3d-ghost c3d-ghost-danger print-btn" href="/printer/stop" data-ask="stop-confirm" translate><span class="glyphicon glyphicon-stop"></span>&nbsp; Stop</a>
+            <a class="ask btn btn-danger print-btn c3d-force-stop" href="/printer/force-stop" data-ask="force-stop-confirm" translate><span class="glyphicon glyphicon-exclamation-sign"></span>&nbsp; Force Stop</a>
+        </div>
+
+        <translate class="hide" id="stop-confirm">Are you sure you want to stop printing? It will stop after the current layer is completed. If you want to abort the current layer, use Force Stop.</translate>
+        <translate class="hide" id="force-stop-confirm">Are you sure you want to force stop printing? Warning, Force Stop will reset the printer. Printing progress will be lost.</translate>
+        <translate class="hide" id="shutdown-after-print-confirm">Shutdown after print may cause timelapses and filtration cycles not to be run after print. Please confirm?</translate>
     </div>
 </div>
 
