@@ -247,6 +247,22 @@ input[type="range"].slider, input[type="range"] { accent-color: var(--brand-acce
 
 /* ---------- Updates notification center ---------- */
 .c3d-updates { position: relative; }
+.c3d-updates-toggle {
+  border: none;
+  background-color: var(--df-surface-1);
+  color: var(--df-text-strong);
+  box-shadow: none !important;
+}
+.c3d-updates-toggle:hover,
+.c3d-updates-toggle:focus,
+.c3d-updates-toggle:active {
+  background-color: var(--df-surface-2);
+  color: var(--df-text-strong);
+  border: none;
+  box-shadow: none !important;
+}
+.c3d-updates-toggle .glyphicon { color: var(--brand-accent); }
+.c3d-updates-toggle:focus-visible { outline: 2px solid var(--brand-accent); outline-offset: 2px; }
 .c3d-updates-popover {
   position: absolute;
   top: calc(100% + 10px);
