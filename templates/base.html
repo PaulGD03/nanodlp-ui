@@ -1,46 +1,32 @@
 {% macro printHistory(PrintResult) %}
 {% if PrintResult.Path %}
-<div class="row">
-	<div class="col-md-12">
-		<div class="panel c3d-print-result-panel panel-{{ PrintResult.StatusTag }}">
-			<div class="panel-heading">
-				<h3 class="panel-title">
-					<span class="glyphicon glyphicon-question-sign" style="display: inline-block;"></span>
-					{{PrintResult.Path}}
-				</h3>
-			</div>
-			<div class="panel-body c3d-print-result">
-				<img class="c3d-print-result-preview" src="/print/preview/{{PrintResult.PrintID}}">
-				<div class="c3d-print-result-stats">
-					<span class="c3d-print-result-stat"><span class="glyphicon glyphicon-tint"></span>{{PrintResult.ProfileName}} ({{PrintResult.TotalSolidArea}}ml)</span>
-					<span class="c3d-print-result-stat"><span class="glyphicon glyphicon-usd"></span>{{PrintResult.Price}}</span>
-					<span class="c3d-print-result-stat"><span class="glyphicon glyphicon-menu-hamburger"></span>{{PrintResult.LayersCount}}</span>
-					<span class="c3d-print-result-stat"><span class="glyphicon glyphicon-minus"></span>{{PrintResult.LayerThickness}}</span>
-					<span class="c3d-print-result-stat"><span class="glyphicon glyphicon-time"></span>{{PrintResult.PrintTime}}</span>
-					<span class="c3d-print-result-stat"><span class="glyphicon glyphicon-time"></span>{{PrintResult.supportCureTime}}s / {% if !PrintResult.cureTimes %}{{PrintResult.cureTime}}{% else %}{{PrintResult.cureTimes}}{% endif %}s</span>
-					<span class="c3d-print-result-stat"><span class="glyphicon glyphicon-time"></span>{{PrintResult.Date}}</span>
-				</div>
-			</div>
-			{% if PrintResult.Status == 0 %}
-			<div class="panel-footer">
-				<a class="btn btn-success" href="/plate/result/{% if PrintResult %}{{PrintResult.PlateID}}{% else %}0{%endif%}/{{PrintResult.PrintID}}/2"><span class="glyphicon glyphicon-ok-sign"></span> <translate>Successful Print</translate></a>
-				<div class="btn-group">
-					<button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-					<span class="glyphicon glyphicon-remove-sign"></span> <translate>Failed Print</translate> <span class="caret"></span>
-					</button>
-					<ul class="dropdown-menu">
-						<li><a href="/plate/result/{{PrintResult.PlateID}}/{{PrintResult.PrintID}}/3" translate>Some Parts Are Missing</a></li>
-						<li><a href="/plate/result/{{PrintResult.PlateID}}/{{PrintResult.PrintID}}/4" translate>Only Supports There</a></li>
-						<li><a href="/plate/result/{{PrintResult.PlateID}}/{{PrintResult.PrintID}}/5" translate>Nothing on Build Platform</a></li>
-					</ul>
-				</div>
-				<a class="btn btn-warning" href="/plate/result/{{PrintResult.PlateID}}/{{PrintResult.PrintID}}/1"><span class="glyphicon glyphicon-minus-sign"></span> <translate>Ignore</translate></a>
-				<a class="btn btn-danger" href="/plate/result/dismiss"><span class="glyphicon glyphicon-minus-sign"></span> <translate>Dismiss All</translate></a>
-				<button id="btnMoveHome" class="btn btn-info pull-right"><span class="glyphicon glyphicon-arrow-up"></span>Move Plate to Home</button>
-			</div>
-			{% endif %}
+<div class="c3d-print-result-bar">
+	<img class="c3d-print-result-thumb" src="/print/preview/{{PrintResult.PrintID}}">
+	<div class="c3d-print-result-info">
+		<div class="c3d-print-result-head">
+			<span class="glyphicon glyphicon-question-sign c3d-print-result-icon"></span>
+			<span class="c3d-print-result-name">{{PrintResult.Path}}</span>
+			<span class="c3d-list-meta">{{PrintResult.ProfileName}} ({{PrintResult.TotalSolidArea}}ml) &nbsp;·&nbsp; <span class="glyphicon glyphicon-usd"></span>{{PrintResult.Price}} &nbsp;·&nbsp; {{PrintResult.LayersCount}} <translate>Layers</translate> &nbsp;·&nbsp; {{PrintResult.LayerThickness}} &nbsp;·&nbsp; {{PrintResult.PrintTime}} &nbsp;·&nbsp; {{PrintResult.supportCureTime}}s / {% if !PrintResult.cureTimes %}{{PrintResult.cureTime}}{% else %}{{PrintResult.cureTimes}}{% endif %}s &nbsp;·&nbsp; {{PrintResult.Date}}</span>
 		</div>
 	</div>
+	{% if PrintResult.Status == 0 %}
+	<div class="c3d-print-result-actions">
+		<a class="btn c3d-ghost c3d-ghost-gold c3d-btn-i tip" href="/plate/result/{% if PrintResult %}{{PrintResult.PlateID}}{% else %}0{%endif%}/{{PrintResult.PrintID}}/2" title="Successful Print"><span class="glyphicon glyphicon-ok-sign"></span><translate>Successful Print</translate></a>
+		<div class="btn-group">
+			<button type="button" class="btn c3d-ghost c3d-ghost-danger c3d-btn-i tip dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="Failed Print">
+			<span class="glyphicon glyphicon-remove-sign"></span><translate>Failed Print</translate> <span class="caret"></span>
+			</button>
+			<ul class="dropdown-menu dropdown-menu-right">
+				<li><a href="/plate/result/{{PrintResult.PlateID}}/{{PrintResult.PrintID}}/3" translate>Some Parts Are Missing</a></li>
+				<li><a href="/plate/result/{{PrintResult.PlateID}}/{{PrintResult.PrintID}}/4" translate>Only Supports There</a></li>
+				<li><a href="/plate/result/{{PrintResult.PlateID}}/{{PrintResult.PrintID}}/5" translate>Nothing on Build Platform</a></li>
+			</ul>
+		</div>
+		<a class="btn c3d-ghost c3d-btn-i tip" href="/plate/result/{{PrintResult.PlateID}}/{{PrintResult.PrintID}}/1" title="Ignore"><span class="glyphicon glyphicon-minus-sign"></span><translate>Ignore</translate></a>
+		<a class="btn c3d-ghost c3d-ghost-danger c3d-btn-i tip" href="/plate/result/dismiss" title="Dismiss All"><span class="glyphicon glyphicon-minus-sign"></span><translate>Dismiss All</translate></a>
+		<button id="btnMoveHome" class="btn c3d-ghost c3d-btn-i tip" title="Move Plate to Home"><span class="glyphicon glyphicon-arrow-up"></span>Move Plate to Home</button>
+	</div>
+	{% endif %}
 </div>
 {% endif %}
 {% endmacro %}
@@ -208,7 +194,7 @@
 	<!-- Custom styles for this template -->
 	<link href='/static/css/main.css?{{version}}(athenav7)' rel="stylesheet">
 	<link href='/static/css/athena.css?{{version}}(athenav7)' rel="stylesheet">
-	<link href='/static/css/redesign.css?{{version}}(redesignv55)' rel="stylesheet">
+	<link href='/static/css/redesign.css?{{version}}(redesignv60)' rel="stylesheet">
 	<title>{% if title %}{{ title }}{% endif %}</title>
 	{% block head %} {% endblock %}
 	<script src='/static/boot3/js/jquery.min.js'></script>
