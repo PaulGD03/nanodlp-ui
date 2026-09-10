@@ -1413,29 +1413,79 @@ table#plates.table-bordered > tbody > tr > td { border-color: var(--df-border-su
 }
 
 /* viewers stay columns of the grid even though preview.js juggles col-md-* on them */
-.c3d-preview-grid { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); gap: 12px; align-items: stretch; }
+/* The page owns exactly one viewport: header + scrubber + viewers + info panel,
+   with the code boxes taking the leftover height and scrolling inside it.
+   Chrome accounted for: 66px navbar, 64px fixed footer, 12px air. */
+.c3d-preview-layout {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 142px);
+  min-height: 520px;
+}
+/* the shell appends three <br> after .container (direct body children): on this
+   page they are the 60px that made the document taller than the viewport */
+body:has(.c3d-preview-layout) > br { display: none; }
+.c3d-preview-layout > .c3d-page-head,
+.c3d-preview-layout > .c3d-preview-note,
+.c3d-preview-layout > .c3d-preview-scrub { flex: 0 0 auto; }
+.c3d-preview-grid {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+  grid-template-rows: minmax(150px, 1.15fr) minmax(200px, 1fr);
+  gap: 12px;
+  align-items: stretch;
+}
 .c3d-preview-grid:has(> #details.hide) { grid-template-columns: minmax(0, 1fr); }
-.c3d-preview-viewers > .c3d-panel { float: none; width: auto; padding: 12px; }
+.c3d-preview-viewers > .c3d-panel { float: none; width: auto; padding: 12px; height: 100%; }
 #preview {
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
+  height: 100%;
+  min-height: 0;
   background-color: #000;
   border-radius: var(--df-radius-md);
 }
-#preview img { display: block; width: 100%; max-height: 62vh; object-fit: contain; }
-#threed { display: flex; align-items: center; justify-content: center; min-height: 0; }
+/* the image box must equal the image: compare() sizes its canvas from these
+   bounds, so stretching the box (object-fit letterboxing) would skew the
+   overhang overlay */
+#preview img { display: block; width: auto; max-width: 100%; max-height: 100%; object-fit: contain; }
+#threed { display: flex; align-items: center; justify-content: center; min-height: 0; height: 100%; }
 #details.hide { display: none; }
 #threed img {
-  width: 100%;
-  max-height: 62vh;
+  width: auto;
+  max-width: 100%;
+  max-height: 100%;
   object-fit: contain;
   border-radius: var(--df-radius-md);
   background-color: #000;
 }
-.c3d-preview-details { grid-column: 1 / -1; }
+.c3d-preview-details {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+.c3d-preview-details .c3d-stat-grid { flex: 0 0 auto; }
+/* the code area takes the leftover height; each cell scrolls inside it */
+/* the single row must be a fraction of the definite height, otherwise auto rows
+   grow to content and the boxes push the page instead of scrolling */
+.c3d-preview-details .c3d-preview-gcode {
+  flex: 1 1 auto;
+  min-height: 0;
+  align-items: stretch;
+  grid-template-rows: minmax(0, 1fr);
+}
+/* cells must fill the row (the base rule aligns them start), then the dd inside
+   shrinks and scrolls instead of pushing the page taller */
+.c3d-preview-details .c3d-gcode-code { min-height: 0; grid-auto-rows: minmax(0, 1fr); align-items: stretch; }
+/* keep the boxes readable when the viewport is short */
+.c3d-preview-details .c3d-gcode-cell dd { min-height: 56px; }
+.c3d-preview-details .c3d-gcode-cell { display: flex; flex-direction: column; min-height: 0; }
 /* fixed tracks: auto-fit let a long value stretch its own tile wider than the rest */
 .c3d-preview-stats { grid-template-columns: repeat(4, minmax(0, 1fr)); margin-bottom: 14px; }
 @media (max-width: 1199px) { .c3d-preview-stats { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
@@ -1483,6 +1533,8 @@ table#plates.table-bordered > tbody > tr > td { border-color: var(--df-border-su
   text-transform: uppercase;
 }
 .c3d-gcode-cell dd {
+  flex: 1 1 auto;
+  min-height: 0;
   margin: 4px 0 0;
   padding: 8px 10px;
   max-height: 420px;
@@ -1500,6 +1552,12 @@ table#plates.table-bordered > tbody > tr > td { border-color: var(--df-border-su
 @media (max-width: 991px) {
   .c3d-preview-grid { grid-template-columns: minmax(0, 1fr); }
   #preview img, #threed img { max-height: 48vh; }
+}
+/* short or narrow viewports: fall back to a normally scrolling page */
+@media (max-height: 760px), (max-width: 991px) {
+  .c3d-preview-layout { height: auto; min-height: 0; }
+  .c3d-preview-grid { grid-template-rows: auto auto; }
+  .c3d-preview-details .c3d-gcode-cell dd { max-height: 260px; }
 }
 
 /* ---------- Themed scrollbars (DragonFruit .custom-scrollbar) ---------- */
