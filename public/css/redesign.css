@@ -592,8 +592,8 @@ input[type="range"].slider, input[type="range"] { accent-color: var(--brand-acce
    Gutter lives on the column (padding counts toward flex height) rather than
    on the panel, so the row height is exactly gutter + webcam panel. */
 #webcam-column { padding-top: 8px; }
-#webcam-column .dashboard-panel { flex: 0 0 auto; margin: 0; }
-.pressure-row .dashboard-panel { margin: 0; }
+#webcam-column .dashboard-panel { flex: 0 0 auto; margin: 0 8px; }
+.pressure-row .dashboard-panel { margin: 0 8px; }
 /* Webcam: let the feed keep its native portrait sizing; center it in the tall card */
 #webcam-column .dashboard-panel > .panel-body { justify-content: center; }
 #webcam-column #livestream-container { margin: 0 auto; }
