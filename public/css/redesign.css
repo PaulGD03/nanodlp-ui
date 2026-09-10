@@ -323,6 +323,31 @@ a.c3d-badge:hover, a.c3d-badge:focus { text-decoration: none; color: var(--brand
   border: 1px dashed var(--df-border-strong);
   border-radius: var(--df-radius-lg);
 }
+/* ---------- List rows (resins, jobs, …) ---------- */
+.c3d-list {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--df-surface-0);
+  border: 1px solid var(--df-border-subtle);
+  border-radius: var(--df-radius-lg);
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.28);
+}
+.c3d-list-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 10px 14px;
+}
+.c3d-list-row + .c3d-list-row { border-top: 1px solid var(--df-border-subtle); }
+.c3d-list-row:hover { background-color: var(--df-surface-1); }
+.c3d-list-main { display: flex; align-items: baseline; gap: 12px; min-width: 0; flex-wrap: wrap; }
+.c3d-list-title { font-size: 15px; font-weight: 700; color: var(--df-text-strong); overflow-wrap: anywhere; }
+.c3d-list-meta { font-size: 12px; color: var(--df-text-muted); white-space: nowrap; }
+.c3d-list-actions { display: flex; align-items: center; gap: 6px; margin-left: auto; flex-shrink: 0; }
+.c3d-list-actions .btn { margin: 0; min-height: 30px; padding: 4px 9px; font-size: 12px; }
 /* Printing: the control cards are irrelevant, so Machine Status takes their
    place in the left column and the webcam stretches alongside it. */
 body.c3d-printing .c3d-dash-row .control-row { display: none !important; }
