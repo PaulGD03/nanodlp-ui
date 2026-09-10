@@ -588,9 +588,11 @@ input[type="range"].slider, input[type="range"] { accent-color: var(--brand-acce
 .pressure-row .dashboard-panel > .panel-body { flex: 1 1 0; min-height: 0; overflow: hidden; }
 .pressure-row #uplot-1 { min-height: 0; }
 /* Webcam keeps its natural content height (source of truth for the row),
-   so the pressure card fills the remainder without a resize feedback loop. */
-#webcam-column .dashboard-panel { flex: 0 0 auto; }
-#webcam-column .dashboard-panel,
+   so the pressure card fills the remainder without a resize feedback loop.
+   Gutter lives on the column (padding counts toward flex height) rather than
+   on the panel, so the row height is exactly gutter + webcam panel. */
+#webcam-column { padding-top: 8px; }
+#webcam-column .dashboard-panel { flex: 0 0 auto; margin: 0; }
 .pressure-row .dashboard-panel { margin: 0; }
 /* Webcam: let the feed keep its native portrait sizing; center it in the tall card */
 #webcam-column .dashboard-panel > .panel-body { justify-content: center; }
