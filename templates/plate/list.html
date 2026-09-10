@@ -80,7 +80,7 @@
 			<div class="notice"><span class="glyphicon glyphicon-alert"></span> &nbsp;
 				<translate>Re-slicing required.</translate>
 				{% if (row.Type) %}
-					<a class="ask req-no-slicing btn btn-default btn-sm" href="/plate/regenerate/{{ row.PlateID }}"
+					<a class="ask req-no-slicing btn c3d-ghost btn-sm" href="/plate/regenerate/{{ row.PlateID }}"
 					data-ask="regenerate-confirm"><span class="glyphicon glyphicon-refresh"></span>
 					</a>
 				{% endif %}
@@ -101,7 +101,7 @@
 				<span class="glyphicon glyphicon-alert"></span> &nbsp;
 				<a href="/plate/preview/{{ row.PlateID }}" translate>Source file contains faulty structure.</a>
 					{% if !row.Repaired %} &nbsp;
-					<a class="ask req-no-slicing btn btn-default repair svg tip" href="/plate/repair-regenerate/{{ row.PlateID }}"
+					<a class="ask req-no-slicing btn c3d-ghost repair svg tip" href="/plate/repair-regenerate/{{ row.PlateID }}"
 					data-ask="regenerate-confirm">{{ icon(repair_icon) }}<translate class="hide">Repair and re-slice</translate></a>
 					{% endif %}
 			</div>
@@ -119,7 +119,7 @@
 			{% if row.Corrupted==true %}
 			<div class="alert alert-danger"><span class="glyphicon glyphicon-alert"></span> &nbsp;
 				<translate>This job is corrupt.</translate>
-				<a class="ask req-no-slicing btn btn-default" href="/plate/regenerate/{{ row.PlateID }}"
+				<a class="ask req-no-slicing btn c3d-ghost" href="/plate/regenerate/{{ row.PlateID }}"
 				data-ask="regenerate-confirm"><span class="glyphicon glyphicon-refresh"></span> &nbsp; <translate>Re-slice</translate>
 				</a>
 			</div>
@@ -232,13 +232,13 @@
 			</div>
 			{% endif %}
 			{% endif %}
-			<a class="btn btn-default tip" href="/plate/preview/{{ row.PlateID }}"><span
+			<a class="btn c3d-ghost tip" href="/plate/preview/{{ row.PlateID }}"><span
 					class="glyphicon glyphicon-eye-open"><translate class="hide">Preview</translate></span></a>
 			{% if row.Type=="stl" && !row.Repaired %}
 			<a class="btn btn-default repair tip svg" href="/plate/repair/{{ row.PlateID }}">{{ icon(repair_icon) }}<translate class="hide">Repair</translate></a>
 			{% endif %}
 			<div class="btn-group">
-				<button id="show-more-{{ row.PlateID }}" type="button" class="btn btn-default tip dropdown-toggle list-more-button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				<button id="show-more-{{ row.PlateID }}" type="button" class="btn c3d-ghost tip dropdown-toggle list-more-button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 					<span class="glyphicon glyphicon-option-vertical" style="pointer-events: none"></span> <translate class="hide">More</translate>
 				</button>
 				<ul class="dropdown-menu">					

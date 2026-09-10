@@ -833,6 +833,44 @@ body.c3d-printing #webcam-column .dashboard-panel { flex: 1 1 auto; }
   cursor: pointer;
   transition: background-color 140ms ease, border-color 140ms ease, color 140ms ease;
 }
+/* ---------- Jobs table (kept as table: sort/filter/live-refresh bind to rows) ---------- */
+.c3d-jobs-tools { display: flex; gap: 10px; margin: 2px 0 14px; flex-wrap: wrap; }
+.c3d-jobs-filter { display: flex; flex: 1 1 240px; max-width: 380px; }
+.c3d-jobs-filter .input-group { width: 100%; }
+table#plates.model-list {
+  background-color: var(--df-surface-0);
+  border: 1px solid var(--df-border-subtle);
+  border-radius: var(--df-radius-lg);
+}
+table#plates.table-bordered > thead > tr > th,
+table#plates.table-bordered > tbody > tr > td { border-color: var(--df-border-subtle); }
+#plates thead th {
+  background-color: var(--df-surface-0);
+  color: var(--df-text-muted);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--df-border-strong);
+  white-space: nowrap;
+}
+#plates thead th .glyphicon { font-size: 10px; opacity: 0.7; }
+#plates tbody td { color: var(--df-text-strong); vertical-align: middle; border-top: 1px solid var(--df-border-subtle); }
+#plates.table-striped > tbody > tr:nth-of-type(odd) > td { background-color: transparent; }
+#plates tbody > tr:hover > td { background-color: var(--df-surface-1); }
+#plates tbody > tr.plate-processed > td:first-child { box-shadow: inset 3px 0 0 var(--df-success); }
+#plates tbody > tr.job-not-processed > td:first-child { box-shadow: inset 3px 0 0 var(--brand-accent); }
+#plates tbody > tr#latest > td:first-child { box-shadow: inset 3px 0 0 var(--brand-accent); }
+#plates dl.small { margin: 8px 0 0; }
+#plates dl.small dt { color: var(--df-text-muted); font-size: 11px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; }
+#plates dl.small dd { color: var(--df-text-strong); font-size: 13px; margin: 0 0 6px; }
+#plates img.threed { border-radius: 10px; border: 1px solid var(--df-border-subtle); max-width: 170px; display: block; background: #000; }
+#plates .label-danger { background-color: transparent; color: var(--df-danger); border: 1px solid color-mix(in srgb, var(--df-danger), transparent 40%); }
+#plates .label-warning { background-color: transparent; color: var(--brand-accent); border-color: color-mix(in srgb, var(--brand-accent), transparent 40%); }
+#plates .alert-danger { background-color: color-mix(in srgb, var(--df-danger), var(--df-surface-0) 86%); border-color: color-mix(in srgb, var(--df-danger), transparent 40%); color: var(--df-text-strong); }
+#plates .alert-warning { background-color: color-mix(in srgb, var(--brand-accent), var(--df-surface-0) 88%); border-color: color-mix(in srgb, var(--brand-accent), transparent 40%); color: var(--df-text-strong); }
+#plates .notice { color: var(--brand-accent); font-size: 12px; margin-top: 6px; }
+#plates .btn { margin: 2px; }
 .c3d-led-btn:hover,
 .c3d-led-btn:focus {
   color: var(--brand-accent-ink);
