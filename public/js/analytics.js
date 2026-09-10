@@ -74,9 +74,16 @@ function renderChart(name, dataRows, series, chartConfig) {
     const parentEl = containerEl ? containerEl.parentElement : null;
     if (parentEl) {
         const link = parentEl.querySelector('a[href="/analytic"]');
-        const chrome = link ? link.offsetHeight + 12 : 0;
-        const avail = parentEl.clientHeight - chrome;
-        if (avail > 150) plotHeight = Math.round(avail);
+        const cs = getComputedStyle(parentEl);
+        const pad = parseFloat(cs.paddingTop || 0) + parseFloat(cs.paddingBottom || 0);
+        // uPlot renders its legend inside the container, so reserve that too
+        const legendEl = containerEl.querySelector('.u-legend');
+        const legendH = legendEl ? legendEl.offsetHeight + 6 : 56;
+        const inner = parentEl.clientHeight - pad - (link ? link.offsetHeight + 8 : 0);
+        if (inner - legendH > 150) {
+            plotHeight = Math.round(inner - legendH);
+            containerEl.style.height = Math.round(inner) + 'px';
+        }
     }
     const axes = prepareAxis(series);
     let opts = {
