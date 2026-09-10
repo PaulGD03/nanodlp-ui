@@ -6,38 +6,3 @@
         <span class="glyphicon glyphicon-off" aria-hidden="true"></span> Camera LED On (10s)
     </button>
 </div>
-
-<script>
-// Fit the rotated 16:9 webcam frame to exactly cover the portrait card:
-// pre-rotation height = container width (aspect kept), so after rotate(90deg)
-// the visible width matches the card and only a thin strip is cropped vertically.
-(function () {
-    'use strict';
-    var container = document.getElementById('livestream-container');
-    if (!container) return;
-
-    function fit() {
-        var img = container.querySelector('img, video');
-        if (!img || container.style.display === 'none') return;
-        var w = container.clientWidth;
-        var h = container.clientHeight;
-        if (!w || !h) return;
-        // after rotate(90deg) the visible width == pre-rotation height (ph) and
-        // the visible height == pre-rotation width (ph * 16/9). Cover the card:
-        // ph must be >= w AND ph*16/9 >= h  =>  ph >= h*9/16.
-        var pct = Math.max((w / h) * 100, 56.25);
-        img.style.width = 'auto';
-        img.style.height = pct + '%';
-    }
-
-    var timer = null;
-    if (window.ResizeObserver) {
-        new ResizeObserver(fit).observe(container);
-    }
-    function poll() {
-        fit();
-        timer = setTimeout(poll, 1000);
-    }
-    poll();
-})();
-</script>

@@ -580,22 +580,9 @@ input[type="range"].slider, input[type="range"] { accent-color: var(--brand-acce
 .c3d-dash-row > [class*="col-"] { display: flex; flex-direction: column; }
 .c3d-dash-row .dashboard-panel { flex: 1 1 auto; display: flex; flex-direction: column; }
 .c3d-dash-row .dashboard-panel > .panel-body { display: flex; flex-direction: column; }
-#webcam-column .dashboard-panel > .panel-body { justify-content: space-between; }
-#webcam-preview { display: flex; flex-direction: column; flex: 1 1 auto; min-height: 0; }
-#livestream-container {
-  flex: 1 1 auto;
-  width: 100%;
-  aspect-ratio: auto !important;
-  min-height: 160px;
-  display: flex !important;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  background: #000;
-}
-#livestream-container img,
-#livestream-container video {
-  max-width: none !important;
-  max-height: none !important;
-  object-fit: cover;
-}
+/* Reserve chart space before data arrives so the column height (and webcam)
+   stays fixed from page load — no expand/shrink once the plot renders. */
+.pressure-row .dashboard-panel > .panel-body { min-height: 340px; }
+/* Webcam: let the feed keep its native portrait sizing; center it in the tall card */
+#webcam-column .dashboard-panel > .panel-body { justify-content: center; }
+#webcam-column #livestream-container { margin: 0 auto; }
