@@ -312,16 +312,24 @@ a.c3d-badge:hover, a.c3d-badge:focus { text-decoration: none; color: var(--brand
 body.c3d-printing .c3d-dash-row .control-row { display: none !important; }
 body.c3d-printing #webcam-column .dashboard-panel { flex: 1 1 auto; }
 
+/* Left column: Machine Status and Pressure Sensor share the height evenly,
+   with a 12px gutter between them (gutter lives on the wrapper so flex
+   honours it, instead of collapsing through the panel margins). */
+.c3d-dash-row #machine-status { flex: 1 1 0; min-height: 0; margin: 0; padding: 8px 0 12px; }
+.c3d-dash-row #machine-status .dashboard-panel { margin: 0 6px; height: 100%; }
+.c3d-dash-row .pressure-row { flex: 1 1 0; min-height: 0; margin: 0; }
+.c3d-dash-row .pressure-row .dashboard-panel { margin: 0 6px; }
+
 /* ---------- Machine Status (print progress) ---------- */
-.c3d-status { display: flex; gap: 18px; align-items: stretch; flex-wrap: wrap; min-height: 200px; }
-.c3d-status-preview { flex: 0 1 380px; min-width: 260px; align-self: stretch; display: flex; flex-direction: column; gap: 10px; }
+.c3d-status { display: flex; gap: 14px; align-items: stretch; flex-wrap: wrap; min-height: 0; }
+.c3d-status-preview { flex: 0 1 320px; min-width: 220px; align-self: stretch; display: flex; flex-direction: column; gap: 10px; }
 #print-preview-img { flex: 1 1 auto; display: flex; flex-direction: column; min-height: 0; }
 .c3d-preview-frame {
   position: relative;
   display: block;
   flex: 1 1 auto;
   width: 100%;
-  min-height: 240px;
+  min-height: 170px;
   background: #000;
   border: 1px solid var(--df-border-subtle);
   border-radius: var(--df-radius-md);
