@@ -6,7 +6,10 @@
 {% if PrintResult.Path %}
 <div class="c3d-section-label c3d-print-result-label"><translate>Last Print Job</translate></div>
 <div class="c3d-print-result-bar">
-	<img class="c3d-print-result-thumb" data-thumb="/print/preview/{{PrintResult.PrintID}}" loading="lazy">
+	<span class="c3d-print-result-thumb-wrap">
+		<img class="c3d-print-result-thumb" data-thumb="/print/preview/{{PrintResult.PrintID}}" loading="lazy">
+		<span class="c3d-job-thumb-spin"></span>
+	</span>
 	<div class="c3d-print-result-info">
 		<div class="c3d-print-result-head">
 			<span class="glyphicon glyphicon-question-sign c3d-print-result-icon"></span>
@@ -61,6 +64,7 @@
 		<div class="c3d-job-thumb">
 			<img {% if row.Preview %}data-thumb="/static/plates/{{row.PlateID}}/3d.png?{{row.Updated}}"{% else %}src="/static/plates/{{row.PlateID}}/3d.png?{{row.Updated}}"{% endif %} loading="lazy"
 				class="threed {% if !row.Preview %}hide retry{% endif %}">
+			<span class="c3d-job-thumb-spin"></span>
 			<span class="glyphicon glyphicon-picture c3d-job-thumb-ph"></span>
 		</div>
 		<div class="c3d-job-main">

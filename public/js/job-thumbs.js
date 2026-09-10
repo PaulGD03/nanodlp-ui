@@ -66,9 +66,15 @@
 	}
 
 	function show(img, url) {
+		/* Only a slot that is still empty may go pending: swapping the src of an
+		   image that is already painted (render -> downscaled blob) must not
+		   blank it, and must not flash the spinner. */
+		var painted = img.complete && img.naturalWidth > 0;
 		if (img.getAttribute('src') !== url) {
-			img.classList.remove('c3d-thumb-ready');
-			img.classList.add('c3d-thumb-pending');
+			if (!painted) {
+				img.classList.remove('c3d-thumb-ready');
+				img.classList.add('c3d-thumb-pending');
+			}
 			img.setAttribute('src', url);
 		}
 		img.classList.remove('hide', 'retry');
@@ -256,7 +262,10 @@
 						active--;
 						failed.add(url);
 						/* no bytes and nothing to show: fall back to the resting slot */
-						if (!img.classList.contains('retry')) img.removeAttribute('src');
+						if (!img.classList.contains('retry')) {
+							img.removeAttribute('src');
+							img.classList.add('hide');
+						}
 						markReady(img);
 						pump();
 					};

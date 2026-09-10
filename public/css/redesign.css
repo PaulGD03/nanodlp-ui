@@ -1039,8 +1039,11 @@ table#plates.table-bordered > tbody > tr > td { border-color: var(--df-border-su
   border-radius: 8px;
 }
 #plates .c3d-job-thumb img.threed {
-  width: 58px;
-  height: 58px;
+  /* fill the well's content box in every state (an unloaded img has no intrinsic
+     size, so without this it shrinks 2px and snaps back once decoded) */
+  flex: 0 0 auto;
+  width: 100%;
+  height: 100%;
   max-width: none;
   object-fit: cover;
   border: 0;
@@ -1059,15 +1062,55 @@ table#plates.table-bordered > tbody > tr > td { border-color: var(--df-border-su
   box-shadow: 0 18px 40px rgba(0, 0, 0, 0.6);
   outline: 1px solid var(--df-border-strong);
 }
-.c3d-job-thumb-ph { color: var(--df-text-muted); opacity: 0.42; font-size: 20px; }
+/* Loading indicator: spins only while a render is in flight, then the well is
+   filled by the image. The static glyph stays for jobs with no render at all. */
+.c3d-job-thumb-spin {
+  /* absolute overlay: the indicator must not join the flex row and shift the image */
+  position: absolute;
+  display: none;
+  width: 17px;
+  height: 17px;
+  border: 2px solid color-mix(in srgb, var(--df-text-muted), transparent 78%);
+  border-top-color: var(--brand-accent);
+  border-radius: 50%;
+  animation: c3d-thumb-spin 700ms linear infinite;
+}
+@keyframes c3d-thumb-spin {
+  to { transform: rotate(360deg); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .c3d-job-thumb-spin { animation-duration: 2400ms; }
+}
+.c3d-print-result-thumb-wrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  width: 48px;
+  height: 48px;
+}
+.c3d-print-result-thumb-wrap .c3d-job-thumb-spin { position: absolute; }
+.c3d-job-thumb img.c3d-thumb-pending ~ .c3d-job-thumb-spin,
+.c3d-print-result-thumb-wrap img.c3d-thumb-pending ~ .c3d-job-thumb-spin { display: block; }
+.c3d-job-thumb-ph {
+  position: absolute;
+  display: none;
+  color: var(--df-text-muted);
+  opacity: 0.42;
+  font-size: 20px;
+}
+/* the glyph speaks only for slots that will not get an image: no render on the
+   server, nothing signed up to load, and no load in flight */
+.c3d-job-thumb img.hide ~ .c3d-job-thumb-ph,
+.c3d-job-thumb img:not([src]):not(.c3d-thumb-pending):not(.c3d-thumb-ready) ~ .c3d-job-thumb-ph { display: block; }
 .c3d-job-thumb img.c3d-thumb-pending,
 .c3d-print-result-thumb.c3d-thumb-pending { opacity: 0; }
 .c3d-job-thumb img.c3d-thumb-ready,
 .c3d-print-result-thumb.c3d-thumb-ready { opacity: 1; transition: opacity 150ms ease; }
 /* the soft glyph marks a slot whose render has not landed yet, and stays for
    jobs the server has no preview for; it disappears once the image can paint */
-.c3d-job-thumb img[src]:not(.hide):not(.c3d-thumb-pending) + .c3d-job-thumb-ph,
-.c3d-job-thumb img.c3d-thumb-ready + .c3d-job-thumb-ph { display: none; }
+
 /* ---------- Last print result: one compact strip, not a panel ---------- */
 .c3d-print-result-label {
   margin: 4px 0 8px;
