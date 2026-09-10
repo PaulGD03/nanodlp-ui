@@ -78,7 +78,10 @@
         </div>
         <div id="webcam-column" class="col-md-4 no-padding">
             <div class="panel panel-default dashboard-panel">
-                <div class="panel-heading">Webcam</div>
+                <div class="panel-heading c3d-panel-heading--split">
+                    <span>Webcam</span>
+                    <button id="camera-led-on" type="button" class="c3d-led-btn" title="Turn camera LED on for 10 seconds"><span class="glyphicon glyphicon-flash"></span> LED 10s</button>
+                </div>
                 <div class="panel-body">
                     {% include "dashboard-widgets/camera.html" %}
                 </div>

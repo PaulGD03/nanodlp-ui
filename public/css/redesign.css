@@ -598,3 +598,31 @@ input[type="range"].slider, input[type="range"] { accent-color: var(--brand-acce
 /* Webcam: let the feed keep its native portrait sizing; center it in the tall card */
 #webcam-column .dashboard-panel > .panel-body { justify-content: center; }
 #webcam-column #livestream-container { margin: 0 auto; }
+
+/* Panel heading with a compact trailing action (e.g. webcam LED) */
+.c3d-panel-heading--split { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.c3d-led-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  color: var(--brand-accent);
+  background-color: color-mix(in srgb, var(--brand-accent), var(--df-surface-0) 86%);
+  border: 1px solid color-mix(in srgb, var(--brand-accent), var(--df-border-strong) 55%);
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background-color 140ms ease, border-color 140ms ease, color 140ms ease;
+}
+.c3d-led-btn:hover,
+.c3d-led-btn:focus {
+  color: var(--brand-accent-ink);
+  background-color: var(--brand-accent);
+  border-color: var(--brand-accent);
+  outline: none;
+}
+.c3d-led-btn .glyphicon { font-size: 11px; }
