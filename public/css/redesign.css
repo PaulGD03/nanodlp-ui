@@ -1928,3 +1928,110 @@ body:has(.c3d-preview-layout) > br { display: none; }
   outline: none;
 }
 .c3d-cal-grid--extra { margin-top: 12px; grid-template-columns: repeat(4, minmax(0, 1fr)); }
+
+/* ---------- Printer status page ----------
+   Same one-viewport idiom as the layer preview and software update pages: the
+   readouts are fixed rows and the printer log takes the leftover height, so the
+   whole log (the /log endpoint returns every line it has) scrolls inside the
+   page instead of running the document 12,000px past the viewport. */
+.c3d-printer-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  height: calc(100vh - 142px);
+  min-height: 480px;
+}
+/* the shell appends three <br> after the content block: 60px of page height */
+.c3d-printer-layout ~ br { display: none; }
+.c3d-printer-layout > .c3d-page-head { flex: 0 0 auto; padding-bottom: 0; }
+.c3d-printer-panel,
+.c3d-printer-alert { flex: 0 0 auto; }
+
+/* usage counters — compact readouts, six across when there is room */
+.c3d-printer-usage { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+.c3d-printer-usage .c3d-stat { padding: 7px 12px; }
+
+/* system health — a metric per tile with its history underneath. main.css
+   floats #stat right, and the id is also the gate main.js reads for the
+   sparklines, so the grid has to be carried by the id. */
+#stat {
+  float: none;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+}
+.c3d-sys-tile { margin-top: 0; display: flex; flex-direction: column; }
+.c3d-sys-tile .c3d-metric-value { font-size: 22px; }
+.c3d-sys-tile .spark { display: block; height: 16px; margin-top: 10px; }
+@media (max-width: 1199px) { #stat { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 767px) { #stat { grid-template-columns: minmax(0, 1fr); } }
+
+/* consumables — one labelled bar per row, the reset sits on the row */
+.c3d-consumable + .c3d-consumable { margin-top: 14px; }
+.c3d-consumable-head { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+.c3d-consumable-name { font-size: 14px; font-weight: 600; color: var(--df-text-strong); }
+.c3d-consumable-pct { font-size: 12px; font-weight: 600; color: var(--df-text-muted); font-variant-numeric: tabular-nums; }
+.c3d-consumable-head .btn { margin: 0 0 0 auto; min-height: 30px; padding: 4px 10px; font-size: 12px; }
+.c3d-consumable .progress { height: 18px; }
+
+/* printer health warnings — bootstrap .alert-danger is a light box; this is
+   the dark-theme version of the same signal */
+.c3d-printer-alert {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin: 0;
+  padding: 12px 14px;
+  border: 1px solid color-mix(in srgb, var(--df-danger), transparent 45%);
+  border-radius: var(--df-radius-lg);
+  background-color: color-mix(in srgb, var(--df-danger), var(--df-surface-0) 88%);
+  color: var(--df-text-strong);
+  font-size: 13px;
+  line-height: 1.5;
+}
+.c3d-printer-alert > .glyphicon { color: var(--df-danger); margin-top: 2px; }
+.c3d-printer-alert-body > div + div { margin-top: 4px; }
+
+/* the log takes the leftover height and scrolls inside the panel */
+.c3d-printer-console { display: flex; flex-direction: column; flex: 1 1 auto; min-height: 0; }
+#console_wrapper { flex: 1 1 auto; min-height: 0; overflow: auto; scrollbar-gutter: stable; }
+#console table { margin: 0; }
+/* main.js rebuilds the row set every 3s; the header labels stay put */
+#console th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  padding: 6px 10px;
+  border: 0;
+  border-bottom: 1px solid var(--df-border-strong);
+  background-color: var(--df-surface-0);
+  color: var(--df-indicator);
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+#console td {
+  padding: 6px 10px;
+  border: 0;
+  border-top: 1px solid var(--df-border-subtle);
+  color: var(--df-text-muted);
+  font-size: 12px;
+  vertical-align: top;
+}
+#console tbody tr:first-child > * { border-top: 0; }
+#console td:first-child { color: var(--df-text-strong); font-weight: 600; white-space: nowrap; }
+#console td:nth-child(3) { white-space: nowrap; }
+#console td:nth-child(3),
+#console .raw td:last-child { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 11.5px; }
+#console tbody tr:hover td { background-color: var(--df-surface-1); }
+
+/* short or narrow viewports: fall back to a normally scrolling page with a
+   capped log. The fixed rows need ~700px (the system grid drops to two columns
+   below 1200px), so one-viewport mode only runs when there is room for a log
+   underneath them. */
+@media (max-height: 1020px), (max-width: 1199px) {
+  .c3d-printer-layout { height: auto; min-height: 0; }
+  #console_wrapper { max-height: 60vh; }
+}

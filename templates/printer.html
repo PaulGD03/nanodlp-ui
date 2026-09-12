@@ -1,118 +1,164 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="panel-body layer_details">
-    <div class="row">
-        <div class="col-md-4">
-            <span class="glyphicon glyphicon-align-left text-success"></span>
-            <translate class="key">Total Layers Printed</translate>
-            <div class="val">{{tstat.TotalLayers}}</div>
-            <br>
+<div class="c3d-printer-layout">
+	<div class="c3d-page-head">
+		<div>
+			<div class="c3d-page-eyebrow"><translate>Monitoring</translate></div>
+			<h1 class="c3d-page-title"><translate>Printer Status</translate></h1>
+		</div>
+		<div class="c3d-page-actions">
+			<a href="/printer/stat/reset" data-ask="reset-confirm" class="ask btn c3d-ghost c3d-ghost-danger c3d-btn-i hidden"><span class="c3d-btn-i"><span class="glyphicon glyphicon-repeat"></span><translate>Reset Usage Stats</translate></span></a>
+		</div>
+	</div>
 
-            <span class="glyphicon glyphicon-time text-success"></span>
-            <translate class="key">Total Plates Printed</translate>
-            <div class="val">{{tstat.TotalPlatePrints}}</div>
-            <br>
+	{% if power||disk||heat||swap||space||storage %}
+	<div class="c3d-printer-alert alert alert-danger" role="alert">
+		<span class="glyphicon glyphicon-alert"></span>
+		<div class="c3d-printer-alert-body">
+			{% if power %}<div><translate>Power issue detected. It is serious issue that may cause random problems during printing.</translate></div>{% endif %}
+			{% if disk %}<div><translate>Storage corruption detected. Storage should get repaired.</translate></div>{% endif %}
+			{% if heat %}<div><translate>Heating start causing performance degrade and slow down.</translate></div>{% endif %}
+			{% if swap %}<div><translate>Memory swap detected it will slow down operations.</translate></div>{% endif %}
+			{% if space %}<div><translate>Not enough free disk space. Try removing some plates or expand disk space.</translate></div>{% endif %}
+			{% if storage %}<div><translate>Storage does not work as expected.</translate></div>{% endif %}
+		</div>
+	</div>
+	{% endif %}
 
-            <span class="glyphicon glyphicon-tint text-success"></span>
-            <translate class="key">Total Resin Used</translate>
-            <div class="val">{{tstat.TotalResinVolume}}</div>
-            <br>
+	<div class="c3d-panel c3d-printer-panel">
+		<div class="c3d-panel-head">
+			<span class="c3d-section-label"><translate>Usage Stats</translate></span>
+		</div>
+		<div class="c3d-stat-grid c3d-printer-usage">
+			<div class="c3d-stat">
+				<span class="c3d-stat-label"><translate>Total Layers Printed</translate></span>
+				<span class="c3d-stat-value">{{tstat.TotalLayers}}</span>
+			</div>
+			<div class="c3d-stat">
+				<span class="c3d-stat-label"><translate>Total Plates Printed</translate></span>
+				<span class="c3d-stat-value">{{tstat.TotalPlatePrints}}</span>
+			</div>
+			<div class="c3d-stat">
+				<span class="c3d-stat-label"><translate>Total Resin Used</translate></span>
+				<span class="c3d-stat-value">{{tstat.TotalResinVolume}}</span>
+			</div>
+			<div class="c3d-stat">
+				<span class="c3d-stat-label"><translate>Total Cure Time</translate></span>
+				<span class="c3d-stat-value">{{tstat.TotalCureTime}}</span>
+			</div>
+			<div class="c3d-stat">
+				<span class="c3d-stat-label"><translate>Total Print Time</translate></span>
+				<span class="c3d-stat-value">{{tstat.TotalPrintTime}}</span>
+			</div>
+			<div class="c3d-stat">
+				<span class="c3d-stat-label"><translate>Total Resin Cost</translate></span>
+				<span class="c3d-stat-value">${{tstat.TotalResinCost}}</span>
+			</div>
+		</div>
+	</div>
 
-        </div>
+	{% if os=="linux" %}
+	<div class="c3d-panel c3d-printer-panel">
+		<div class="c3d-panel-head">
+			<span class="c3d-section-label"><translate>System</translate></span>
+		</div>
+		<div id="stat">
+			<div class="c3d-metric c3d-sys-tile">
+				<span class="c3d-metric-label"><translate>CPU</translate></span>
+				<span class="c3d-metric-value" id="proc">{{stat.Proc}}</span>
+				<span class="spark" id="proc_chart"><canvas></canvas></span>
+			</div>
+			<div class="c3d-metric c3d-sys-tile">
+				<span class="c3d-metric-label"><translate>Proc</translate></span>
+				<span class="c3d-metric-value" id="proc_numb">{{stat.ProcNumb}}</span>
+				<span class="spark" id="proc_numb_chart"><canvas></canvas></span>
+			</div>
+			<div class="c3d-metric c3d-sys-tile">
+				<span class="c3d-metric-label"><translate>CPU Temp</translate></span>
+				<span class="c3d-metric-value" id="temp">{{stat.Temp}}°C</span>
+				<span class="spark" id="temp_chart"><canvas></canvas></span>
+			</div>
+			<div class="c3d-metric c3d-sys-tile">
+				<span class="c3d-metric-label"><translate>Disk</translate></span>
+				<span class="c3d-metric-value" id="disk">{{stat.Disk}}</span>
+				<span class="spark" id="disk_chart"><canvas></canvas></span>
+			</div>
+			<div class="c3d-metric c3d-sys-tile">
+				<span class="c3d-metric-label"><translate>Memory</translate></span>
+				<span class="c3d-metric-value" id="mem">{{stat.Mem}}</span>
+				<span class="spark" id="mem_chart"><canvas></canvas></span>
+			</div>
+			<div class="c3d-metric c3d-sys-tile">
+				<span class="c3d-metric-label"><translate>Uptime</translate></span>
+				<span class="c3d-metric-value" id="uptime">{{stat.Up}}</span>
+			</div>
+			<div class="c3d-metric c3d-sys-tile">
+				<span class="c3d-metric-label"><translate>Resin</translate></span>
+				<span class="c3d-metric-value"><span id="resin"></span><span class="c3d-unit">°C</span></span>
+				<span class="spark" id="resin_chart"><canvas></canvas></span>
+			</div>
+		</div>
+	</div>
+	{% endif %}
 
-        <div class="col-md-4">
-            <a href="/printer/stat/reset" data-ask="reset-confirm" class="ask btn small btn-danger pull-right hidden" translate>Reset Usage Stats</a>
-            <span class="glyphicon glyphicon-resize-vertical text-success"></span>
-            <translate class="key">Total Cure Time</translate>
-            <div class="val">{{tstat.TotalCureTime}}</div>
-            <br>
+	{% if consumables %}
+	<div class="c3d-panel c3d-printer-panel">
+		<div class="c3d-panel-head">
+			<span class="c3d-section-label"><translate>Consumables</translate></span>
+		</div>
+		{% for mat in consumables %}
+		<div class="c3d-consumable">
+			<div class="c3d-consumable-head">
+				<span class="c3d-consumable-name">{{mat.Title}}</span>
+				<span class="c3d-consumable-pct">{{mat.Usage|floatformat:0}}%</span>
+				<a class="ask btn c3d-ghost c3d-ghost-danger c3d-btn-i" href="/setup/custom-consumables/reset/{{mat.Name}}" data-ask="consumable-reset-confirm"><span class="c3d-btn-i"><span class="glyphicon glyphicon-refresh"></span><translate>Reset</translate></span></a>
+			</div>
+			<div class="progress">
+				<div class="progress-bar progress-bar-warning" style="width: {{mat.Usage}}%"></div>
+			</div>
+		</div>
+		{% endfor %}
+	</div>
+	{% endif %}
 
-            <span class="glyphicon glyphicon-hourglass text-success"></span>
-            <translate class="key">Total Print Time</translate>
-            <div class="val">{{tstat.TotalPrintTime}}</div>
-            <br>
-
-            <span class="glyphicon glyphicon-usd text-success"></span>
-            <translate class="key">Total Resin Cost</translate>
-            <div class="val">${{tstat.TotalResinCost}}</div>
-            <br>
-        </div>
-        <div class="col-md-4">
-            {% if os=="linux" %}
-            <table id="stat">
-                <tr>
-                    <td width="60px" translate>CPU</td>
-                    <td width="40px" id="proc">{{stat.Proc}}</td>
-                    <td width="60px" translate>Proc</td>
-                    <td width="40px" id="proc_numb">{{stat.ProcNumb}}</td>
-                    <td width="60px" translate>CPU Temp</td>
-                    <td width="40px" id="temp">{{stat.Temp}}°C</td>
-                </tr>
-                <tr>
-                    <td colspan=2 id="proc_chart" class="spark"><canvas></canvas></td>
-                    <td colspan=2 id="proc_numb_chart" class="spark"><canvas></canvas></td>
-                    <td colspan=2 id="temp_chart" class="spark"><canvas></canvas></td>
-                </tr>
-                <tr>
-                    <td translate>Disk</td>
-                    <td id="disk">{{stat.Disk}}</td>
-                    <td translate>Memory</td>
-                    <td id="mem">{{stat.Mem}}</td>
-                    <td translate>Uptime</td>
-                    <td id="uptime">{{stat.Up}}</td>
-                </tr>
-                <tr>
-                    <td colspan=2 id="disk_chart" class="spark"><canvas></canvas></td>
-                    <td colspan=2 id="mem_chart" class="spark"><canvas></canvas></td>
-                    <td colspan=2 id="" class="spark"><canvas></canvas></td>
-                </tr>
-                <tr>
-                    <td translate>Resin</td>
-                    <td><span id="resin"></span>°C</td>
-                </tr>
-                <tr>
-                    <td colspan=2 id="resin_chart" class="spark"><canvas></canvas></td>
-                </tr>
-                <tr><td><br><br></td></tr>
-            </table>
-            {% endif %}
-        </div>
-    </div>
+	<div class="c3d-panel c3d-printer-console">
+		<div class="c3d-panel-head">
+			<span class="c3d-section-label"><translate>Printer Log</translate></span>
+		</div>
+		<div id="console_wrapper" class="c3d-scroll">
+			<div id="console">
+				<table class="search_target table">
+					<tr>
+						<th translate>Level</th>
+						<th translate>Layer</th>
+						<th translate>Time</th>
+						<th translate>Module</th>
+						<th translate>Details</th>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div>
 </div>
 
-<div class="row">
-    <div class="col-md-12">
-        {% for mat in consumables %}
-        <h5>{{mat.Title}} <a class="btn small btn-danger" href="/setup/custom-consumables/reset/{{mat.Name}}" data-confirm="confirm-reset">Reset</a></h5>
-        <translate class="hide" id="confirm-cancel">Are you sure you have changed the consumable?</translate>
-        <div class="progress progress-striped">
-            <div style="width: {{mat.Usage}}%" class="progress-bar progress-bar-warning"></div>
-        </div>
-        {% endfor %}
-    </div>
-    <div class="col-md-12 {% if power||disk||heat||swap||space||storage %}alert alert-danger{% endif %}">
-        {% if power %}<translate>Power issue detected. It is serious issue that may cause random problems during printing.</translate><br>{% endif%}
-        {% if disk %}<translate>Storage corruption detected. Storage should get repaired.</translate><br>{% endif%}
-        {% if heat %}<translate>Heating start causing performance degrade and slow down.</translate><br>{% endif%}
-        {% if swap %}<translate>Memory swap detected it will slow down operations.</translate><br>{% endif%}
-        {% if space %}<translate>Not enough free disk space. Try removing some plates or expand disk space.</translate><br>{% endif%}
-        {% if storage %}<translate>Storage does not work as expected.</translate><br>{% endif%}
-    </div>
-    <div id="console_wrapper">
-        <div id="console">
-            <table class="search_target table table-striped table-hover">
-                <tr>
-                    <th translate>Level</th>
-                    <th translate>Layer</th>
-                    <th translate>Time</th>
-                    <th translate>Module</th>
-                    <th translate>Details</th>
-                </tr>
-            </table>
-        </div>
-    </div>
-    <br>
-</div>
-
+<translate class="hide" id="consumable-reset-confirm">Are you sure you have changed the consumable?</translate>
 <translate class="hide" id="reset-confirm">Are you sure you want to reset your usage stats? These cannot be recovered</translate>
+
+<script>
+// The navbar wraps to a second row below ~1250px, so a hardcoded navbar height
+// would leave the page taller than the viewport. Measure the real offset.
+(function () {
+	var layout = document.querySelector('.c3d-printer-layout');
+	if (!layout) return;
+	var narrow = window.matchMedia('(max-height: 1020px), (max-width: 1199px)');
+	function fit() {
+		if (narrow.matches) { layout.style.height = ''; return; }
+		var top = layout.getBoundingClientRect().top;
+		layout.style.height = Math.max(360, Math.floor(window.innerHeight - top - 76)) + 'px';
+	}
+	fit();
+	window.addEventListener('load', fit);
+	window.addEventListener('resize', fit);
+})();
+</script>
 {% endblock %}

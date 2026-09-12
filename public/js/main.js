@@ -788,7 +788,7 @@ function change_stats(data,keys){
 			charts_data[v+"_counter"]=0;
 			charts_data[v].push(parseFloat(data[v]));
 			if (charts_data[v].length>120) charts_data[v].shift();
-			$("#"+v+"_chart").sparkline(charts_data[v], {"width": '80px',"height":"16px", "fillColor":false,"minSpotColor":false,"maxSpotColor":false,'lineColor':'#5bc0de'});
+			$("#"+v+"_chart").sparkline(charts_data[v], {"width": '80px',"height":"16px", "fillColor":false,"minSpotColor":false,"maxSpotColor":false,'lineColor':'#8ab4f8'});
 		}
 	});
 }
