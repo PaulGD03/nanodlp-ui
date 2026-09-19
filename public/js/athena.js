@@ -1207,6 +1207,21 @@ async function runGcode(gcode) {
 	});
 }
 
+/* The disk cards carry a meter under their value; the endpoint already reports
+   the used percentage per volume, so the bar needs no unit parsing. */
+function set_disk_meter(fillId, trackId, usageId, stat){
+	let fill = document.getElementById(fillId);
+	if (!fill || !stat) return;
+	let percent = parseFloat(stat["Use%"]);
+	if (isNaN(percent)) return;
+	percent = Math.max(0, Math.min(100, percent));
+	fill.style.width = percent + "%";
+	let track = document.getElementById(trackId);
+	if (track) track.setAttribute("aria-valuenow", Math.round(percent));
+	let usage = document.getElementById(usageId);
+	if (usage) usage.textContent = Math.round(percent) + "% used";
+}
+
 function setup_diskspace(json){
 	if(json.hasOwnProperty("nvme0n1p1")){
 		console.log("Printer has SSD installed");
@@ -1220,15 +1235,16 @@ function setup_diskspace(json){
 
 		emmc_storage_text.html("Free Disk Space (System)");
 
-		if("root" in json){
-			emmc_storage_value.html(json.root.Used + " of "+json.root.Size);
-		}else{
-			emmc_storage_value.html(json.mmcblk0p2.Avail + " of "+json.mmcblk0p2.Size);
+		let system_disk = ("root" in json) ? json.root : json.mmcblk0p2;
+		if(system_disk){
+			emmc_storage_value.html(system_disk.Avail + " of "+system_disk.Size);
+			set_disk_meter("emmc-freespace-meter", "emmc-freespace-meter-track", "emmc-freespace-usage", system_disk);
 		}
-		
+
 		ssd_storage_container.removeClass("hidden");
 		ssd_storage_text.html("Free Disk Space (Jobs)");
 		ssd_storage_value.html(json.nvme0n1p1.Avail + " of "+json.nvme0n1p1.Size);
+		set_disk_meter("ssd-freespace-meter", "ssd-freespace-meter-track", "ssd-freespace-usage", json.nvme0n1p1);
 
 	}else{
 		console.log("No SSD Installed, skipping");

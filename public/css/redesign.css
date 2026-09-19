@@ -439,6 +439,56 @@ input[type="range"].slider, input[type="range"] { accent-color: var(--brand-acce
 .modal-header { border-bottom-color: var(--df-border-subtle); }
 .modal-footer { border-top-color: var(--df-border-subtle); }
 
+/* ---------- Meters (system health tiles, disk cards) ---------- */
+.c3d-meter {
+  display: block;
+  height: 4px;
+  border-radius: 999px;
+  background-color: var(--df-surface-2);
+  overflow: hidden;
+}
+.c3d-meter-fill {
+  display: block;
+  width: 0;
+  height: 100%;
+  border-radius: inherit;
+  background-color: var(--brand-accent);
+  transition: width 240ms ease;
+}
+
+/* The two storage volumes the Jobs page reports, as their own cards. */
+.c3d-disk-cards { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px; }
+.c3d-disk-card {
+  flex: 1 1 260px;
+  max-width: 420px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 10px 14px 12px;
+  background-color: var(--df-surface-1);
+  border: 1px solid var(--df-border-subtle);
+  border-radius: var(--df-radius-md);
+}
+.c3d-disk-card-head {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--df-text-muted);
+}
+.c3d-disk-card-head .glyphicon { font-size: 12px; top: -0.5px; }
+.c3d-disk-card-usage {
+  margin-left: auto;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: var(--brand-accent);
+}
+.c3d-disk-card-value { font-size: 19px; font-weight: 700; color: var(--df-text-strong); line-height: 1.25; }
+.c3d-disk-card .c3d-meter { margin-top: 5px; }
+
 /* ---------- Data readouts ---------- */
 .val, .append, .c3d-stat-value, #heater-value, .last_location, .last_remaining, .last_eta, .last_height, .last_elapsed {
   font-variant-numeric: tabular-nums;
@@ -2109,26 +2159,9 @@ body:has(.c3d-preview-layout) > br { display: none; }
 .c3d-sys-tile .c3d-metric-label { grid-area: label; margin-bottom: 0; }
 .c3d-sys-tile .c3d-metric-value { grid-area: value; min-width: 0; font-size: 20px; }
 .c3d-sys-tile .spark { grid-area: spark; display: block; width: 100%; height: 18px; margin: 0; }
-/* percentage metrics (disk, memory) carry a meter under the row; only tiles that
-   actually have one grow the extra grid row */
+/* only tiles that actually carry a meter grow the extra grid row */
 .c3d-sys-tile:has(> .c3d-meter) { grid-template-areas: "label label" "value spark" "meter meter"; }
-.c3d-sys-tile > .c3d-meter {
-  grid-area: meter;
-  display: block;
-  height: 4px;
-  margin-top: 4px;
-  border-radius: 999px;
-  background-color: var(--df-surface-2, rgba(255, 255, 255, 0.08));
-  overflow: hidden;
-}
-.c3d-sys-tile > .c3d-meter > .c3d-meter-fill {
-  display: block;
-  width: 0;
-  height: 100%;
-  border-radius: inherit;
-  background-color: var(--brand-accent);
-  transition: width 240ms ease;
-}
+.c3d-sys-tile > .c3d-meter { grid-area: meter; margin-top: 4px; }
 .c3d-sys-tile #uptime { grid-column: 1 / -1; }
 @media (max-width: 991px) {
   .c3d-printer-summary { grid-template-columns: minmax(0, 1fr); }
