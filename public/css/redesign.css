@@ -1832,34 +1832,40 @@ body:has(.c3d-preview-layout) > br { display: none; }
 }
 
 /* ---------- Themed scrollbars (DragonFruit .custom-scrollbar) ---------- */
+/* #terminal is in here too: the G-code log streams continuously, so it scrolls
+   itself and its scrollbar is part of the design. */
 /* Both paths on purpose: Chromium >=121 with overlay ("fluent") scrollbars only
    honours the standard properties, older engines only honour ::-webkit-scrollbar.
    Setting the standard ones is what makes the bar themed on current Chrome. */
 .c3d-scroll,
 .c3d-gcode-cell dd,
 .c3d-preview-note.is-danger,
-.c3d-preview-gcode dd {
+.c3d-preview-gcode dd,
+.c3d-terminal-page #terminal {
   scrollbar-width: thin;
   scrollbar-color: var(--brand-accent) color-mix(in srgb, var(--df-surface-2), #000 18%);
 }
 .c3d-scroll::-webkit-scrollbar,
 .c3d-gcode-cell dd::-webkit-scrollbar,
 .c3d-preview-note.is-danger::-webkit-scrollbar,
-.c3d-preview-gcode dd::-webkit-scrollbar {
+.c3d-preview-gcode dd::-webkit-scrollbar,
+.c3d-terminal-page #terminal::-webkit-scrollbar {
   width: 10px;
   height: 10px;
 }
 .c3d-scroll::-webkit-scrollbar-track,
 .c3d-gcode-cell dd::-webkit-scrollbar-track,
 .c3d-preview-note.is-danger::-webkit-scrollbar-track,
-.c3d-preview-gcode dd::-webkit-scrollbar-track {
+.c3d-preview-gcode dd::-webkit-scrollbar-track,
+.c3d-terminal-page #terminal::-webkit-scrollbar-track {
   background: color-mix(in srgb, var(--df-surface-2), #000 18%);
   border-radius: 999px;
 }
 .c3d-scroll::-webkit-scrollbar-thumb,
 .c3d-gcode-cell dd::-webkit-scrollbar-thumb,
 .c3d-preview-note.is-danger::-webkit-scrollbar-thumb,
-.c3d-preview-gcode dd::-webkit-scrollbar-thumb {
+.c3d-preview-gcode dd::-webkit-scrollbar-thumb,
+.c3d-terminal-page #terminal::-webkit-scrollbar-thumb {
   background: linear-gradient(
     180deg,
     color-mix(in srgb, var(--brand-accent), #fff 8%),
@@ -1871,7 +1877,8 @@ body:has(.c3d-preview-layout) > br { display: none; }
 .c3d-scroll::-webkit-scrollbar-thumb:hover,
 .c3d-gcode-cell dd::-webkit-scrollbar-thumb:hover,
 .c3d-preview-note.is-danger::-webkit-scrollbar-thumb:hover,
-.c3d-preview-gcode dd::-webkit-scrollbar-thumb:hover {
+.c3d-preview-gcode dd::-webkit-scrollbar-thumb:hover,
+.c3d-terminal-page #terminal::-webkit-scrollbar-thumb:hover {
   background: linear-gradient(
     180deg,
     color-mix(in srgb, var(--brand-accent), #fff 16%),
@@ -2821,8 +2828,11 @@ body:has(.c3d-preview-layout) > br { display: none; }
 .c3d-history-actions { display: flex; flex-wrap: nowrap; align-items: center; gap: 8px; }
 .c3d-history-actions .btn { margin: 0; min-height: 30px; padding: 4px 10px; font-size: 12px; }
 .c3d-terminal-page .terminal { width: 100%; }
-.c3d-terminal-page .c3d-terminal-output-label { color: var(--df-text-muted); margin-top: 0; }
-.c3d-terminal-page #terminal { min-height: 250px; max-height: 55vh; overflow-y: auto; color: var(--df-text-strong); background: #0b0d12; border: 1px solid var(--df-border-strong); border-radius: var(--df-radius-sm); padding: 12px; }
+/* Live output header: label left, the auto-scroll switch on the right. */
+.c3d-terminal-output-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin: 0 0 10px; }
+.c3d-terminal-output-head .c3d-toggle-pill { gap: 7px; }
+.c3d-terminal-page .c3d-terminal-output-label { color: var(--df-text-muted); margin: 0; }
+.c3d-terminal-page #terminal { min-height: 250px; max-height: 55vh; overflow-y: auto; scrollbar-gutter: stable; color: var(--df-text-strong); background: #0b0d12; border: 1px solid var(--df-border-strong); border-radius: var(--df-radius-sm); padding: 12px; }
 .c3d-terminal-page label { color: var(--df-text-muted); margin: 4px 0 0; }
 .c3d-terminal-page #gcode { background: var(--df-surface-1); color: var(--df-text-strong); border: 1px solid var(--df-border-strong); resize: vertical; }
 .c3d-terminal-page .terminal > a { align-self: start; }

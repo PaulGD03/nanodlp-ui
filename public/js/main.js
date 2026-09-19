@@ -1105,6 +1105,31 @@ function tooltip_display(selector,timeout){
 	$("#tip").css({"top":(selector.pageY - xOffset) + "px","left":(selector.pageX + yOffset) + "px"}).fadeIn("fast");
 }
 
+var TERMINAL_AUTOSCROLL_KEY='terminal-autoscroll';
+
+function terminal_autoscroll_pref(){
+	var saved=null;
+	try { saved=localStorage.getItem(TERMINAL_AUTOSCROLL_KEY); } catch(e) {}
+	return saved!='0';
+}
+
+function terminal_autoscroll_paint(){
+	var on=terminal_autoscroll_pref();
+	$('#terminal-autoscroll')
+		.toggleClass('is-on',on)
+		.toggleClass('is-off',!on)
+		.attr('aria-checked',on?'true':'false');
+}
+
+function terminal_at_bottom(el){
+	/* The log keeps growing while you read it, so stick to the end unless the
+	   user scrolled away from it. clientHeight, not outerHeight: outerHeight
+	   counts the 1px borders and then never equals scrollHeight - scrollTop.
+	   Small slack, because scrollTop and the heights can differ by a fraction
+	   of a pixel even when the view is at the bottom. */
+	return el.scrollHeight - el.scrollTop - el.clientHeight <= 32;
+}
+
 function terminal_init(){
 	if ($('#terminal').length==0) return;
 	$("html").delegate('.terminal a','click',function(e){
@@ -1113,16 +1138,29 @@ function terminal_init(){
 		$("#gcode").val("").focus();
 		$('#terminal').scrollTop($('#terminal')[0].scrollHeight);
 	});
+	$('#terminal-autoscroll').on('click',function(){
+		var on=!terminal_autoscroll_pref();
+		try { localStorage.setItem(TERMINAL_AUTOSCROLL_KEY,on?'1':'0'); } catch(e) {}
+		terminal_autoscroll_paint();
+		if (on) {
+			var el=$('#terminal')[0];
+			if (el) el.scrollTop=el.scrollHeight;
+		}
+	});
+	terminal_autoscroll_paint();
+	terminal_fetch();
 	setInterval(function(){terminal_fetch();}, 1000);
 }
 
 function terminal_fetch(){
+	var el=$('#terminal')[0];
+	if (!el) return;
 	$.get("/term-io").done(function(data){
 		if (data=="") return;
 		if (data==$("#terminal").html()) return;
-		var currentBottom=$('#terminal').scrollTop()+$('#terminal').outerHeight()==$('#terminal')[0].scrollHeight;
+		var stick=terminal_autoscroll_pref() && terminal_at_bottom(el);
 		$("#terminal").html(data);
-		if (currentBottom) $('#terminal').scrollTop($('#terminal')[0].scrollHeight);
+		if (stick) el.scrollTop=el.scrollHeight;
 	});
 }
 

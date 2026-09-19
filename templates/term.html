@@ -9,7 +9,10 @@
         </div>
     </div>
     <section class="c3d-card terminal" aria-label="Live G-code terminal">
-        <div class="c3d-section-label c3d-terminal-output-label"><translate>Live output</translate></div>
+        <div class="c3d-terminal-output-head">
+            <div class="c3d-section-label c3d-terminal-output-label"><translate>Live output</translate></div>
+            <button type="button" id="terminal-autoscroll" class="c3d-toggle-pill is-on" role="switch" aria-checked="true" title="Keep the newest output in view"><span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span><translate>Auto-scroll</translate></button>
+        </div>
         <div id="terminal" role="log" aria-live="polite"></div>
         <label for="gcode"><translate>G-code command</translate></label>
         <textarea name="gcode" id="gcode" rows="2" class="form-control"></textarea>
