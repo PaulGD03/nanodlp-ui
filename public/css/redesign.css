@@ -73,13 +73,13 @@ a:hover, a:focus { color: var(--brand-accent); filter: brightness(1.08); }
 .navbar-default .navbar-brand { height: 48px; display: flex; align-items: center; padding: 0 12px 0 24px; }
 .navbar-default .c3d-navbar-brand { gap: 8px; }
 /* Left padding matches the 24px page-content grid (.container), so the mark lines up
-   with the panels below it. Both SVGs' ink fills its viewBox, so flex centring is
-   already the optical centre — these used to carry translateY(12px)/translateY(14px)
-   to chase the nav row's centre, which left the icon and the wordmark 2px apart and
-   pushed the art outside the brand box, so the focus ring wrapped a rectangle the
-   images spilled out of. */
-.navbar-default .c3d-navbar-brand .c3d-brand-icon { display: block; width: auto !important; height: 28px !important; flex: 0 0 auto; }
-.navbar-default .c3d-navbar-brand .c3d-brand-wordmark { display: block; width: auto !important; height: 20px !important; flex: 0 0 auto; }
+   with the panels below it. The two SVGs' ink fills their viewBoxes, but the wordmark's
+   box also carries the 'p' descender, so flex-centring it left the cap band (what the
+   eye reads as the logo's text) 1.9px high against the nav labels' cap band; the icon
+   keeps to the same line. Measured on the live bar: wordmark cap band 27.0-41.9 against
+   Dashboard's 31.75-41.0, icon ink 23.0-50.75. */
+.navbar-default .c3d-navbar-brand .c3d-brand-icon { display: block; width: auto !important; height: 28px !important; flex: 0 0 auto; transform: translateY(-0.5px); }
+.navbar-default .c3d-navbar-brand .c3d-brand-wordmark { display: block; width: auto !important; height: 20px !important; flex: 0 0 auto; transform: translateY(1.9px); }
 /* The logo is a navigation target: replace the UA's white ring around the 48px box
    with a tight, on-brand one that hugs the brand art (AABB, 2px inset). */
 .navbar-default .c3d-navbar-brand:focus { outline: none; }
@@ -2165,7 +2165,8 @@ body:has(.c3d-preview-layout) > br { display: none; }
 
 /* Navbar status uses link spacing without becoming a navigation target. */
 .navbar-nav > li > .c3d-navbar-readout {
-  display: block;
+  display: flex;
+  align-items: center;
   padding: 10px 15px;
   line-height: 20px;
   font-size: 14px;
