@@ -2553,7 +2553,6 @@ body:has(.c3d-preview-layout) > br { display: none; }
 .c3d-workflow-form { border-top: 1px solid var(--df-border-subtle); margin-top: 6px; padding-top: 18px; display: grid; gap: 10px; }
 .c3d-workflow-form label { color: var(--df-text-strong); font-weight: 600; margin: 0; }
 .c3d-workflow-form .form-control { min-width: 0; margin: 0; }
-.c3d-workflow-form input[type="file"] { height: auto; min-height: 42px; padding: 8px; }
 .c3d-workflow-form .btn { justify-self: start; margin-top: 2px; }
 .c3d-compare-selectors { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
 .c3d-compare-selectors > div { min-width: 0; }
@@ -2571,8 +2570,88 @@ body:has(.c3d-preview-layout) > br { display: none; }
 .c3d-source-tabs > li.active > a, .c3d-source-tabs > li.active > a:hover, .c3d-source-tabs > li.active > a:focus { background: var(--brand-accent); border-color: var(--brand-accent); color: var(--brand-accent-ink); }
 .c3d-job-upload-card .row.flex-row { row-gap: 10px; }
 .c3d-job-upload-card .tab-content { min-width: 0; }
-.c3d-job-upload-card .form-control[type="file"] { height: auto; min-height: 42px; }
 .c3d-job-upload-card label { color: var(--df-text-muted); }
+/* The shell's legacy control rules (main.css + athena.css `.edit-page input/select`)
+   are element+class selectors, so they outrank the plain .form-control rule: every
+   control on this page rendered the legacy #3b3b3b fill, #ddd hairline, square
+   corners, 39px height and inset shadow. Re-assert the design system here, at a
+   specificity that wins, for the workflow forms this stylesheet already owns. */
+.c3d-job-upload-card .form-control,
+.c3d-workflow-form .form-control {
+  height: 36px;
+  min-height: 36px;
+  padding: 0 12px;
+  font-size: 14px;
+  line-height: 1.35;
+  color: var(--df-text-strong);
+  background-color: var(--df-surface-1);
+  border: 1px solid var(--df-border-strong);
+  border-radius: var(--df-radius-sm);
+  box-shadow: none;
+  margin: 0 0 2px;
+  transition: border-color 140ms ease;
+}
+.c3d-job-upload-card .form-control:focus,
+.c3d-workflow-form .form-control:focus {
+  border-color: var(--brand-accent);
+  box-shadow: 0 0 0 1px var(--brand-accent);
+  outline: none;
+}
+.c3d-job-upload-card select.form-control,
+.c3d-workflow-form select.form-control { padding-right: 32px; background-position: right 10px center; }
+.c3d-job-upload-card label,
+.c3d-workflow-form label { font-size: 13px; font-weight: 600; }
+/* the "STL, 3MF, …" hint next to a field label: a muted chip, not bootstrap's
+   9.75px white-on-grey label (which also inherited nowrap on a long string) */
+.c3d-job-upload-card label .label,
+.c3d-workflow-form label .label {
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.35;
+  white-space: normal;
+  padding: 2px 7px;
+  border: 1px solid var(--df-border-subtle);
+  border-radius: 999px;
+  background-color: var(--df-surface-2);
+  color: var(--df-text-muted);
+}
+/* File fields: the native button becomes a ghost control and the filename reads as
+   the field's value, so the control matches the text inputs beside it. */
+.c3d-job-upload-card input[type="file"].form-control,
+.c3d-workflow-form input[type="file"] {
+  height: 42px;
+  min-height: 42px;
+  padding: 4px;
+  font-size: 13px;
+  line-height: 32px;
+  color: var(--df-text-muted);
+  cursor: pointer;
+}
+.c3d-job-upload-card input[type="file"].form-control::file-selector-button,
+.c3d-workflow-form input[type="file"]::file-selector-button {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 32px;
+  margin: 0 12px 0 0;
+  padding: 0 14px;
+  background-color: var(--df-surface-2);
+  border: 1px solid var(--df-border-strong);
+  border-radius: var(--df-radius-sm);
+  color: var(--brand-accent);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 140ms ease, border-color 140ms ease, color 140ms ease;
+}
+.c3d-job-upload-card input[type="file"].form-control:hover::file-selector-button,
+.c3d-job-upload-card input[type="file"].form-control:focus::file-selector-button,
+.c3d-workflow-form input[type="file"]:hover::file-selector-button,
+.c3d-workflow-form input[type="file"]:focus::file-selector-button {
+  background-color: var(--brand-accent);
+  border-color: var(--brand-accent);
+  color: var(--brand-accent-ink);
+}
 .c3d-job-upload-card .advanced { margin-top: 4px; }
 .c3d-job-upload-card .progress { margin-top: 12px; }
 .c3d-calibration-setup { margin: 0 0 18px; }

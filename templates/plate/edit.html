@@ -51,11 +51,9 @@
 			<div class="col-md-4">
 				<label for="Path" translate>Name</label>
 				<input value="{{plate.Path}}" name="Path" id="Path" class="form-control" required>
-				<br>
 			</div>
 			<div class="col-md-4">
                 {{ selectProfile(profiles,defaultProfile) }}
-				<br>
 			</div>
 			<div class="col-md-12">
 				<button class="btn btn-default {% if viewMode == 0 %}hidden{% endif %}" type="button" data-toggle="collapse" data-target=".advanced" aria-expanded="false" translate>Advanced Options</button>
