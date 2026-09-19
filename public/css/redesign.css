@@ -542,9 +542,9 @@ input[type="range"].slider, input[type="range"] { accent-color: var(--brand-acce
 .c3d-page-actions { display: flex; gap: 8px; flex-wrap: wrap; }
 .c3d-page-actions .btn { margin: 0; }
 .c3d-jobs-page-head { display: block; }
-.c3d-jobs-page-head .c3d-page-actions { width: 100%; margin-top: 14px; align-items: flex-start; }
+.c3d-jobs-page-head .c3d-page-actions { width: 100%; margin-top: 14px; align-items: center; }
 .c3d-jobs-primary-actions { display: flex; flex-wrap: wrap; gap: 8px; }
-.c3d-jobs-more { margin-left: auto; }
+.c3d-jobs-more { margin-left: 0; }
 .c3d-jobs-more .dropdown-menu { right: 0; left: auto; }
 .c3d-unit { font-size: 0.6em; font-weight: 600; color: var(--df-text-muted); }
 
@@ -1158,7 +1158,13 @@ body.c3d-printing #webcam-column .dashboard-panel { flex: 1 1 auto; }
   transition: background-color 140ms ease, border-color 140ms ease, color 140ms ease;
 }
 /* ---------- Shared job surface styles ---------- */
-.c3d-jobs-tools { display: flex; gap: 10px; margin: 2px 0 14px; flex-wrap: wrap; align-items: center; }
+/* Search + resin filter sit in the page head's action row (right-aligned) instead
+   of owning a full row of their own above the list. nowrap keeps the pair on one
+   line and lets them shrink together when the row gets tight. */
+/* 380px basis is the wrap threshold: at >=~1050px the pair shares the button row,
+   below that it drops to its own line (which is where it lived before) and
+   shrinks with the viewport instead of wrapping one field under the other. */
+.c3d-jobs-tools { display: flex; gap: 10px; margin: 0 0 0 auto; flex: 1 1 380px; max-width: 640px; flex-wrap: nowrap; align-items: center; }
 .c3d-jobs-filter { display: flex; flex: 1 1 240px; max-width: 340px; }
 .c3d-jobs-filter.c3d-jobs-search { flex: 1 1 280px; max-width: 420px; }
 /* The group is the field: one hairline box, radius on the outside only, so the
