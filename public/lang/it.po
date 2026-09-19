@@ -1166,19 +1166,19 @@ msgid "FullHD Calibration"
 msgstr "Calibrazione FullHD"
 
 #: ../templates/setup/custom-buttons.html:64
-msgid "Gcode"
-msgstr "Gcode"
+msgid "G-code"
+msgstr "G-code"
 
 #: ../templates/index-progress.html:83
-msgid "Gcode After"
-msgstr "Dopo  Gcode"
+msgid "G-code After"
+msgstr "Dopo  G-code"
 
 #: ../templates/index-progress.html:79
-msgid "Gcode Before"
-msgstr "Prima  Gcode"
+msgid "G-code Before"
+msgstr "Prima  G-code"
 
 #: ../templates/setup/tools.html:93
-msgid "Gcode Terminal"
+msgid "G-code Terminal"
 msgstr ""
 
 #: ../templates/plate/extrude.html:49 ../templates/plate/generator.html:41
@@ -2496,8 +2496,8 @@ msgid "Selected Covers"
 msgstr "Selezionare Copertura"
 
 #: ../templates/term.html:9
-msgid "Send Gcode"
-msgstr "Inviare Gcode"
+msgid "Send G-code"
+msgstr "Inviare G-code"
 
 #: ../templates/index-progress.html:10
 msgid "Send Report"
@@ -3106,8 +3106,8 @@ msgid "Yes"
 msgstr ""
 
 #: ../templates/setup/custom-inputs.html:50
-msgid "You can add additional inputs to the setup page and they will be accessible as Gcode keywords. eg. [[_ResinPumpAmount]]"
-msgstr "&Egrave possibile aggiungere ulteriori input alla pagina di configurazione e saranno accessibili come parole chiave Gcode. per esempio. [[_ResinPumpAmount]]"
+msgid "You can add additional inputs to the setup page and they will be accessible as G-code keywords. eg. [[_ResinPumpAmount]]"
+msgstr "&Egrave possibile aggiungere ulteriori input alla pagina di configurazione e saranno accessibili come parole chiave G-code. per esempio. [[_ResinPumpAmount]]"
 
 #: ../templates/setup/upgrade.html:13
 msgid "You can do manual upgrade by using SSH terminal."

@@ -1166,19 +1166,19 @@ msgid "FullHD Calibration"
 msgstr ""
 
 #: ../templates/setup/custom-buttons.html:64
-msgid "Gcode"
+msgid "G-code"
 msgstr ""
 
 #: ../templates/index-progress.html:83
-msgid "Gcode After"
+msgid "G-code After"
 msgstr ""
 
 #: ../templates/index-progress.html:79
-msgid "Gcode Before"
+msgid "G-code Before"
 msgstr ""
 
 #: ../templates/setup/tools.html:93
-msgid "Gcode Terminal"
+msgid "G-code Terminal"
 msgstr ""
 
 #: ../templates/plate/extrude.html:49 ../templates/plate/generator.html:41
@@ -2496,7 +2496,7 @@ msgid "Selected Covers"
 msgstr ""
 
 #: ../templates/term.html:9
-msgid "Send Gcode"
+msgid "Send G-code"
 msgstr ""
 
 #: ../templates/index-progress.html:10
@@ -3106,7 +3106,7 @@ msgid "Yes"
 msgstr ""
 
 #: ../templates/setup/custom-inputs.html:50
-msgid "You can add additional inputs to the setup page and they will be accessible as Gcode keywords. eg. [[_ResinPumpAmount]]"
+msgid "You can add additional inputs to the setup page and they will be accessible as G-code keywords. eg. [[_ResinPumpAmount]]"
 msgstr ""
 
 #: ../templates/setup/upgrade.html:13

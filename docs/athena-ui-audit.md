@@ -65,7 +65,7 @@ viewport. Confirm the menu in Easy/Advanced and locked configurations.
 | Jobs | WP2 information modal added | Athena slicing instructions for the modal; printer acceptance pending |
 | Resins | Production behavior reconciled in WP5 | Printer acceptance for all-profile sorting, default badge, editor modes and database iframe |
 | Analytics | Requires visual validation | Same metric colors on Dashboard/full charts; check ALL series together on dark backgrounds |
-| Print History / Gcode Terminal | Needs visual redesign | Customer-visible legacy template layouts |
+| Print History / G-code Terminal | Needs visual redesign | Customer-visible legacy template layouts |
 | Support & Connectivity | Redesigned in WP3 | Printer acceptance; see athena-support-diagnostics.md for hook inventory, download findings and existing functional issues |
 | Resin Import | Route confirmed in WP5; layout separation deferred | `/import` retains both profile and machine-settings forms unchanged |
 | Settings and Tools / Machine Settings | Tools redesigned in WP4; Machine Settings remains a service page | `/printer/restore` is a separate, untested ZIP Restore Backup page; shortcut remains Service Mode only |
@@ -252,7 +252,7 @@ form IDs, exposure calculations, submit route and print action were not changed;
 no calibration print was executed.
 
 Print History now presents statistics and existing result controls in the dark
-card system, with semantic status colors and wrapping job names. The Gcode
+card system, with semantic status colors and wrapping job names. The G-code
 Terminal uses the same card/control style while retaining its live output,
 `#gcode` input and existing send hook. Settings & Tools no longer presents
 Export NanoSupport Settings. The existing AEGIS control remains in
@@ -269,7 +269,7 @@ Proteus database open/close/import, all four import/restore forms only with
 separate authorization, comparison with real profiles, local/USB job upload,
 calibration preview and model selection, history result controls, terminal
 output/input, AEGIS visibility, and Support QR scanning. Do not execute a
-calibration print or a Gcode command as part of visual acceptance.
+calibration print or a G-code command as part of visual acceptance.
 
 The Software Update page and `changeUpdateChannel()` workflow were not changed.
 On physical Athena hardware, separately test channel change, reboot prompt,
@@ -293,7 +293,7 @@ focus no longer shows that outline, while keyboard focus has an inset gold ring.
 The redundant close toolbar was removed; the header chevron still controls the
 same iframe and integration. Calibration evaluation now places the existing
 dark-on-light guide QR beside the wider text on desktop and below it on mobile.
-The Gcode Terminal card is centered at a 960 px maximum and its Live Output
+The G-code Terminal card is centered at a 960 px maximum and its Live Output
 label uses muted text. Print History and Support were left unchanged.
 
 Physical printer acceptance remains necessary for live navbar statuses,
@@ -307,7 +307,7 @@ The first physical-printer review found a small optical logo offset, excessive
 AEGIS precision, the missing production Z readout, a tall Printer Status page,
 the 960 px Terminal cap, and a critical growth loop on full Analytics. WP8 is a
 local UI-only correction set; it does not change printer configuration,
-NanoDLP backend behavior, analytics source values, motion, Gcode, or heaters.
+NanoDLP backend behavior, analytics source values, motion, G-code, or heaters.
 
 The production backup showed that the previous Dashboard read Z from the
 read-only `/z-axis/info` route every 1.5 seconds and used
@@ -325,7 +325,7 @@ Printer Status now places Usage Stats and System in a responsive 40/60 summary
 grid. Usage retains all six counters in two columns, and System retains all
 seven IDs, sparklines, and values in three columns. The cards stack below the
 desktop breakpoint and collapse to single-column metrics on phones. Warnings,
-reset, consumables, and Printer Log remain in their existing flow. The Gcode
+reset, consumables, and Printer Log remain in their existing flow. The G-code
 Terminal now fills the normal shared page width.
 
 The Analytics runaway came from measuring a parent whose height included the
@@ -497,7 +497,7 @@ panel. At 900×900 and 390×844 the grids stacked as intended, the mobile action
 filled its row, and document horizontal overflow remained zero. Browser console
 checks were clean. JavaScript syntax and a focused helper test passed for live
 value formatting, sparkline history, and unavailable fallback. No reset,
-motion, Gcode, heat, print, update, configuration change, deployment, restart,
+motion, G-code, heat, print, update, configuration change, deployment, restart,
 or reboot was performed.
 
 Physical acceptance remains for the logo's optical alignment on the normal

@@ -1168,19 +1168,19 @@ msgid "FullHD Calibration"
 msgstr "FullHD 보정"
 
 #: ../templates/setup/custom-buttons.html:64
-msgid "Gcode"
+msgid "G-code"
 msgstr "G코드"
 
 #: ../templates/index-progress.html:83
-msgid "Gcode After"
+msgid "G-code After"
 msgstr "G코드 후"
 
 #: ../templates/index-progress.html:79
-msgid "Gcode Before"
+msgid "G-code Before"
 msgstr "G코드 전"
 
 #: ../templates/setup/tools.html:93
-msgid "Gcode Terminal"
+msgid "G-code Terminal"
 msgstr ""
 
 #: ../templates/plate/extrude.html:49 ../templates/plate/generator.html:41
@@ -2500,7 +2500,7 @@ msgid "Selected Covers"
 msgstr "선택한 커버"
 
 #: ../templates/term.html:9
-msgid "Send Gcode"
+msgid "Send G-code"
 msgstr "G코드 전송"
 
 #: ../templates/index-progress.html:10
@@ -3112,8 +3112,8 @@ msgid "Yes"
 msgstr "예"
 
 #: ../templates/setup/custom-inputs.html:50
-msgid "You can add additional inputs to the setup page and they will be accessible as Gcode keywords. eg. [[_ResinPumpAmount]]"
-msgstr "설정 페이지에 입력을 추가할 수 있으며, Gcode 키워드로 액세스할 수 있습니다. 예. [[_ResinPumpAmount]]"
+msgid "You can add additional inputs to the setup page and they will be accessible as G-code keywords. eg. [[_ResinPumpAmount]]"
+msgstr "설정 페이지에 입력을 추가할 수 있으며, G-code 키워드로 액세스할 수 있습니다. 예. [[_ResinPumpAmount]]"
 
 #: ../templates/setup/upgrade.html:13
 msgid "You can do manual upgrade by using SSH terminal."

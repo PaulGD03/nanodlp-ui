@@ -1168,19 +1168,19 @@ msgid "FullHD Calibration"
 msgstr "全高清校正"
 
 #: ../templates/setup/custom-buttons.html:64
-msgid "Gcode"
+msgid "G-code"
 msgstr "G代码"
 
 #: ../templates/index-progress.html:83
-msgid "Gcode After"
+msgid "G-code After"
 msgstr "G代码 后"
 
 #: ../templates/index-progress.html:79
-msgid "Gcode Before"
+msgid "G-code Before"
 msgstr "G代码 前"
 
 #: ../templates/setup/tools.html:93
-msgid "Gcode Terminal"
+msgid "G-code Terminal"
 msgstr ""
 
 #: ../templates/plate/extrude.html:49 ../templates/plate/generator.html:41
@@ -2498,8 +2498,8 @@ msgid "Selected Covers"
 msgstr "选择覆盖"
 
 #: ../templates/term.html:9
-msgid "Send Gcode"
-msgstr "发送 Gcode"
+msgid "Send G-code"
+msgstr "发送 G-code"
 
 #: ../templates/index-progress.html:10
 msgid "Send Report"
@@ -3110,8 +3110,8 @@ msgid "Yes"
 msgstr "是"
 
 #: ../templates/setup/custom-inputs.html:50
-msgid "You can add additional inputs to the setup page and they will be accessible as Gcode keywords. eg. [[_ResinPumpAmount]]"
-msgstr "您可以添加额外的输入到设置页，他们将获得Gcode关键词。如. [[_ResinPumpAmount]]"
+msgid "You can add additional inputs to the setup page and they will be accessible as G-code keywords. eg. [[_ResinPumpAmount]]"
+msgstr "您可以添加额外的输入到设置页，他们将获得G-code关键词。如. [[_ResinPumpAmount]]"
 
 #: ../templates/setup/upgrade.html:13
 msgid "You can do manual upgrade by using SSH terminal."
