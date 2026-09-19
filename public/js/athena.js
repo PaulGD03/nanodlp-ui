@@ -1233,17 +1233,17 @@ function setup_diskspace(json){
 		let ssd_storage_text = $("#ssd-freespace-text");
 		let ssd_storage_value = $("#ssd-freespace-value");
 
-		emmc_storage_text.html("Free Disk Space (System)");
+		emmc_storage_text.html("Disk Usage (System)");
 
 		let system_disk = ("root" in json) ? json.root : json.mmcblk0p2;
 		if(system_disk){
-			emmc_storage_value.html(system_disk.Avail + " of "+system_disk.Size);
+			emmc_storage_value.html(system_disk.Used + " of "+system_disk.Size);
 			set_disk_meter("emmc-freespace-meter", "emmc-freespace-meter-track", "emmc-freespace-usage", system_disk);
 		}
 
 		ssd_storage_container.removeClass("hidden");
-		ssd_storage_text.html("Free Disk Space (Jobs)");
-		ssd_storage_value.html(json.nvme0n1p1.Avail + " of "+json.nvme0n1p1.Size);
+		ssd_storage_text.html("Disk Usage (SSD Storage)");
+		ssd_storage_value.html(json.nvme0n1p1.Used + " of "+json.nvme0n1p1.Size);
 		set_disk_meter("ssd-freespace-meter", "ssd-freespace-meter-track", "ssd-freespace-usage", json.nvme0n1p1);
 
 	}else{
