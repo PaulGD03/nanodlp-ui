@@ -1586,11 +1586,11 @@ table#plates.table-bordered > tbody > tr > td { border-color: var(--df-border-su
 /* viewers stay columns of the grid even though preview.js juggles col-md-* on them */
 /* The page owns exactly one viewport: header + scrubber + viewers + info panel,
    with the code boxes taking the leftover height and scrolling inside it.
-   Chrome accounted for: 66px navbar, 64px fixed footer, 12px air. */
+   Chrome accounted for: 74px navbar, 64px fixed footer, 12px air. */
 .c3d-preview-layout {
   display: flex;
   flex-direction: column;
-  height: calc(100vh - 142px);
+  height: calc(100vh - 150px);
   min-height: 520px;
 }
 /* the shell appends three <br> after .container (direct body children): on this
@@ -1788,7 +1788,7 @@ body:has(.c3d-preview-layout) > br { display: none; }
   display: flex;
   flex-direction: column;
   gap: 12px;
-  height: calc(100vh - 142px);
+  height: calc(100vh - 150px);
   min-height: 520px;
 }
 /* the shell appends three <br> after the content block: 60px that would push
@@ -2019,7 +2019,7 @@ body:has(.c3d-preview-layout) > br { display: none; }
   display: flex;
   flex-direction: column;
   gap: 12px;
-  height: calc(100vh - 142px);
+  height: calc(100vh - 150px);
   min-height: 480px;
 }
 /* the shell appends three <br> after the content block: 60px of page height */
