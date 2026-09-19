@@ -70,12 +70,26 @@ a:hover, a:focus { color: var(--brand-accent); filter: brightness(1.08); }
   border-bottom: 1px solid var(--df-border-subtle);
   border-radius: 0;
 }
-.navbar-default .navbar-brand { height: 48px; display: flex; align-items: center; padding: 0 12px; }
+.navbar-default .navbar-brand { height: 48px; display: flex; align-items: center; padding: 0 12px 0 24px; }
 .navbar-default .c3d-navbar-brand { gap: 8px; }
-.navbar-default .c3d-navbar-brand .c3d-brand-icon { display: block; width: auto !important; height: 32px !important; flex: 0 0 auto; transform: translateY(12px); }
-.navbar-default .c3d-navbar-brand .c3d-brand-wordmark { display: block; width: auto !important; height: 20px !important; flex: 0 0 auto; transform: translateY(14px); }
+/* Left padding matches the 24px page-content grid (.container), so the mark lines up
+   with the panels below it. Both SVGs' ink fills its viewBox, so flex centring is
+   already the optical centre — these used to carry translateY(12px)/translateY(14px)
+   to chase the nav row's centre, which left the icon and the wordmark 2px apart and
+   pushed the art outside the brand box, so the focus ring wrapped a rectangle the
+   images spilled out of. */
+.navbar-default .c3d-navbar-brand .c3d-brand-icon { display: block; width: auto !important; height: 28px !important; flex: 0 0 auto; }
+.navbar-default .c3d-navbar-brand .c3d-brand-wordmark { display: block; width: auto !important; height: 20px !important; flex: 0 0 auto; }
+/* The logo is a navigation target: replace the UA's white ring around the 48px box
+   with a tight, on-brand one that hugs the brand art (AABB, 2px inset). */
+.navbar-default .c3d-navbar-brand:focus { outline: none; }
+.navbar-default .c3d-navbar-brand:focus-visible {
+  outline: 2px solid var(--brand-accent);
+  outline-offset: -2px;
+  border-radius: 8px;
+}
 .navbar-default .navbar-toggle { margin-top: 7px; margin-bottom: 7px; }
-.navbar-default .navbar-nav > li > a { color: var(--df-text-muted); font-size: 14px; }
+.navbar-default .navbar-nav > li > a { color: var(--df-text-muted); font-size: 14px; display: flex; align-items: center; gap: 10px; }
 .navbar-default .navbar-nav > li > a:hover,
 .navbar-default .navbar-nav > li > a:focus { color: var(--df-text-strong); background-color: transparent; }
 .navbar-default .navbar-nav > .active > a,
@@ -132,7 +146,9 @@ a:hover, a:focus { color: var(--brand-accent); filter: brightness(1.08); }
   background-image: none;
   color: var(--brand-accent);
 }
-/* one icon slot for glyphicons and masked brand art, so the column lines up */
+/* one icon slot for glyphicons and masked brand art, so the column lines up.
+   top:0 drops bootstrap's 1px glyph nudge, which reads as a low icon in a
+   flex-centred row. */
 .navbar .dropdown-menu > li > a > .glyphicon,
 .navbar .dropdown-menu > li > a > .c3d-nav-ico {
   flex: 0 0 18px;
@@ -143,6 +159,7 @@ a:hover, a:focus { color: var(--brand-accent); filter: brightness(1.08); }
   text-align: center;
   color: var(--df-text-muted);
 }
+.navbar .dropdown-menu > li > a > .glyphicon { top: 0; }
 .navbar .dropdown-menu > li > a:hover > .glyphicon,
 .navbar .dropdown-menu > li > a:hover > .c3d-nav-ico,
 .navbar .dropdown-menu > li > a:focus > .glyphicon,
@@ -188,7 +205,7 @@ a:hover, a:focus { color: var(--brand-accent); filter: brightness(1.08); }
 .navbar-default .navbar-nav > li.dropdown > a .caret {
   width: 7px;
   height: 7px;
-  margin-left: 7px;
+  margin-left: 0;
   border: 0;
   border-right: 1.6px solid currentColor;
   border-bottom: 1.6px solid currentColor;
@@ -2157,13 +2174,24 @@ body:has(.c3d-preview-layout) > br { display: none; }
 @media (min-width: 768px) {
   .navbar-default .navbar-nav > li > a,
   .navbar-nav > li > .c3d-navbar-readout {
-    display: flex;
-    align-items: center;
     height: 48px;
     padding-top: 0;
     padding-bottom: 0;
   }
   .navbar-default .navbar-right { display: flex; align-items: center; }
+  /* bootstrap nudges every glyph 1px down (top: 1px) and glyphicons' ink sits low in
+     their box, which reads as an icon under the label's cap centre; the extra -0.5px
+     is the optical correction measured on the live bar. */
+  .navbar-default .navbar-nav > li > a > .glyphicon { top: -0.5px; }
+}
+/* Single-row bar: the bootstrap build gives the nav items 12.5px vertical margins, so
+   the list row is 73px tall (48px items + 25px) while the brand box is 48px — the art
+   used to be shoved into place with per-image translateY offsets. Give the header the
+   same 73px box instead: the brand then centres on the item row with no magic offsets,
+   and it still lines up when the row wraps on narrower screens. Not below 992px: there
+   the header and the opened menu are two stacked blocks. */
+@media (min-width: 992px) {
+  .navbar-default > .navbar-header { height: 73px; display: flex; align-items: center; }
 }
 @media (min-width: 768px) and (max-width: 991px) {
   .navbar-header { float: none; }
