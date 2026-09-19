@@ -2779,10 +2779,47 @@ body:has(.c3d-preview-layout) > br { display: none; }
 .c3d-history-stat-legend { display: flex; flex-wrap: wrap; gap: 10px 18px; color: var(--df-text-muted); font-size: 12px; }
 .c3d-history-stat-legend span { display: inline-flex; align-items: center; gap: 6px; }
 .c3d-history-stat-legend i { display: inline-block; width: 8px; height: 8px; border-radius: 50%; }
-.c3d-history-list { display: grid; gap: 12px; }
-.c3d-history-entry .c3d-print-result-label { display: none; }
-.c3d-history-entry .c3d-print-result-bar { margin: 0; background: var(--df-surface-0); }
-.c3d-history-entry .c3d-list-meta { white-space: normal; line-height: 1.6; }
+/* Print history is a table now: one row per past print, no per-print thumbnails
+   (job-thumbs.js only hydrates inside #plates-list, so the history entries never
+   got a src and rendered as empty boxes). */
+.c3d-history-table-card { padding: 0; overflow: hidden; }
+.c3d-history-table-wrap { max-width: 100%; overflow-x: auto; }
+.c3d-history-table { width: 100%; min-width: 880px; border-collapse: collapse; font-size: 13px; }
+.c3d-history-table thead th {
+  padding: 11px 14px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-align: left;
+  white-space: nowrap;
+  color: var(--df-indicator);
+  background-color: var(--df-surface-1);
+  border-bottom: 1px solid var(--df-border-strong);
+}
+.c3d-history-table tbody td {
+  padding: 10px 14px;
+  color: var(--df-text-strong);
+  border-bottom: 1px solid var(--df-border-subtle);
+  vertical-align: middle;
+}
+.c3d-history-table tbody tr:last-child td { border-bottom: 0; }
+.c3d-history-table tbody tr:hover { background-color: var(--df-surface-1); }
+.c3d-history-date { color: var(--df-text-muted); white-space: nowrap; }
+.c3d-history-job { min-width: 240px; }
+.c3d-history-name { display: block; font-weight: 700; overflow-wrap: anywhere; }
+.c3d-history-sub { display: block; margin-top: 2px; font-size: 12px; color: var(--df-text-muted); }
+.c3d-history-num { white-space: nowrap; font-variant-numeric: tabular-nums; }
+.c3d-history-result { width: 1%; white-space: nowrap; }
+.c3d-history-status { display: inline-flex; align-items: center; gap: 7px; font-size: 12px; font-weight: 600; white-space: nowrap; }
+.c3d-history-status::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background-color: var(--status-color); }
+.c3d-history-status--success { --status-color: var(--df-success); }
+.c3d-history-status--warning { --status-color: var(--df-warn); }
+.c3d-history-status--warning-strong { --status-color: var(--brand-accent-hover); }
+.c3d-history-status--danger { --status-color: var(--df-danger); }
+.c3d-history-status--ignored { --status-color: var(--df-border-strong); }
+.c3d-history-actions { display: flex; flex-wrap: nowrap; align-items: center; gap: 8px; }
+.c3d-history-actions .btn { margin: 0; min-height: 30px; padding: 4px 10px; font-size: 12px; }
 .c3d-terminal-page .terminal { width: 100%; }
 .c3d-terminal-page .c3d-terminal-output-label { color: var(--df-text-muted); margin-top: 0; }
 .c3d-terminal-page #terminal { min-height: 250px; max-height: 55vh; overflow-y: auto; color: var(--df-text-strong); background: #0b0d12; border: 1px solid var(--df-border-strong); border-radius: var(--df-radius-sm); padding: 12px; }
@@ -2799,5 +2836,4 @@ body:has(.c3d-preview-layout) > br { display: none; }
   .c3d-calibration-preview { grid-column: auto; }
   .c3d-calibration-guide-grid { grid-template-columns: minmax(0, 1fr); gap: 12px; }
   .c3d-history-page .stat-bar .part { font-size: 0; }
-  .c3d-history-entry .c3d-print-result-actions { margin-left: 0; }
 }

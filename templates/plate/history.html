@@ -7,6 +7,11 @@
             <h1 class="c3d-page-title"><translate>Print History</translate></h1>
             <p class="c3d-page-description"><translate>Review past jobs and record their print results.</translate></p>
         </div>
+        {% if prints %}
+        <div class="c3d-page-actions">
+            <a class="btn c3d-ghost c3d-ghost-danger" href="/plate/result/dismiss"><span class="glyphicon glyphicon-minus-sign" aria-hidden="true"></span><translate>Dismiss All</translate></a>
+        </div>
+        {% endif %}
     </div>
     <section class="c3d-card c3d-history-stat-card" aria-labelledby="history-stats-heading">
         <h2 id="history-stats-heading"><translate>Print Statistics</translate></h2>
@@ -27,13 +32,75 @@
             <span><i class="c3d-stat-danger"></i><translate>Complete Failure</translate></span>
         </div>
     </section>
-    <section class="c3d-history-list" aria-label="Past print jobs">
+    <section class="c3d-card c3d-history-table-card" aria-label="Past print jobs">
         {% if prints %}
-            {% for print in prints %}
-            <article class="c3d-history-entry">{{ printHistory(print) }}</article>
-            {% endfor %}
+        <div class="c3d-history-table-wrap">
+            <table class="c3d-history-table">
+                <thead>
+                    <tr>
+                        <th scope="col"><translate>Date</translate></th>
+                        <th scope="col"><translate>Job</translate></th>
+                        <th scope="col"><translate>Volume</translate></th>
+                        <th scope="col"><translate>Layers</translate></th>
+                        <th scope="col"><translate>Print Time</translate></th>
+                        <th scope="col"><translate>Result</translate></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for print in prints %}
+                    {% if print.Path %}
+                    <tr>
+                        <td class="c3d-history-date">{{ print.Date }}</td>
+                        <td class="c3d-history-job">
+                            <span class="c3d-history-name">{{ print.Path }}</span>
+                            <span class="c3d-history-sub">{{ print.ProfileName }}</span>
+                        </td>
+                        <td class="c3d-history-num">
+                            <span>{{ print.TotalSolidArea }}<span class="c3d-unit">ml</span></span>
+                            <span class="c3d-history-sub"><span class="glyphicon glyphicon-usd" aria-hidden="true"></span>{{ print.Price }}</span>
+                        </td>
+                        <td class="c3d-history-num">
+                            <span>{{ print.LayersCount }}</span>
+                            <span class="c3d-history-sub">{{ print.LayerThickness }}</span>
+                        </td>
+                        <td class="c3d-history-num">
+                            <span>{{ print.PrintTime }}</span>
+                            <span class="c3d-history-sub">{{ print.supportCureTime }}s / {% if !print.cureTimes %}{{print.cureTime}}{% else %}{{print.cureTimes}}{% endif %}s</span>
+                        </td>
+                        <td class="c3d-history-result">
+                            {% if print.Status == 2 %}
+                            <span class="c3d-history-status c3d-history-status--success"><translate>Success</translate></span>
+                            {% elif print.Status == 3 %}
+                            <span class="c3d-history-status c3d-history-status--warning"><translate>Part Missing</translate></span>
+                            {% elif print.Status == 4 %}
+                            <span class="c3d-history-status c3d-history-status--warning-strong"><translate>Only Supports</translate></span>
+                            {% elif print.Status == 5 %}
+                            <span class="c3d-history-status c3d-history-status--danger"><translate>Complete Failure</translate></span>
+                            {% elif print.Status == 1 %}
+                            <span class="c3d-history-status c3d-history-status--ignored"><translate>Ignored</translate></span>
+                            {% else %}
+                            <div class="c3d-history-actions">
+                                <a class="btn c3d-ghost c3d-ghost-gold" href="/plate/result/{{ print.PlateID }}/{{ print.PrintID }}/2" title="Record a successful print"><span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span><translate>Success</translate></a>
+                                <div class="btn-group">
+                                    <button type="button" class="btn c3d-ghost c3d-ghost-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="Record a failed print"><span class="glyphicon glyphicon-remove-sign" aria-hidden="true"></span><translate>Failed</translate> <span class="caret"></span></button>
+                                    <ul class="dropdown-menu dropdown-menu-right">
+                                        <li><a href="/plate/result/{{ print.PlateID }}/{{ print.PrintID }}/3" translate>Some Parts Are Missing</a></li>
+                                        <li><a href="/plate/result/{{ print.PlateID }}/{{ print.PrintID }}/4" translate>Only Supports There</a></li>
+                                        <li><a href="/plate/result/{{ print.PlateID }}/{{ print.PrintID }}/5" translate>Nothing on Build Platform</a></li>
+                                    </ul>
+                                </div>
+                                <a class="btn c3d-ghost" href="/plate/result/{{ print.PlateID }}/{{ print.PrintID }}/1"><translate>Ignore</translate></a>
+                            </div>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endif %}
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
         {% else %}
-            <div class="c3d-card c3d-empty-state"><translate>No print history yet.</translate></div>
+        <div class="c3d-empty-state"><translate>No print history yet.</translate></div>
         {% endif %}
     </section>
 </div>
