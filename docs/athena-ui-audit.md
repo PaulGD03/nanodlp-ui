@@ -62,7 +62,7 @@ viewport. Confirm the menu in Easy/Advanced and locked configurations.
 | Dashboard | Redesigned; hardware validation pending | Preserve Environment/Printer and pressure chart left, portrait camera right |
 | Camera & Timelapses | Redesigned in WP1 | Printer acceptance checks above |
 | Status | Redesigned; validation pending | Preserve Paul's latest rebuild |
-| Jobs | WP2 information modal added | Supply official DragonFruit download URL and Athena instructions; printer acceptance pending |
+| Jobs | WP2 information modal added | Athena slicing instructions for the modal; printer acceptance pending |
 | Resins | Production behavior reconciled in WP5 | Printer acceptance for all-profile sorting, default badge, editor modes and database iframe |
 | Analytics | Requires visual validation | Same metric colors on Dashboard/full charts; check ALL series together on dark backgrounds |
 | Print History / Gcode Terminal | Needs visual redesign | Customer-visible legacy template layouts |

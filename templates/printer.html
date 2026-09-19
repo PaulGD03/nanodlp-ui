@@ -81,11 +81,13 @@
 				<span class="c3d-metric-label"><translate>Disk</translate></span>
 				<span class="c3d-metric-value" id="disk">{{stat.Disk}}</span>
 				<span class="spark" id="disk_chart"><canvas></canvas></span>
+				<span class="c3d-meter" id="disk_meter_track" role="progressbar" aria-label="Disk used"><span class="c3d-meter-fill" id="disk_meter"></span></span>
 			</div>
 			<div class="c3d-metric c3d-sys-tile">
 				<span class="c3d-metric-label"><translate>Memory</translate></span>
 				<span class="c3d-metric-value" id="mem">{{stat.Mem}}</span>
 				<span class="spark" id="mem_chart"><canvas></canvas></span>
+				<span class="c3d-meter" id="mem_meter_track" role="progressbar" aria-label="Memory used"><span class="c3d-meter-fill" id="mem_meter"></span></span>
 			</div>
 			<div class="c3d-metric c3d-sys-tile">
 				<span class="c3d-metric-label"><translate>Uptime</translate></span>

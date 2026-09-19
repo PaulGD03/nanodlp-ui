@@ -833,6 +833,16 @@ function change_stats(data,keys){
 			charts_data[v]=[];
 		}
 		$("#"+v).html(data[v]);
+		var meter = document.getElementById(v+"_meter");
+		if (meter) {
+			var percent = parseFloat(data[v]);
+			if (!isNaN(percent)) {
+				percent = Math.max(0, Math.min(100, percent));
+				meter.style.width = percent + "%";
+				var track = document.getElementById(v+"_meter_track");
+				if (track) track.setAttribute("aria-valuenow", Math.round(percent));
+			}
+		}
 		charts_data[v+"_counter"]++;
 		if (parseFloat(data[v]) != charts_data[v][charts_data[v].length-1]||charts_data[v].length<2||charts_data[v+"_counter"]>30){
 			charts_data[v+"_counter"]=0;

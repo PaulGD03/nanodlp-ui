@@ -71,7 +71,10 @@
             <div class="row row-marginless pressure-row">
                 <div id="pressure-chart-column" class="col-md-12 no-padding">
                     <div class="panel panel-default dashboard-panel">
-                        <div class="panel-heading">Force &amp; Resin Temperature</div>
+                        <div class="panel-heading c3d-panel-heading--split">
+                            <span>Force &amp; Resin Temperature</span>
+                            <a class="c3d-panel-heading-action" href="/analytic"><span class="glyphicon glyphicon-stats"></span><translate>Full Analytics</translate></a>
+                        </div>
                         <div class="panel-body">
                             {% include "dashboard-widgets/pressure-chart.html" %}
                         </div>
@@ -83,7 +86,7 @@
             <div class="panel panel-default dashboard-panel">
                 <div class="panel-heading c3d-panel-heading--split">
                     <span>Webcam</span>
-                    <button id="camera-led-on" type="button" class="c3d-led-btn" title="Turn camera LED on for 10 seconds"><span class="glyphicon glyphicon-flash"></span> LED 10s</button>
+                    <button id="camera-led-on" type="button" class="c3d-panel-heading-action" title="Turn camera LED on for 10 seconds"><span class="glyphicon glyphicon-flash"></span>LED 10s</button>
                 </div>
                 <div class="panel-body">
                     {% include "dashboard-widgets/camera.html" %}

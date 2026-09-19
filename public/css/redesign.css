@@ -412,6 +412,24 @@ input[type="range"].slider, input[type="range"] { accent-color: var(--brand-acce
 .progress-bar-layer { background-color: var(--brand-accent); }
 
 /* ---------- Modals ---------- */
+/* Every dialog sits in the vertical middle of the window rather than pinned near
+   the top. The ::before strut is the Bootstrap 3 idiom: `.modal` keeps the
+   overflow, so a dialog taller than the window still scrolls instead of being
+   clipped. */
+.modal { text-align: center; }
+.modal::before {
+  content: "";
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle;
+  margin-right: -0.25em;
+}
+.modal-dialog {
+  display: inline-block;
+  text-align: left;
+  vertical-align: middle;
+  margin: 24px auto;
+}
 .modal-content {
   background-color: var(--df-surface-1);
   border: 1px solid var(--df-border-strong);
@@ -465,7 +483,10 @@ input[type="range"].slider, input[type="range"] { accent-color: var(--brand-acce
 .c3d-stat--resin .c3d-stat-value { font-size: 13px; line-height: 1.6; }
 
 /* ---------- Sub-page header ---------- */
-.c3d-page-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; padding: 18px 8px 14px; flex-wrap: wrap; }
+/* The 8px side padding put every page title 8px right of the content grid (the
+   container's own padding is 24px, so heads started at 32 while panels and rows
+   start at 24). The vertical rhythm stays. */
+.c3d-page-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; padding: 18px 0 14px; flex-wrap: wrap; }
 .c3d-page-eyebrow { font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--brand-accent); margin-bottom: 4px; }
 .c3d-page-title { font-size: 26px; font-weight: 700; color: var(--df-text-strong); margin: 0; }
 .c3d-page-actions { display: flex; gap: 8px; flex-wrap: wrap; }
@@ -681,7 +702,7 @@ body.c3d-printing #webcam-column .dashboard-panel { flex: 1 1 auto; }
 .c3d-status-actions .c3d-force-stop { font-weight: 700; }
 
 /* ---------- Dashboard header identity ---------- */
-.c3d-dash-head { display: flex; align-items: center; justify-content: space-between; margin-top: 30px; padding: 16px 8px 12px; }
+.c3d-dash-head { display: flex; align-items: center; justify-content: space-between; margin-top: 30px; padding: 16px 0 12px; }
 .c3d-dash-head .btn { margin-bottom: 0; }
 .c3d-dash-name { font-size: 28px; font-weight: 700; color: var(--df-text-strong); margin: 0; }
 
@@ -1065,9 +1086,10 @@ body.c3d-printing #webcam-column .dashboard-panel { flex: 1 1 auto; }
   #webcam-column { padding-top: 4px; }
 }
 
-/* Panel heading with a compact trailing action (e.g. webcam LED) */
+/* Panel heading with a compact trailing action (webcam LED, dashboard analytics).
+   Works for both <button> and <a>, so the link carries no underline. */
 .c3d-panel-heading--split { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
-.c3d-led-btn {
+.c3d-panel-heading-action {
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -1077,6 +1099,7 @@ body.c3d-printing #webcam-column .dashboard-panel { flex: 1 1 auto; }
   line-height: 1.2;
   letter-spacing: 0.02em;
   text-transform: none;
+  text-decoration: none;
   color: var(--brand-accent);
   background-color: color-mix(in srgb, var(--brand-accent), var(--df-surface-0) 86%);
   border: 1px solid color-mix(in srgb, var(--brand-accent), var(--df-border-strong) 55%);
@@ -1191,14 +1214,14 @@ table#plates.table-bordered > tbody > tr > td { border-color: var(--df-border-su
 #plates .alert-warning { background-color: color-mix(in srgb, var(--brand-accent), var(--df-surface-0) 88%); border-color: color-mix(in srgb, var(--brand-accent), transparent 40%); color: var(--df-text-strong); }
 #plates .notice { color: var(--brand-accent); font-size: 12px; margin-top: 6px; }
 #plates .btn { margin: 2px; }
-.c3d-led-btn:hover,
-.c3d-led-btn:focus {
+.c3d-panel-heading-action:hover,
+.c3d-panel-heading-action:focus {
   color: var(--brand-accent-ink);
   background-color: var(--brand-accent);
   border-color: var(--brand-accent);
   outline: none;
 }
-.c3d-led-btn .glyphicon { font-size: 11px; }
+.c3d-panel-heading-action .glyphicon { font-size: 11px; }
 /* ---------- Jobs: condensed list rows (same idiom as the resin library) ---------- */
 #plates.c3d-job-list { overflow: visible; }
 #plates .c3d-job-row { padding: 9px 14px; }
@@ -1362,6 +1385,10 @@ table#plates.table-bordered > tbody > tr > td { border-color: var(--df-border-su
   line-height: 1.7;
   white-space: normal;
 }
+/* 11px text in a 1.7 line box leaves more room above the cap than below the
+   descender, so a flex-centred glyph box reads ~2.5px low; the alert glyph's ink
+   fills its box, so the nudge is the whole correction. */
+.c3d-job-flag > .glyphicon { top: -1.5px; }
 .c3d-job-flag-warn { color: var(--brand-accent); border: 1px solid color-mix(in srgb, var(--brand-accent), transparent 55%); }
 .c3d-job-flag-danger { color: var(--df-danger); border: 1px solid color-mix(in srgb, var(--df-danger), transparent 55%); }
 /* Slicing state hides the stale badge even before the list refreshes */
@@ -2082,6 +2109,26 @@ body:has(.c3d-preview-layout) > br { display: none; }
 .c3d-sys-tile .c3d-metric-label { grid-area: label; margin-bottom: 0; }
 .c3d-sys-tile .c3d-metric-value { grid-area: value; min-width: 0; font-size: 20px; }
 .c3d-sys-tile .spark { grid-area: spark; display: block; width: 100%; height: 18px; margin: 0; }
+/* percentage metrics (disk, memory) carry a meter under the row; only tiles that
+   actually have one grow the extra grid row */
+.c3d-sys-tile:has(> .c3d-meter) { grid-template-areas: "label label" "value spark" "meter meter"; }
+.c3d-sys-tile > .c3d-meter {
+  grid-area: meter;
+  display: block;
+  height: 4px;
+  margin-top: 4px;
+  border-radius: 999px;
+  background-color: var(--df-surface-2, rgba(255, 255, 255, 0.08));
+  overflow: hidden;
+}
+.c3d-sys-tile > .c3d-meter > .c3d-meter-fill {
+  display: block;
+  width: 0;
+  height: 100%;
+  border-radius: inherit;
+  background-color: var(--brand-accent);
+  transition: width 240ms ease;
+}
 .c3d-sys-tile #uptime { grid-column: 1 / -1; }
 @media (max-width: 991px) {
   .c3d-printer-summary { grid-template-columns: minmax(0, 1fr); }
@@ -2425,7 +2472,7 @@ body:has(.c3d-preview-layout) > br { display: none; }
 .c3d-service-access p { margin: 0; color: var(--df-text-muted); font-size: 12px; line-height: 1.45; }
 .c3d-service-access .btn { justify-self: start; min-width: 0; padding: 7px 10px; font-size: 12px; }
 .c3d-service-entry { color: var(--df-text-muted); }
-.c3d-service-modal .modal-dialog { width: calc(100% - 32px); max-width: 620px; margin: 10vh auto 24px; }
+.c3d-service-modal .modal-dialog { width: calc(100% - 32px); max-width: 620px; margin: 24px auto; }
 .c3d-service-modal .modal-content { color: var(--df-text-strong); background: var(--df-surface-0); border: 1px solid var(--df-border-strong); border-radius: var(--df-radius-lg); box-shadow: 0 24px 70px rgba(0, 0, 0, .58); overflow: hidden; }
 .c3d-service-modal .modal-header { padding: 20px 22px 16px; background: color-mix(in srgb, var(--brand-accent) 8%, var(--df-surface-0)); border-bottom: 1px solid var(--df-border-subtle); }
 .c3d-service-modal .modal-title { margin: 4px 0 0; font-size: 22px; font-weight: 700; }

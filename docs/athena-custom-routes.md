@@ -29,4 +29,5 @@ The approved approach is a Bootstrap 3 modal included by the Jobs template.
 `components/dragonfruit-modal.html` owns the modal shell and includes the separate
 `components/dragonfruit-info.html` content. The latter can be reused by a future
 Odyssey OS page. The button uses Bootstrap's existing modal data API; no extra JS
-or initialization is needed. The download URL remains explicitly pending.
+or initialization is needed. The download button links to the official
+`https://dragonfruit-slicer.com` in a new tab.
