@@ -1301,3 +1301,58 @@ function setupDashboardZPosition() {
 }
 
 $(document).ready(setupDashboardZPosition);
+
+/* The New Job drop zone wraps the real #ZipFile input: the input keeps its layout
+   (main.js gates #browser_slice on :visible) and sits transparent on top, so the
+   native picker, drag-and-drop and the size checks in main.js all keep working.
+   This only mirrors the chosen file into the zone and wires the clear button. */
+function setup_upload_dropzone(){
+	let zone = document.getElementById("zip-dropzone");
+	let input = document.getElementById("ZipFile");
+	if (!zone || !input) return;
+
+	let picked = document.getElementById("zip-dropzone-picked");
+	let clear = document.getElementById("clear-ZipFile");
+
+	function human_size(bytes){
+		let units = ["B", "KB", "MB", "GB"];
+		let i = 0;
+		let value = bytes;
+		while (value >= 1024 && i < units.length - 1) { value /= 1024; i++; }
+		return (i === 0 ? value : value.toFixed(1)) + " " + units[i];
+	}
+
+	function render(){
+		let file = input.files && input.files[0];
+		if (file){
+			picked.textContent = file.name + " \u00b7 " + human_size(file.size);
+			picked.hidden = false;
+			zone.classList.add("has-file");
+			if (clear) clear.classList.remove("hide");
+		} else {
+			picked.textContent = "";
+			picked.hidden = true;
+			zone.classList.remove("has-file");
+			if (clear) clear.classList.add("hide");
+		}
+	}
+
+	input.addEventListener("change", render);
+	if (clear) clear.addEventListener("click", function(){
+		input.value = "";
+		render();
+		/* mirror the "no file" branch of file_size_limit_apply() without firing a
+		   change event, which would dereference a missing file there */
+		$(".upload-disable").find('button[type="submit"]').prop("disabled", false);
+		$("#largeFile").addClass("hide");
+	});
+	["dragenter", "dragover"].forEach(function(type){
+		zone.addEventListener(type, function(){ zone.classList.add("is-dragover"); });
+	});
+	["dragleave", "dragend", "drop"].forEach(function(type){
+		zone.addEventListener(type, function(){ zone.classList.remove("is-dragover"); });
+	});
+	render();
+}
+
+$(document).ready(setup_upload_dropzone);

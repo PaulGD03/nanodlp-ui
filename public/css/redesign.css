@@ -2543,6 +2543,100 @@ body:has(.c3d-preview-layout) > br { display: none; }
   .c3d-service-modal .modal-footer .btn { width: 100%; }
 }
 
+/* ---------- Job upload (New Job / Edit Job) ----------
+   Three 4-column fields in one 222px row made the file field fight the name field for
+   width; this splits the card into source and details columns at a natural height,
+   with the submit on a card footer. */
+.c3d-job-upload-page .c3d-source-tabs { margin-bottom: 14px; }
+.c3d-job-upload-card > form { display: flex; flex-direction: column; gap: 18px; }
+.c3d-upload-cols {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+  gap: 24px;
+  align-items: stretch;
+}
+.c3d-upload-cols--single { grid-template-columns: minmax(0, 1fr); }
+.c3d-upload-source,
+.c3d-upload-details { display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+.c3d-upload-col-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--df-indicator);
+}
+.c3d-upload-source .tab-content { flex: 1 1 auto; display: flex; flex-direction: column; }
+.c3d-upload-source .tab-pane { width: 100%; min-width: 0; }
+.c3d-upload-source .tab-pane.active { flex: 1 1 auto; display: flex; flex-direction: column; gap: 10px; }
+.c3d-dropzone {
+  position: relative;
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 140px;
+  padding: 24px;
+  text-align: center;
+  background-color: var(--df-surface-0);
+  border: 1px dashed var(--df-border-strong);
+  border-radius: var(--df-radius-md);
+  transition: border-color 140ms ease, background-color 140ms ease;
+}
+.c3d-dropzone:hover,
+.c3d-dropzone.is-dragover { border-color: var(--brand-accent); background-color: color-mix(in srgb, var(--brand-accent) 6%, var(--df-surface-0)); }
+/* the real input stays laid out (main.js gates #browser_slice on :visible) and sits
+   transparent on top, so clicking, dropping and the native picker all keep working */
+/* specificity has to clear the shell's `.edit-page input` rule (0,1,1), which
+   otherwise pins this to 39px and leaves the zone unclickable below it */
+.c3d-job-upload-card .c3d-dropzone > input.c3d-dropzone-input {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+.c3d-dropzone.has-file { border-style: solid; border-color: var(--brand-accent); }
+.c3d-dropzone-body { display: flex; flex-direction: column; align-items: center; gap: 6px; pointer-events: none; }
+.c3d-dropzone-icon { font-size: 32px; color: var(--brand-accent); }
+.c3d-dropzone-title { font-size: 15px; font-weight: 700; color: var(--df-text-strong); }
+.c3d-dropzone-hint { font-size: 11.5px; line-height: 1.55; color: var(--df-text-muted); }
+.c3d-dropzone-picked {
+  margin-top: 4px;
+  padding: 4px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--df-text-strong);
+  background-color: var(--df-surface-1);
+  border: 1px solid var(--df-border-strong);
+  border-radius: 999px;
+}
+.c3d-upload-advanced { display: flex; flex-direction: column; gap: 10px; margin-top: 4px; }
+.c3d-upload-advanced > .btn { align-self: flex-start; }
+.c3d-advanced-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 18px; }
+.c3d-advanced-grid > .collapse.advanced { min-width: 0; }
+.c3d-advanced-grid > .collapse.advanced.in { display: flex; flex-direction: column; gap: 6px; }
+.c3d-upload-actions {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 14px;
+  padding-top: 16px;
+  border-top: 1px solid var(--df-border-subtle);
+}
+.c3d-upload-actions .progress { flex: 1 1 auto; max-width: 620px; margin: 0; }
+@media (max-width: 991px) {
+  .c3d-upload-cols { grid-template-columns: minmax(0, 1fr); gap: 18px; }
+  .c3d-dropzone { min-height: 150px; }
+  .c3d-advanced-grid { grid-template-columns: minmax(0, 1fr); }
+}
 /* Import, comparison, upload, calibration, history and terminal workflows. */
 .c3d-workflow-page { padding-bottom: 24px; }
 .c3d-page-description { color: var(--df-text-muted); line-height: 1.55; margin: 8px 0 0; }
@@ -2568,16 +2662,16 @@ body:has(.c3d-preview-layout) > br { display: none; }
 .c3d-source-tabs > li { float: none; }
 .c3d-source-tabs > li > a { color: var(--df-text-muted); background: var(--df-surface-0); border: 1px solid var(--df-border-strong); border-radius: var(--df-radius-sm); }
 .c3d-source-tabs > li.active > a, .c3d-source-tabs > li.active > a:hover, .c3d-source-tabs > li.active > a:focus { background: var(--brand-accent); border-color: var(--brand-accent); color: var(--brand-accent-ink); }
-.c3d-job-upload-card .row.flex-row { row-gap: 10px; }
-.c3d-job-upload-card .tab-content { min-width: 0; }
 .c3d-job-upload-card label { color: var(--df-text-muted); }
 /* The shell's legacy control rules (main.css + athena.css `.edit-page input/select`)
    are element+class selectors, so they outrank the plain .form-control rule: every
    control on this page rendered the legacy #3b3b3b fill, #ddd hairline, square
    corners, 39px height and inset shadow. Re-assert the design system here, at a
    specificity that wins, for the workflow forms this stylesheet already owns. */
-.c3d-job-upload-card .form-control,
-.c3d-workflow-form .form-control {
+/* :not() keeps the transparent drop-zone input (which is a .form-control too)
+   filling its zone instead of the 36px control box. */
+.c3d-job-upload-card .form-control:not(.c3d-dropzone-input),
+.c3d-workflow-form .form-control:not(.c3d-dropzone-input) {
   height: 36px;
   min-height: 36px;
   padding: 0 12px;
@@ -2617,8 +2711,8 @@ body:has(.c3d-preview-layout) > br { display: none; }
 }
 /* File fields: the native button becomes a ghost control and the filename reads as
    the field's value, so the control matches the text inputs beside it. */
-.c3d-job-upload-card input[type="file"].form-control,
-.c3d-workflow-form input[type="file"] {
+.c3d-job-upload-card input[type="file"].form-control:not(.c3d-dropzone-input),
+.c3d-workflow-form input[type="file"]:not(.c3d-dropzone-input) {
   height: 42px;
   min-height: 42px;
   padding: 4px;
