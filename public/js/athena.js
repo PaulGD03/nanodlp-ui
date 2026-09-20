@@ -59,6 +59,20 @@ function setUpCheckboxToggle($checkboxElem, $toggleSection) {
 	})
 }
 
+/* The resin editor's Enabled/Disabled bar is a two-state control: clicking a
+   side selects that state instead of blindly flipping the checkbox, then fires
+   change so the existing handlers (value 0/1, section visibility) still run. */
+$("#setup2 .c3d-resin-toggle").on("click", function (e) {
+	let side = e.target.closest ? e.target.closest(".c3d-resin-toggle-on, .c3d-resin-toggle-off") : null;
+	if (!side) return;
+	e.preventDefault();
+	let box = $(this).find("input[type=checkbox]")[0];
+	let wanted = side.classList.contains("c3d-resin-toggle-on");
+	if (!box || box.checked === wanted) return;
+	box.checked = wanted;
+	$(box).trigger("change");
+});
+
 setUpCheckboxToggle($("#PdEnableSimple"), $('.peel-detection-settings'));
 $("#PdEnableSimple").change(updatePeelDetectionSettingsVisibility);
 setUpCheckboxToggle($("#RlEnableSimple"));
@@ -88,17 +102,23 @@ function setEasyMode(enabled){
 		window.localStorage.setItem("ProfileEasyMode", "false");
 	}
 
-	updateEasyModeNavButtonText();
+	updateEasyModeControls();
 	updateEasyModeProfileFieldVisibility();
 }
 
-function updateEasyModeNavButtonText(){
-	let navButton = $("#easyModeNavButtonText");
+function updateEasyModeControls(){
+	let advanced = !isEasyModeEnabled();
+	$("#easyModeNavButtonText").text(advanced ? "Easy Mode" : "Advanced Mode");
 
-	if(isEasyModeEnabled()){
-		navButton.text("Advanced Mode");
-	}else {
-		navButton.text("Easy Mode");
+	// The switch in the form header is the same control as the navbar entry: it
+	// names the mode it switches to and shows which one is active.
+	let profileSwitch = $("#profileEasyModeSwitchBtn");
+	if (profileSwitch.length) {
+		profileSwitch
+			.text(advanced ? "Easy Mode" : "Advanced Mode")
+			.toggleClass("is-on", advanced)
+			.toggleClass("is-off", !advanced)
+			.attr("aria-checked", advanced ? "true" : "false");
 	}
 }
 
@@ -117,7 +137,7 @@ function updateEasyModeProfileFieldVisibility(){
 
 function setupEasyMode(){
 
-	updateEasyModeNavButtonText();
+	updateEasyModeControls();
 	updateEasyModeProfileFieldVisibility();
 
 	let navButton = $("#easyModeNavButtonText");
@@ -126,7 +146,7 @@ function setupEasyMode(){
 	});
 
 	$("#profileEasyModeSwitchBtn").click(function () {
-		setEasyMode(false);
+		setEasyMode(!isEasyModeEnabled());
 	});
 }
 

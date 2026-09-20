@@ -2301,8 +2301,22 @@ body:has(.c3d-preview-layout) > br { display: none; }
 
 /* Recovered production resin editor, within the current Athena surfaces. */
 .c3d-resin-editor-name { margin: 6px 0 0; color: var(--df-text-muted); }
-.c3d-resin-editor #setup,
-.c3d-resin-editor #setup2 {
+/* The form is a capped column, so the page head is capped with it: a
+   full-width head above an inset form reads as two different layouts. The head
+   carries the mode switch, Save and the way back, so all of the page's actions
+   sit in one row. */
+.c3d-resin-editor .c3d-page-head { max-width: 1280px; margin: 0 auto; align-items: flex-end; }
+.c3d-resin-editor .c3d-page-actions { align-items: center; gap: 12px; }
+.c3d-resin-editor .c3d-page-actions .btn { margin: 0; }
+/* rule between the form actions and the way back */
+.c3d-resin-editor .c3d-page-action-divider {
+  width: 1px;
+  align-self: stretch;
+  min-height: 26px;
+  margin: 0 6px;
+  background-color: var(--df-border-strong);
+}
+.c3d-resin-editor #setup {
   margin: 0 8px 20px;
   padding: 16px 18px 22px;
   background: var(--df-surface-0);
@@ -2310,9 +2324,13 @@ body:has(.c3d-preview-layout) > br { display: none; }
   border-radius: var(--df-radius-lg);
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.28);
 }
+/* #setup2 draws its own cards: the form itself is only the container. */
+.c3d-resin-editor #setup2 { margin: 0 8px 20px; padding: 0; background: none; border: 0; }
 .c3d-resin-editor .edit-page label { color: var(--df-text-muted); font-size: 13px; font-weight: 600; }
+.c3d-resin-editor .edit-page h2,
 .c3d-resin-editor .edit-page h3,
-.c3d-resin-editor .edit-page h5 { color: var(--df-text-strong); }
+.c3d-resin-editor .edit-page h5,
+.c3d-resin-editor .edit-page h6 { color: var(--df-text-strong); }
 .c3d-resin-editor .edit-page .form-control {
   background-color: var(--df-surface-1);
   border: 1px solid var(--df-border-strong);
@@ -2323,21 +2341,159 @@ body:has(.c3d-preview-layout) > br { display: none; }
 }
 .c3d-resin-editor .edit-page .form-control:focus { border-color: var(--brand-accent); box-shadow: none; }
 .c3d-resin-editor .edit-page input[type="checkbox"] { display: inline-block; width: auto; height: auto; accent-color: var(--brand-accent); }
-.c3d-resin-editor #setup2 .easy-mode-toolbar {
-  padding: 10px 12px;
+/* ---------- Resin editor, Easy/Advanced form (#setup2) ----------
+   One card per topic and a plain field grid instead of nested bootstrap
+   columns. Every NanoDLP field name and id is unchanged, and nothing here may
+   hide .advance_mode / .easy_mode: those two are jQuery hooks (athena.js
+   shows and hides them with inline styles), so a CSS display:none would make
+   Advanced Mode unreachable. The Advanced-only fields live on the section or
+   field wrapper, never on the grid itself, so jQuery can show/hide them
+   without dropping the grid. */
+.c3d-resin-form { display: grid; gap: 10px; max-width: 1280px; margin: 0 auto; }
+.c3d-resin-section {
+  padding: 12px 14px;
+  background: var(--df-surface-0);
+  border: 1px solid var(--df-border-subtle);
+  border-radius: var(--df-radius-lg);
+}
+.c3d-resin-title { margin: 0 0 8px; color: var(--df-text-strong); font-size: 13px; font-weight: 700; }
+.c3d-resin-note { margin: -2px 0 8px; max-width: 72ch; color: var(--df-text-muted); font-size: 12px; line-height: 1.5; }
+/* auto-fit, so a two-field section fills its card instead of leaving half of
+   it empty; the form column is capped, which is what keeps the tracks (and the
+   inputs) at the same ~600px width the Machine Settings panel uses. */
+.c3d-resin-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px; }
+.c3d-resin-grid--two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.c3d-resin-grid--pair { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.c3d-resin-grid--three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+/* Two stacked columns (lift | retract): the rows stay aligned and the card
+   is still full in Easy Mode, where only the two speed fields are shown. */
+.c3d-resin-columns { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 16px; }
+.c3d-resin-column { display: grid; gap: 12px; align-content: start; min-width: 0; }
+.c3d-resin-field { min-width: 0; }
+.c3d-resin-field--wide { grid-column: 1 / -1; }
+.c3d-resin-editor #setup2 .profile-help-label {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 6px;
+  margin: 0 0 7px;
+  color: var(--df-text-strong);
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+.c3d-resin-editor #setup2 .profile-help-label .help { flex: 0 0 auto; margin-left: 4px; }
+.c3d-resin-editor #setup2 .c3d-resin-field > .form-control,
+.c3d-resin-editor #setup2 .c3d-resin-table-cell > .form-control { width: 100%; }
+/* The description is a note, not a page: two rows and user-resizable. */
+.c3d-resin-editor #setup2 #DescSimple { height: auto; min-height: 0; resize: vertical; }
+/* On/off settings read as a pill that spells out the state, not a checkbox
+   and not a slider: the slider is taller than the inputs around it. The
+   control is still the same <input type="checkbox">, so the jQuery handlers
+   that read .checked and write value 0/1 keep working; the face follows
+   :checked in CSS and both words stay translatable. */
+.c3d-resin-editor #setup2 .c3d-resin-toggle { position: relative; display: flex; width: 100%; margin: 0; cursor: pointer; }
+.c3d-resin-editor #setup2 .c3d-resin-toggle input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+/* Full-width two-state bar: both words stay visible, the active side is
+   filled (gold for Enabled) and the other stays flat. */
+.c3d-resin-toggle-face {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 3px;
+  width: 100%;
+  height: 39px;
+  padding: 3px;
+  border: 1px solid var(--df-border-strong);
+  border-radius: var(--df-radius-sm);
+  background-color: var(--df-surface-2);
+  font-size: 13px;
+  font-weight: 700;
+  transition: border-color 140ms ease;
+}
+.c3d-resin-toggle-on,
+.c3d-resin-toggle-off {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: calc(var(--df-radius-sm) - 2px);
+  color: var(--df-text-muted);
+  transition: background-color 140ms ease, color 140ms ease;
+}
+.c3d-resin-editor #setup2 .c3d-resin-toggle:hover .c3d-resin-toggle-face { border-color: var(--brand-accent); }
+.c3d-resin-editor #setup2 .c3d-resin-toggle input:not(:checked) + .c3d-resin-toggle-face .c3d-resin-toggle-off {
+  background-color: var(--df-border-strong);
+  color: var(--df-text-strong);
+}
+.c3d-resin-editor #setup2 .c3d-resin-toggle input:checked + .c3d-resin-toggle-face .c3d-resin-toggle-on {
+  background-color: var(--brand-accent);
+  color: var(--brand-accent-ink);
+}
+.c3d-resin-editor #setup2 .c3d-resin-toggle input:focus-visible + .c3d-resin-toggle-face { outline: 2px solid var(--brand-accent); outline-offset: 2px; }
+/* sub-card header: the system name on top, its state pill under it */
+.c3d-resin-subhead { display: flex; align-items: center; gap: 8px; }
+.c3d-resin-subhead .c3d-resin-subtitle { margin: 0; }
+.c3d-resin-subhead .help { flex: 0 0 auto; }
+/* Bottom|Normal settings stay row-by-row comparable. */
+.c3d-resin-table { display: grid; gap: 10px; }
+.c3d-resin-table-row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 18px; }
+.c3d-resin-table-cell { min-width: 0; }
+.c3d-resin-table-head .c3d-resin-table-cell {
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--df-border-subtle);
+  color: var(--df-text-muted);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+/* Detection systems: one sub-card each. */
+/* auto-fit: the three Advanced detection cards fill the row between them. */
+.c3d-resin-subgrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px; }
+.c3d-resin-subcard {
+  display: grid;
+  gap: 10px;
+  padding: 12px 14px;
   background: var(--df-surface-1);
   border: 1px solid var(--df-border-subtle);
   border-radius: var(--df-radius-md);
 }
-.c3d-resin-editor #setup2 .profile-section-heading { border-bottom: 1px solid var(--df-border-subtle); margin-bottom: 8px; }
+.c3d-resin-subtitle { margin: 0; color: var(--df-text-strong); font-size: 13px; font-weight: 700; }
+/* auto-fit so a single-field sub-card (Crash Detection) fills its card, while
+   a two-field one still sits side by side. */
+.c3d-resin-editor #setup2 .c3d-resin-subcard .c3d-resin-grid { grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px 12px; }
+.c3d-resin-editor #setup2 .profile-peel-mode-readonly { display: flex; align-items: center; gap: 8px; margin: 0; color: var(--df-text-muted); font-size: 12px; }
+.c3d-resin-editor #setup2 .profile-peel-mode-readonly .profile-mode-value { color: var(--df-text-strong); font-weight: 600; }
+@media (max-width: 1399px) {
+  .c3d-resin-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (max-width: 991px) {
+  .c3d-resin-grid { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+  .c3d-resin-grid--three { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .c3d-resin-subgrid { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 640px) {
+  .c3d-resin-grid,
+  .c3d-resin-grid--two,
+  .c3d-resin-grid--pair,
+  .c3d-resin-grid--three,
+  .c3d-resin-columns,
+  .c3d-resin-editor #setup2 .c3d-resin-subcard .c3d-resin-grid { grid-template-columns: minmax(0, 1fr); }
+  .c3d-resin-table-row { grid-template-columns: minmax(0, 1fr); }
+  .c3d-resin-bar { justify-content: space-between; }
+}
 .c3d-resin-editor #setup2 .profile-help-label .help,
 .c3d-resin-editor #setup .profile-help-label .help { color: var(--brand-accent); }
 .c3d-resin-editor #setup .setup-categories { margin-bottom: 14px; }
 .c3d-resin-editor #setup .selected-cat { color: var(--df-text-strong); }
 @media (max-width: 767px) {
-  .c3d-resin-editor #setup,
-  .c3d-resin-editor #setup2 { padding: 12px; margin-left: 0; margin-right: 0; }
-  .c3d-resin-editor #setup2 .easy-mode-toolbar { flex-wrap: wrap; }
+  .c3d-resin-editor #setup { padding: 12px; margin-left: 0; margin-right: 0; }
+  .c3d-resin-editor #setup2 { margin-left: 0; margin-right: 0; }
 }
 
 /* Athena Machine Settings presentation policy. Controls remain in the form so
