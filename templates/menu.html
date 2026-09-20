@@ -59,12 +59,21 @@
         {% if os=="linux" %}
         <li>
             {% if network==1 %}
-                <a href="/wifi"><span class="label wifi-navbar-disconnected"><translate>Wired</translate> &nbsp;<span class="glyphicon glyphicon-transfer wifi-navbar-connected"></span></span></a>
+            <a href="/wifi" class="c3d-navbar-net">
+                <span class="c3d-navbar-net-name"><translate>Wired</translate><span class="c3d-navbar-net-chip is-on"><span class="glyphicon glyphicon-transfer" aria-hidden="true"></span></span></span>
+                <span class="c3d-navbar-net-state"><translate>Connected</translate></span>
+            </a>
             {% else %}
                 {% if wifi!="" %}
-                    <a href="/wifi"><span class="label wifi-navbar-disconnected">{{wifi}} &nbsp;<span class="glyphicon glyphicon-signal wifi-navbar-connected"></span></span></a>
+                <a href="/wifi" class="c3d-navbar-net">
+                    <span class="c3d-navbar-net-name">{{wifi}}<span class="c3d-navbar-net-chip is-on"><span class="glyphicon glyphicon-signal" aria-hidden="true"></span></span></span>
+                    <span class="c3d-navbar-net-state"><translate>Connected</translate></span>
+                </a>
                 {% else %}
-                    <a href="/wifi"><span class="label wifi-navbar-disconnected"><translate>Wi-Fi</translate> &nbsp;<span class="glyphicon glyphicon-signal wifi-navbar-disconnected"></span></span></a>
+                <a href="/wifi" class="c3d-navbar-net">
+                    <span class="c3d-navbar-net-name"><translate>Wi-Fi</translate><span class="c3d-navbar-net-chip"><span class="glyphicon glyphicon-signal" aria-hidden="true"></span></span></span>
+                    <span class="c3d-navbar-net-state"><translate>Not connected</translate></span>
+                </a>
                 {% endif %}
             {% endif %}
         </li>
