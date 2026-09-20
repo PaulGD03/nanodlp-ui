@@ -553,7 +553,7 @@ input[type="range"].slider, input[type="range"] { accent-color: var(--brand-acce
   background: var(--df-surface-0);
   border: 1px solid var(--df-border-subtle);
   border-radius: var(--df-radius-sm);
-  padding: 5px 10px;
+  padding: 8px 10px;
 }
 .c3d-stat-label {
   display: block;
