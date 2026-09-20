@@ -2351,13 +2351,16 @@ body:has(.c3d-preview-layout) > br { display: none; }
    without dropping the grid. */
 .c3d-resin-form { display: grid; gap: 8px; }
 .c3d-resin-section {
-  padding: 10px 12px;
+  display: grid;
+  gap: 8px;
+  align-content: start;
+  padding: 8px 12px;
   background: var(--df-surface-0);
   border: 1px solid var(--df-border-subtle);
   border-radius: var(--df-radius-lg);
 }
-.c3d-resin-title { margin: 0 0 6px; color: var(--df-text-strong); font-size: 13px; font-weight: 700; }
-.c3d-resin-note { margin: -2px 0 8px; max-width: 72ch; color: var(--df-text-muted); font-size: 12px; line-height: 1.5; }
+.c3d-resin-title { margin: 0; color: var(--df-text-strong); font-size: 13px; font-weight: 700; }
+.c3d-resin-note { margin: 0; max-width: 72ch; color: var(--df-text-muted); font-size: 12px; line-height: 1.5; }
 /* auto-fit, so a two-field section fills its card instead of leaving half of
    it empty; the form column is capped, which is what keeps the tracks (and the
    inputs) at the same ~600px width the Machine Settings panel uses. */
@@ -2367,10 +2370,10 @@ body:has(.c3d-preview-layout) > br { display: none; }
    is still full in Easy Mode, where only the two speed fields are shown. */
 .c3d-resin-columns { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 16px; }
 .c3d-resin-column { display: grid; gap: 8px; align-content: start; min-width: 0; }
-.c3d-resin-editor #setup2 .c3d-resin-column .c3d-resin-field { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.c3d-resin-editor #setup2 .c3d-resin-column .c3d-resin-field { display: flex; flex-direction: row; align-items: center; justify-content: space-between; gap: 10px; }
 .c3d-resin-editor #setup2 .c3d-resin-column .c3d-resin-field > .profile-help-label { flex: 1 1 auto; margin: 0; }
 .c3d-resin-editor #setup2 .c3d-resin-column .c3d-resin-field > .form-control { flex: 0 0 112px; width: 112px; }
-.c3d-resin-field { min-width: 0; }
+.c3d-resin-field { min-width: 0; display: flex; flex-direction: column; justify-content: flex-end; }
 .c3d-resin-field--wide { grid-column: 1 / -1; }
 .c3d-resin-editor #setup2 .profile-help-label {
   display: flex;
@@ -2464,6 +2467,7 @@ body:has(.c3d-preview-layout) > br { display: none; }
 .c3d-resin-subcard {
   display: grid;
   gap: 10px;
+  align-content: start;
   padding: 12px 14px;
   background: var(--df-surface-1);
   border: 1px solid var(--df-border-subtle);
