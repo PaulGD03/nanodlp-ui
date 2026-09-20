@@ -60,12 +60,11 @@
                 </div>
 
                 <div class="c3d-status-progress printing-obj">
-                    <div class="c3d-status-gauge">
-                        <span class="c3d-status-gauge-value print-progress-text">0%</span>
-                        <span class="c3d-status-gauge-label"><translate>Complete</translate></span>
-                    </div>
+                    <span class="c3d-status-gauge-label"><translate>Complete</translate></span>
                     <div class="progress">
-                        <div style="width: 0%" class="progress-bar progress-bar-main progress-bar-warning"></div>
+                        <div style="width: 0%" class="progress-bar progress-bar-main progress-bar-warning">
+                            <span class="print-progress-text">0%</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -79,7 +78,7 @@
             {% endif %}
             <a class="ask btn c3d-ghost c3d-ghost-gold print-btn pause-obj" href="/printer/unpause"><span class="c3d-btn-i"><span class="glyphicon glyphicon-play"></span><translate>Resume</translate></span></a>
             <a class="ask btn c3d-ghost c3d-ghost-gold print-btn printing-obj" href="/printer/pause"><span class="c3d-btn-i"><span class="glyphicon glyphicon-pause"></span><translate>Pause</translate></span></a>
-            <a class="ask btn c3d-ghost c3d-ghost-danger print-btn" href="/printer/stop" data-ask="stop-confirm" translate><span class="c3d-btn-i">Stop</span></a>
+            <a class="ask btn c3d-ghost c3d-ghost-danger print-btn" href="/printer/stop" data-ask="stop-confirm"><span class="c3d-btn-i"><span class="glyphicon glyphicon-stop"></span><translate>Stop</translate></span></a>
         </div>
 
         <translate class="hide" id="stop-confirm">Are you sure you want to stop printing? It will stop after the current layer is completed. To abort the current layer, use the Emergency Stop button in the status bar.</translate>
