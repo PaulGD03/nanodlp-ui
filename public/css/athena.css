@@ -432,4 +432,428 @@ input:checked + .switch-slider:before {
 
 /* End Dashboard Latest Updates */
 
+/* Center the fixed NanoDLP status bar in the Athena layout */
+.mlog {
+  left: 0 !important;
+  right: 0 !important;
+}
 
+/* Athena page-specific styles moved from templates */
+
+/* Dashboard live Z position */
+.dashboard-z-position {
+        margin-top: 16px;
+        width: 82px;
+        text-align: center;
+    }
+
+    .dashboard-z-position-label {
+        display: block;
+        margin-bottom: 4px;
+        font-size: 11px;
+        font-weight: 600;
+        white-space: nowrap;
+    }
+
+    .dashboard-z-position-value {
+        display: block;
+        padding: 7px 6px;
+        border: 1px solid #777;
+        border-radius: 3px;
+        background: rgba(255, 255, 255, 0.03);
+        line-height: 20px;
+        white-space: nowrap;
+        cursor: default;
+    }
+
+/* Jobs toolbar */
+.jobs-toolbar {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 16px;
+		margin-bottom: 10px;
+	}
+
+	.jobs-toolbar-left {
+		display: flex;
+		align-items: center;
+		flex-wrap: wrap;
+		gap: 8px;
+	}
+
+	.jobs-toolbar-left h2 {
+		margin: 0;
+	}
+
+	.jobs-toolbar-actions {
+		display: flex;
+		align-items: center;
+		flex-wrap: wrap;
+		gap: 6px;
+	}
+
+	.jobs-toolbar-actions .btn .glyphicon {
+		margin-right: 5px;
+	}
+
+	.jobs-toolbar-search {
+		display: flex;
+		align-items: center;
+		justify-content: flex-end;
+		gap: 12px;
+		flex: 1 1 auto;
+	}
+
+	.jobs-toolbar-search .input-group {
+		width: 100%;
+		max-width: 250px;
+	}
+
+	.jobs-toolbar-search .form-control,
+	.jobs-toolbar-search .input-group-btn .btn {
+		height: 34px;
+	}
+
+	@media (max-width: 991px) {
+		.jobs-toolbar {
+			align-items: flex-start;
+			flex-direction: column;
+		}
+
+		.jobs-toolbar-search {
+			width: 100%;
+			justify-content: flex-start;
+		}
+	}
+
+	@media (max-width: 600px) {
+		.jobs-toolbar-search {
+			flex-direction: column;
+			align-items: stretch;
+			gap: 8px;
+		}
+
+		.jobs-toolbar-search .input-group {
+			max-width: none;
+		}
+	}
+
+/* Resin profile editor layout */
+/* Keep Easy/Advanced profile fields aligned when labels wrap. */
+			#setup2 .profile-top-field > label {
+				display: flex;
+				align-items: flex-end;
+				min-height: 32px;
+			}
+
+			#setup2 .profile-top-field {
+				padding-top: 0 !important;
+			}
+
+			#setup2 .profile-section-heading {
+				padding-top: 10px;
+				padding-bottom: 0;
+			}
+
+			#setup2 .profile-section-heading h5 {
+				margin-top: 8px;
+				margin-bottom: 4px;
+			}
+
+			#setup2 .easy-mode-toolbar {
+				display: flex;
+				align-items: center;
+				gap: 8px;
+				margin: 2px 0 14px;
+			}
+
+			#setup2 .easy-mode-toolbar .btn {
+				margin-left: 4px;
+			}
+
+			#setup2 .easy-mode-toolbar .help {
+				margin-left: 0;
+			}
+
+			#setup2 .profile-help-label-inline {
+				display: inline-flex;
+				justify-content: flex-start;
+				width: auto;
+			}
+
+			#setup2 .compact-profile-field {
+				width: 25%;
+			}
+
+			#setup2 .mix-before-row {
+				display: flex;
+				align-items: center;
+				gap: 10px;
+				margin: 7px 0 0 0;
+				white-space: nowrap;
+			}
+
+			#setup2 .mix-before-row label {
+				margin: 0;
+				width: auto;
+			}
+
+			#setup2 .mix-before-row input {
+				margin: 0 !important;
+				width: 16px !important;
+				height: 16px;
+				flex: 0 0 auto;
+			}
+
+			#setup2 .profile-column-headings .profile-paired-cell {
+				padding-left: 15px;
+			}
+
+			#setup2 .profile-column-heading {
+				padding-left: 15px !important;
+			}
+
+			#setup2 .detection-system-content {
+				padding-left: 0 !important;
+				padding-right: 0 !important;
+			}
+
+			#setup2 .detection-system-content > .row {
+				margin-left: 0;
+				margin-right: 0;
+			}
+
+			#setup2 .detection-system-content > .row > [class*="col-"]:first-child {
+				padding-left: 0;
+			}
+
+			#setup2 .profile-setting-row {
+				display: flex;
+				align-items: center;
+				min-height: 46px;
+				width: 100%;
+			}
+
+			#setup2 .profile-setting-label,
+			#setup2 .profile-setting-control {
+				float: none;
+			}
+
+			#setup2 .profile-setting-label {
+				display: flex;
+				align-items: center;
+			}
+
+			#setup2 .profile-setting-label label {
+				margin: 0;
+				width: 100%;
+			}
+
+			#setup2 .profile-help-label {
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				gap: 8px;
+				width: 100%;
+			}
+
+			#setup2 .profile-help-label .help {
+				flex: 0 0 auto;
+				margin-left: 4px;
+			}
+
+			/* Bottom + Normal settings are paired row-by-row so related controls stay aligned. */
+			#setup2 .profile-bottom-normal-group {
+				width: 66.666666%;
+				float: left;
+				padding-right: 12px;
+			}
+
+			#setup2 .profile-paired-row {
+				display: flex;
+				width: 100%;
+			}
+
+			#setup2 .profile-paired-cell {
+				width: 50%;
+				padding-right: 12px;
+			}
+
+
+			#setup2 .profile-column-lift {
+				width: 33.333333%;
+				float: left;
+			}
+
+			#setup2 .profile-peel-mode-readonly {
+				display: flex;
+				align-items: center;
+				gap: 12px;
+				margin-top: 4px;
+				margin-bottom: 6px;
+			}
+
+			#setup2 .profile-peel-mode-readonly .profile-mode-value {
+				font-weight: 600;
+			}
+
+			#setup2 .onboard-slicing-note {
+				margin-top: 0;
+				margin-bottom: 8px;
+				opacity: 0.85;
+			}
+
+			@media (min-width: 768px) and (max-width: 1199px) {
+				#setup2 .compact-profile-field {
+					width: 33.333333%;
+				}
+
+				#setup2 .profile-bottom-normal-group {
+					width: 100%;
+					float: none;
+					padding-right: 0;
+				}
+
+				#setup2 .profile-column-lift {
+					width: 100%;
+					float: none;
+					clear: both;
+				}
+			}
+
+			@media (max-width: 767px) {
+				#setup2 .compact-profile-field {
+					width: 100%;
+				}
+
+				#setup2 .profile-bottom-normal-group,
+				#setup2 .profile-column-lift {
+					width: 100%;
+					float: none;
+					padding-right: 0;
+				}
+
+				#setup2 .profile-paired-row {
+					display: block;
+				}
+
+				#setup2 .profile-paired-cell {
+					width: 100%;
+					padding-right: 0;
+				}
+
+			}
+
+/* Resin profile list and Athena Resin Database */
+.resin-profile-page-actions .btn {
+        margin-left: 6px;
+    }
+
+    .resin-profile-page-actions .glyphicon {
+        margin-right: 6px;
+    }
+
+    .athena-resin-db-panel {
+        margin-top: 16px;
+        margin-bottom: 22px;
+        border: 1px solid #777;
+        border-radius: 4px;
+        overflow: hidden;
+    }
+
+    .athena-resin-db-toggle {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        padding: 12px 14px;
+        color: inherit;
+        background: rgba(255, 255, 255, 0.03);
+        text-decoration: none !important;
+        cursor: pointer;
+    }
+
+    .athena-resin-db-toggle:hover,
+    .athena-resin-db-toggle:focus {
+        color: inherit;
+        background: rgba(255, 255, 255, 0.07);
+        text-decoration: none;
+    }
+
+    .athena-resin-db-icon {
+        font-size: 20px;
+        margin-right: 12px;
+        flex: 0 0 auto;
+    }
+
+    .athena-resin-db-copy {
+        flex: 1 1 auto;
+        min-width: 0;
+    }
+
+    .athena-resin-db-title {
+        display: block;
+        font-size: 16px;
+        font-weight: 600;
+        line-height: 1.25;
+    }
+
+    .athena-resin-db-description {
+        display: block;
+        margin-top: 2px;
+        font-size: 12px;
+        opacity: 0.8;
+        font-weight: normal;
+    }
+
+    .athena-resin-db-chevron {
+        margin-left: 14px;
+        flex: 0 0 auto;
+    }
+
+    #resin-database-container {
+        border-top: 1px solid #777;
+        background: rgba(0, 0, 0, 0.08);
+    }
+
+    #resin-database-iframe-container {
+        width: 100%;
+        height: 72vh;
+        min-height: 600px;
+        max-height: 800px;
+        border: 0;
+    }
+
+    #resin-database-iframe {
+        width: 100%;
+        height: 100%;
+        border: 0;
+        display: block;
+    }
+
+    .local-resin-profiles-heading {
+        margin-top: 0;
+        margin-bottom: 8px;
+    }
+
+    @media (max-width: 767px) {
+        .resin-profile-page-actions {
+            display: block;
+            margin-top: 8px;
+        }
+
+        .resin-profile-page-actions .btn {
+            margin-left: 0;
+            margin-right: 6px;
+            margin-bottom: 6px;
+        }
+
+        .athena-resin-db-description {
+            line-height: 1.35;
+        }
+
+        #resin-database-iframe-container {
+            min-height: 500px;
+            height: 70vh;
+        }
+    }

@@ -11,11 +11,11 @@
             {% for profile in profiles %}
                 {% if profile.ProfileID == 1 %}
                     <!-- Athena profiles cannot be created from scratch, they must be cloned from an AFP -->
-                    <a class="btn c3d-ghost c3d-ghost-gold c3d-btn-i tip" href="/profile/clone/1" role="button"><span class="glyphicon glyphicon-plus"></span><translate>New Resin</translate></a>
+                    <a class="btn c3d-ghost c3d-ghost-gold c3d-btn-i tip" href="/profile/clone/1" role="button"><span class="glyphicon glyphicon-plus"></span><translate>New Resin</translate><translate class="hide">Create a new resin profile from the factory template</translate></a>
                 {% endif %}
             {% endfor %}
         {% endif %}
-        <a class="btn c3d-ghost c3d-ghost-info c3d-btn-i tip" href="/import"><span class="glyphicon glyphicon-import"></span><translate>Import</translate></a>
+        <a class="btn c3d-ghost c3d-ghost-info c3d-btn-i tip" href="/import" role="button"><span class="glyphicon glyphicon-import"></span><translate>Import</translate><translate class="hide">Import a resin profile from a file</translate></a>
     </div>
 </div>
 
@@ -61,7 +61,7 @@
             </div>
             <div class="c3d-list-actions">
                 {% if defaultProfile!=profile.ProfileID %}
-                <a class="c3d-badge c3d-badge--set tip" href="/profile/default/{{profile.ProfileID}}"><span class="glyphicon glyphicon-ok"></span> <translate>Set default</translate></a>
+                <a class="c3d-badge c3d-badge--set tip" href="/profile/default/{{profile.ProfileID}}"><span class="glyphicon glyphicon-ok"></span> <translate>Set default</translate><translate class="hide">Set default resin profile</translate></a>
                 {% endif %}
                 {% if !profile.ManufacturerLock %}
                 <a class="btn c3d-ghost c3d-btn-i tip" href="/profile/edit/{{profile.ProfileID}}"><span class="glyphicon glyphicon-pencil"></span><translate class="hide">Edit</translate></a>

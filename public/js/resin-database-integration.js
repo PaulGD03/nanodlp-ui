@@ -33,22 +33,39 @@
         // Toggle database view
         $('#resin-db-toggle').on('click', function(e) {
             e.preventDefault();
+
             const container = $('#resin-database-container');
             const toggle = $(this);
             const chevron = toggle.find('.athena-resin-db-chevron');
+
             if (container.is(':visible')) {
                 container.slideUp();
-                chevron.removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');
+                chevron
+                    .removeClass('glyphicon-chevron-up')
+                    .addClass('glyphicon-chevron-down');
                 toggle.attr('aria-expanded', 'false');
             } else {
                 container.slideDown();
-                chevron.removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-up');
+                chevron
+                    .removeClass('glyphicon-chevron-down')
+                    .addClass('glyphicon-chevron-up');
                 toggle.attr('aria-expanded', 'true');
+
                 if (!container.data('initialized')) {
                     initializeResinDatabase();
                     container.data('initialized', true);
                 }
             }
+        });
+        
+        // Close database view
+        $('#resin-db-close').on('click', function() {
+            $('#resin-database-container').slideUp();
+            $('#resin-db-toggle')
+                .attr('aria-expanded', 'false')
+                .find('.athena-resin-db-chevron')
+                .removeClass('glyphicon-chevron-up')
+                .addClass('glyphicon-chevron-down');
         });
         
         // Auto-detect machine type if not set
