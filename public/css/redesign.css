@@ -100,14 +100,14 @@ a:hover, a:focus { color: var(--brand-accent); filter: brightness(1.08); }
   gap: 6px;
   line-height: 1.2;
   padding: 6px 14px;
-  border-radius: var(--df-radius-md);
   text-align: center;
 }
-.navbar-default .navbar-nav > li > a.c3d-navbar-machine:hover,
-.navbar-default .navbar-nav > li > a.c3d-navbar-machine:focus,
-.navbar-default .navbar-nav > li > a.c3d-navbar-net:hover,
-.navbar-default .navbar-nav > li > a.c3d-navbar-net:focus {
-  background-color: var(--df-surface-1);
+/* hover reads like every other navbar entry: no pill, just brighter text */
+.navbar-default .navbar-nav > li > a.c3d-navbar-machine:hover .c3d-navbar-machine-version,
+.navbar-default .navbar-nav > li > a.c3d-navbar-machine:focus .c3d-navbar-machine-version,
+.navbar-default .navbar-nav > li > a.c3d-navbar-net:hover .c3d-navbar-net-state,
+.navbar-default .navbar-nav > li > a.c3d-navbar-net:focus .c3d-navbar-net-state {
+  color: var(--df-text-strong);
 }
 .c3d-navbar-net-name {
   display: flex;
@@ -119,23 +119,6 @@ a:hover, a:focus { color: var(--brand-accent); filter: brightness(1.08); }
   white-space: nowrap;
 }
 .c3d-navbar-net-state { color: var(--df-text-muted); font-size: 11px; }
-.c3d-navbar-net-chip {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 18px;
-  height: 18px;
-  border: 1px solid var(--df-border-strong);
-  border-radius: 999px;
-  color: var(--df-text-muted);
-  font-size: 10px;
-}
-.c3d-navbar-net-chip .glyphicon { top: 0; }
-.c3d-navbar-net-chip.is-on {
-  border-color: color-mix(in srgb, var(--df-success), transparent 45%);
-  background-color: color-mix(in srgb, var(--df-success) 16%, transparent);
-  color: var(--df-success);
-}
 .c3d-navbar-machine-name {
   display: flex;
   align-items: center;

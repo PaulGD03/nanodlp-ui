@@ -60,18 +60,18 @@
         <li>
             {% if network==1 %}
             <a href="/wifi" class="c3d-navbar-net">
-                <span class="c3d-navbar-net-name"><translate>Wired</translate><span class="c3d-navbar-net-chip is-on"><span class="glyphicon glyphicon-transfer" aria-hidden="true"></span></span></span>
+                <span class="c3d-navbar-net-name"><translate>Wired</translate></span>
                 <span class="c3d-navbar-net-state"><translate>Connected</translate></span>
             </a>
             {% else %}
                 {% if wifi!="" %}
                 <a href="/wifi" class="c3d-navbar-net">
-                    <span class="c3d-navbar-net-name">{{wifi}}<span class="c3d-navbar-net-chip is-on"><span class="glyphicon glyphicon-signal" aria-hidden="true"></span></span></span>
+                    <span class="c3d-navbar-net-name">{{wifi}}</span>
                     <span class="c3d-navbar-net-state"><translate>Connected</translate></span>
                 </a>
                 {% else %}
                 <a href="/wifi" class="c3d-navbar-net">
-                    <span class="c3d-navbar-net-name"><translate>Wi-Fi</translate><span class="c3d-navbar-net-chip"><span class="glyphicon glyphicon-signal" aria-hidden="true"></span></span></span>
+                    <span class="c3d-navbar-net-name"><translate>Wi-Fi</translate></span>
                     <span class="c3d-navbar-net-state"><translate>Not connected</translate></span>
                 </a>
                 {% endif %}
