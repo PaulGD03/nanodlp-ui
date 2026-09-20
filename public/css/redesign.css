@@ -772,7 +772,6 @@ body.c3d-printing #webcam-column .dashboard-panel { flex: 1 1 auto; }
   width: 100%;
   aspect-ratio: auto;
   min-height: 180px;
-  background: #000;
   border: 1px solid var(--df-border-subtle);
   border-radius: var(--df-radius-md);
   overflow: hidden;
@@ -816,6 +815,14 @@ body.c3d-printing #webcam-column .dashboard-panel { flex: 1 1 auto; }
 /* long values (job action, "0.05 of 40.75mm") wrap inside their cell */
 .c3d-status .c3d-stat-value,
 .c3d-status .val { overflow-wrap: anywhere; }
+/* the panel sits inside .layer_details, whose legacy .val/.append rules added
+   10px/20px padding and medium font - that padding is what made the Action
+   value wrap while the cell still had ~40% of its width free */
+.c3d-status .c3d-stat-value,
+.c3d-status .val,
+.c3d-status .append { padding: 0; font-size: inherit; }
+.c3d-status .c3d-stat-value { font-size: 15px; }
+.c3d-status .c3d-stat--resin .c3d-stat-value { font-size: 13px; }
 .c3d-status-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 14px; flex-wrap: wrap; }
 .c3d-status-actions .btn { margin: 0; }
 .c3d-status-actions .c3d-shutdown { margin-right: auto; }
@@ -1336,7 +1343,7 @@ table#plates.table-bordered > tbody > tr > td { border-color: var(--df-border-su
 #plates dl.small { margin: 8px 0 0; }
 #plates dl.small dt { color: var(--df-text-muted); font-size: 11px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; }
 #plates dl.small dd { color: var(--df-text-strong); font-size: 13px; margin: 0 0 6px; }
-#plates img.threed { border-radius: 10px; border: 1px solid var(--df-border-subtle); max-width: 170px; display: block; background: #000; }
+#plates img.threed { border-radius: 10px; border: 1px solid var(--df-border-subtle); max-width: 170px; display: block; }
 #plates .label-danger { background-color: transparent; color: var(--df-danger); border: 1px solid color-mix(in srgb, var(--df-danger), transparent 40%); }
 #plates .label-warning { background-color: transparent; color: var(--brand-accent); border-color: color-mix(in srgb, var(--brand-accent), transparent 40%); }
 #plates .alert-danger { background-color: color-mix(in srgb, var(--df-danger), var(--df-surface-0) 86%); border-color: color-mix(in srgb, var(--df-danger), transparent 40%); color: var(--df-text-strong); }
@@ -1791,7 +1798,6 @@ body:has(.c3d-preview-layout) > br { display: none; }
   overflow: hidden;
   height: 100%;
   min-height: 0;
-  background-color: #000;
   border-radius: var(--df-radius-md);
 }
 /* the image box must equal the image: compare() sizes its canvas from these
@@ -1806,7 +1812,6 @@ body:has(.c3d-preview-layout) > br { display: none; }
   max-height: 100%;
   object-fit: contain;
   border-radius: var(--df-radius-md);
-  background-color: #000;
 }
 .c3d-preview-details {
   grid-column: 1 / -1;
