@@ -871,7 +871,6 @@
 	<!-- ************************** ATHENA SIMPLE RESIN PAGE -->
 	<div id="setup-profile2">
 
-
 		<script>
 			$(document).ready(() => {
 				const liftSpeed = `{{profile.DynamicSpeed}}`;
@@ -879,7 +878,6 @@
 				expertToSimpleElementConversion(liftSpeed, retractSpeed)
 			});
 		</script>
-
 
 		<form action="" method="post" class="edit-page {% if viewMode == 1 %}hidden{% endif %}" id="setup2">
 		<div class="c3d-resin-form">
@@ -1133,6 +1131,16 @@
 									<label for="FullLiftSpeedSimple" class="profile-help-label"><span><translate>Second Stage Lift Speed (<b>mm/m</b>)</translate></span><a class="help" data-toggle="tooltip" data-placement="top" title="Lift speed used after peel is detected for the remaining lift distance.">i</a></label>
 									<input class="form-control" value="{{profile.CustomValues.FullLiftSpeed}}" name="FullLiftSpeed" id="FullLiftSpeedSimple" step="1" type="number">
 								</div>
+								<div class="c3d-resin-field i_basic i_option">
+									<label for="RlEnableSimple" class="profile-help-label"><span translate>Resin Level Detection</span><a class="help" data-toggle="tooltip" data-placement="top" title="Checks that enough resin is in the vat to complete the print, sets the mixing lift height, and detects overfilled vats above 800 mL.">i</a></label>
+									<label class="c3d-resin-toggle">
+										<input type="checkbox" class="checkbox-profile" value="{{profile.CustomValues.FssEnableResinleveldetection}}" name="FssEnableResinleveldetection" id="RlEnableSimple"{% if profile.CustomValues.FssEnableResinleveldetection == "0" %} checked{% endif %}>
+										<span class="c3d-resin-toggle-face">
+											<span class="c3d-resin-toggle-on" translate>Enabled</span>
+											<span class="c3d-resin-toggle-off" translate>Disabled</span>
+										</span>
+									</label>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -1186,19 +1194,7 @@
 						</div>
 					</div>
 
-					<div class="c3d-resin-subcard advance_mode">
-						<div class="c3d-resin-subhead">
-							<h3 class="c3d-resin-subtitle"><span translate>Resin Level Detection</span></h3>
-							<a class="help" data-toggle="tooltip" data-placement="top" title="Checks that enough resin is in the vat to complete the print, sets the mixing lift height, and detects overfilled vats above 800 mL.">i</a>
-						</div>
-						<label class="c3d-resin-toggle">
-							<input type="checkbox" class="checkbox-profile" value="{{profile.CustomValues.FssEnableResinleveldetection}}" name="FssEnableResinleveldetection" id="RlEnableSimple"{% if profile.CustomValues.FssEnableResinleveldetection == "0" %} checked{% endif %}>
-							<span class="c3d-resin-toggle-face">
-								<span class="c3d-resin-toggle-on" translate>Enabled</span>
-								<span class="c3d-resin-toggle-off" translate>Disabled</span>
-							</span>
-						</label>
-					</div>
+					
 
 				</div>
 				</div>
