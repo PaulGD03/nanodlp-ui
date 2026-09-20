@@ -53,35 +53,38 @@
         {% if printerError %}
             <li><a class="svg error label label-danger" href="/printer">{{ icon(heart_icon) }}</a></li>
         {% endif %}
-        <li class="navbar-resin-temp" style="display:none">
-            <a href="/"><small> Resin: <span id="navbar-resin-temp-text"></span>°C | <span id="navbar-resin-target-text"></span></small></a>
+        <li class="navbar-resin-temp c3d-navbar-status-divider" style="display:none">
+            <a href="/" class="c3d-navbar-block">
+                <span class="c3d-navbar-block-name"><translate>Resin</translate> <span id="navbar-resin-temp-text"></span>°C</span>
+                <span class="c3d-navbar-block-sub" id="navbar-resin-target-text"></span>
+            </a>
         </li>
         {% if os=="linux" %}
-        <li>
+        <li class="c3d-navbar-status-divider">
             {% if network==1 %}
-            <a href="/wifi" class="c3d-navbar-net">
-                <span class="c3d-navbar-net-name"><translate>Wired</translate></span>
-                <span class="c3d-navbar-net-state"><translate>Connected</translate></span>
+            <a href="/wifi" class="c3d-navbar-block">
+                <span class="c3d-navbar-block-name"><translate>Wired</translate></span>
+                <span class="c3d-navbar-block-sub"><translate>Connected</translate></span>
             </a>
             {% else %}
                 {% if wifi!="" %}
-                <a href="/wifi" class="c3d-navbar-net">
-                    <span class="c3d-navbar-net-name">{{wifi}}</span>
-                    <span class="c3d-navbar-net-state"><translate>Connected</translate></span>
+                <a href="/wifi" class="c3d-navbar-block">
+                    <span class="c3d-navbar-block-name">{{wifi}}</span>
+                    <span class="c3d-navbar-block-sub"><translate>Connected</translate></span>
                 </a>
                 {% else %}
-                <a href="/wifi" class="c3d-navbar-net">
-                    <span class="c3d-navbar-net-name"><translate>Wi-Fi</translate></span>
-                    <span class="c3d-navbar-net-state"><translate>Not connected</translate></span>
+                <a href="/wifi" class="c3d-navbar-block">
+                    <span class="c3d-navbar-block-name"><translate>Wi-Fi</translate></span>
+                    <span class="c3d-navbar-block-sub"><translate>Not connected</translate></span>
                 </a>
                 {% endif %}
             {% endif %}
         </li>
         {% endif %}
         <li>
-            <a href="/printer/upgrade" class="c3d-navbar-machine">
-                <span class="c3d-navbar-machine-name">{% if printerName!="" %}{{printerName}}{% endif %}<span class="c3d-navbar-bit-chip navbar-bit-depth" style="display:none"><span id="navbar-bit-depth-text"></span></span></span>
-                <span class="c3d-navbar-machine-version"><span id="athena-version-str">1.0.8</span></span>
+            <a href="/printer/upgrade" class="c3d-navbar-block">
+                <span class="c3d-navbar-block-name">{% if printerName!="" %}{{printerName}}{% endif %}<span class="c3d-navbar-bit-chip navbar-bit-depth" style="display:none"><span id="navbar-bit-depth-text"></span></span></span>
+                <span class="c3d-navbar-block-sub"><span id="athena-version-str">1.0.8</span></span>
             </a>
         </li>
     </ul>

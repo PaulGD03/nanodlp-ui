@@ -90,10 +90,10 @@ a:hover, a:focus { color: var(--brand-accent); filter: brightness(1.08); }
 }
 .navbar-default .navbar-toggle { margin-top: 7px; margin-bottom: 7px; }
 .navbar-default .navbar-nav > li > a { color: var(--df-text-muted); font-size: 14px; display: flex; align-items: center; gap: 10px; }
-/* Navbar status blocks (machine, network): a centred two-line little card -
-   a name with a state chip on top, one muted line underneath. */
-.navbar-default .navbar-nav > li > a.c3d-navbar-machine,
-.navbar-default .navbar-nav > li > a.c3d-navbar-net {
+/* Navbar status blocks (resin temperature, network, machine): a centred
+   two-line little card - a name with its value on top, one muted line under
+   it - separated from each other by a hairline divider. */
+.navbar-default .navbar-nav > li > a.c3d-navbar-block {
   flex-direction: column;
   align-items: center;
   justify-content: center;
@@ -103,32 +103,28 @@ a:hover, a:focus { color: var(--brand-accent); filter: brightness(1.08); }
   text-align: center;
 }
 /* hover reads like every other navbar entry: no pill, just brighter text */
-.navbar-default .navbar-nav > li > a.c3d-navbar-machine:hover .c3d-navbar-machine-version,
-.navbar-default .navbar-nav > li > a.c3d-navbar-machine:focus .c3d-navbar-machine-version,
-.navbar-default .navbar-nav > li > a.c3d-navbar-net:hover .c3d-navbar-net-state,
-.navbar-default .navbar-nav > li > a.c3d-navbar-net:focus .c3d-navbar-net-state {
+.navbar-default .navbar-nav > li > a.c3d-navbar-block:hover .c3d-navbar-block-sub,
+.navbar-default .navbar-nav > li > a.c3d-navbar-block:focus .c3d-navbar-block-sub {
   color: var(--df-text-strong);
 }
-.c3d-navbar-net-name {
+.navbar-default .navbar-right > li.c3d-navbar-status-divider { display: flex; align-items: center; }
+.navbar-default .navbar-right > li.c3d-navbar-status-divider::after {
+  content: "";
+  width: 1px;
+  height: 22px;
+  margin: 0 14px;
+  background-color: var(--df-border-strong);
+}
+.c3d-navbar-block-name {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 4px;
   color: var(--df-text-strong);
   font-size: 12px;
   font-weight: 600;
   white-space: nowrap;
 }
-.c3d-navbar-net-state { color: var(--df-text-muted); font-size: 11px; }
-.c3d-navbar-machine-name {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  color: var(--df-text-strong);
-  font-size: 12px;
-  font-weight: 600;
-  white-space: nowrap;
-}
-.c3d-navbar-machine-version { color: var(--df-text-muted); font-size: 11px; }
+.c3d-navbar-block-sub { color: var(--df-text-muted); font-size: 11px; }
 .c3d-navbar-bit-chip {
   color: var(--brand-accent);
   font-size: 11px;
