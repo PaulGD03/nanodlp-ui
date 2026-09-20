@@ -11,11 +11,12 @@ function preview_init(){
 			$(this).find(".c3d-btn-label").text("Preview");
 			$.get("/projector/blank");
 		} else {
-			if (confirm_action($(this))) {
+			var btn = this;
+			confirm_action($(btn), function(){
 				$.get("/projector/display/"+"plates***"+t.data("plate")+"***"+t.val()+".png");
 				t.data("clicked",true);
-				$(this).find(".c3d-btn-label").text("Close");
-			}
+				$(btn).find(".c3d-btn-label").text("Close");
+			});
 		}
 	}).delegate("#preview_play", "click", function () {
 		$("#preview_play").addClass("hide");
@@ -180,7 +181,7 @@ function compare(selector,plate,current_layer){
 		}
 		var img = imagedata_to_image(selector,c);
 	  })
-	  .catch( (e) => alert(e) );
+	  .catch( (e) => { if (window.toastr) toastr.error(String(e)); else console.error(e); } );
 }
 
 function imagedata_to_image(selector,imagedata) {

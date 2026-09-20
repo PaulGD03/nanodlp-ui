@@ -31,14 +31,12 @@ $(document).ready(function () {
     $('#timelapse-gallery').on('click', '.timelapse-delete', async function (e) {
         e.preventDefault();
         const confirmText = $('#delete-timelapse-confirm').text();
-        if (!confirm(confirmText)) {
-            return;
-        }
-
+        const button = this;
+        c3dConfirm(confirmText, async function () {
         const entry = {
-            plateId: $(this).data('plate-id'),
-            filename: $(this).data('filename'),
-            previewfilename: $(this).data('previewfilename'),
+            plateId: $(button).data('plate-id'),
+            filename: $(button).data('filename'),
+            previewfilename: $(button).data('previewfilename'),
         };
 
         try {
@@ -56,6 +54,7 @@ $(document).ready(function () {
         } catch (err) {
             toastr.error('Failed to delete timelapse');
         }
+        });
     });
 });
 

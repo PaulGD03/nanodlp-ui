@@ -480,6 +480,15 @@ input[type="range"].slider, input[type="range"] { accent-color: var(--brand-acce
   color: var(--df-text-strong);
 }
 .modal-header { border-bottom-color: var(--df-border-subtle); }
+/* Confirm dialog: the designed replacement for the native confirm() */
+.c3d-confirm-modal .modal-dialog { width: calc(100% - 48px); max-width: 520px; }
+.c3d-confirm-modal .modal-header { padding: 22px 24px 8px; border-bottom: 0; }
+.c3d-confirm-modal .modal-title { display: flex; align-items: center; gap: 10px; font-size: 15px; font-weight: 700; color: var(--df-text-strong); }
+.c3d-confirm-icon { top: 0; color: var(--df-warn); font-size: 15px; }
+.c3d-confirm-modal .modal-body { padding: 0 24px 4px; }
+.c3d-confirm-text { margin: 0; color: var(--df-text-muted); font-size: 13px; line-height: 1.6; }
+.c3d-confirm-modal .modal-footer { display: flex; justify-content: flex-end; gap: 10px; padding: 14px 24px 20px; border-top: 0; }
+.c3d-confirm-modal .modal-footer .btn { margin: 0; }
 .modal-footer { border-top-color: var(--df-border-subtle); }
 
 /* ---------- Meters (system health tiles, disk cards) ---------- */

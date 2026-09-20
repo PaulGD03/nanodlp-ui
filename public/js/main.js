@@ -298,9 +298,58 @@ function update_upload_progress(){
 	});
 }
 
+/* ---------- Designed confirm dialog ----------
+   A bootstrap modal replaces the native confirm(), so prompts match the rest
+   of the UI. c3dConfirm(message, onOk) never blocks: the caller continues in
+   the callback. If the dialog is not in the DOM it falls back to confirm(). */
+function c3dConfirm(message, onOk){
+	var $m = $("#c3d-confirm-modal");
+	if (!$m.length || !$.fn.modal) {
+		if (window.confirm(message)) onOk();
+		return;
+	}
+	$m.find(".c3d-confirm-text").text(message || "");
+	$m.data("c3d-on-ok", onOk);
+	$m.modal("show");
+}
+
+/* Do what the element would have done by itself: follow the link, submit the
+   form it belongs to, or replay the click for handlers we do not own. */
+function c3dRunAction(el){
+	var $el = $(el);
+	if (el.tagName === "A" && $el.attr("href") && $el.attr("href") !== "#") {
+		window.location.href = $el.attr("href");
+		return;
+	}
+	var form = $el.attr("form") ? document.getElementById($el.attr("form")) : $el.closest("form")[0];
+	if (form) {
+		if (typeof form.requestSubmit === "function") form.requestSubmit(el.type === "submit" ? el : undefined);
+		else form.submit();
+		return;
+	}
+	el.dataset.c3dConfirmed = "1";
+	$el.trigger("click");
+}
+
+$(function(){
+	$("#c3d-confirm-modal").on("click", ".c3d-confirm-ok", function(){
+		var $m = $("#c3d-confirm-modal");
+		var fn = $m.data("c3d-on-ok");
+		$m.data("c3d-on-ok", null);
+		$m.modal("hide");
+		if (typeof fn === "function") fn();
+	});
+});
+
 function confirm_init(){
 	$("body").delegate(".ask","click",function(e){
-		return confirm($("#"+$(this).data("ask")).text());
+		var el = this, $el = $(el);
+		if (el.dataset.c3dConfirmed === "1") { delete el.dataset.c3dConfirmed; return true; }
+		var textEl = document.getElementById($el.data("ask") || "");
+		var text = textEl ? textEl.textContent.trim() : "";
+		if (!text) return true;
+		e.preventDefault();
+		c3dConfirm(text, function(){ c3dRunAction(el); });
 	});
 }
 
@@ -445,7 +494,9 @@ function repair_init(){
 function jobs_action_init(){
 	$("body").delegate(".resume","click",function(e){
 		var t=$(this);
-		return confirm(t.data("confirm").replace("[LayerID]",t.parents("form").find("input").val()));
+		e.preventDefault();
+		var msg = (t.data("confirm") || "").replace("[LayerID]", t.parents("form").find("input").val());
+		c3dConfirm(msg, function(){ c3dRunAction(t[0]); });
 	}).delegate(".cancel-slicing","click",function(e){
 		$.get("/slicer/cancel");
 	});
@@ -613,24 +664,29 @@ function inputs_init(){
 	}).delegate("a.ajax","click",function(e){
 		e.preventDefault();
 		var t = $(this);
-		if (!confirm_action(t)) return;
-		$.ajax({
-			url: t.attr('href')
-		}).always(function(d){
-			if (t.data("ajax")){
-				document.location.href = t.data("ajax");
-			}
+		confirm_action(t, function(){
+			$.ajax({
+				url: t.attr('href')
+			}).always(function(d){
+				if (t.data("ajax")){
+					document.location.href = t.data("ajax");
+				}
+			});
 		});
 	});
 }
 
-function confirm_action(t){
-	if (t.data("confirm")){
-		var txt = $("#"+t.data("confirm")).text();
-		if (txt=="") txt=t.data("confirm");
-		return confirm(txt);
+/* Returns true when it already ran onOk (nothing to ask). */
+function confirm_action(t, onOk){
+	var key = t.data("confirm");
+	if (!key){
+		if (typeof onOk === "function") onOk();
+		return true;
 	}
-	return true;
+	var txt = $("#"+key).text();
+	if (txt=="") txt=key;
+	c3dConfirm(txt, onOk);
+	return false;
 }
 
 function favicon_init(){

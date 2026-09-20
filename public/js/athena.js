@@ -622,9 +622,9 @@ async function changeUpdateChannel(channel) {
 
 		const text = document.getElementById(`btn-${channel}`);
 		toastr.success(`Channel updated to ${text.innerText}!`);
-		if (confirm('A reboot is required for the channel change to take effect. Reboot now?')) {
+		c3dConfirm('A reboot is required for the channel change to take effect. Reboot now?', function(){
 			window.location.href = '/printer/restart';
-		}
+		});
 	} catch (err) {
 		toastr.error('Failed to switch channels.')
 	}

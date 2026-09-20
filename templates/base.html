@@ -198,7 +198,7 @@
 	<!-- Custom styles for this template -->
 	<link href='/static/css/main.css?{{version}}(athenav7)' rel="stylesheet">
 	<link href='/static/css/athena.css?{{version}}(athenav10)' rel="stylesheet">
-	<link href='/static/css/redesign.css?{{version}}(redesignv127)' rel="stylesheet">
+	<link href='/static/css/redesign.css?{{version}}(redesignv128)' rel="stylesheet">
 	<title>{% if title %}{{ title }}{% endif %}</title>
 	{% block head %} {% endblock %}
 	<script src='/static/boot3/js/jquery.min.js'></script>
@@ -235,15 +235,15 @@
 	<script src='/static/js/favico-0.3.10.min.js'></script>
 	<script src='/static/js/jquery.sparkline.min.js'></script>
 	<script src='/static/js/conditionize.flexible.jquery.min.js'></script>	
-	<script src='/static/js/main.js?{{version}}(athenav15)'></script>
+	<script src='/static/js/main.js?{{version}}(athenav16)'></script>
 	<script src='/static/js/formula.js'></script>
 	<script src='/static/js/slicer.js?{{version}}(athenav10)'></script>
 	<script src='/static/js/job-thumbs.js?{{version}}(athenav17)'></script>
-	<script src='/static/js/preview.js'></script>
+	<script src='/static/js/preview.js?{{version}}(athenav1)'></script>
 	<script src='/static/js/po.js'></script>
 	<link rel="stylesheet" href="/static/dependencies/toastr/toastr.min.css">
 	<script src="/static/dependencies/toastr/toastr.min.js"></script>
-	<script src='/static/js/athena.js?{{version}}(athenav20)'></script>
+	<script src='/static/js/athena.js?{{version}}(athenav21)'></script>
 	<script src='/static/js/camera.js?{{version}}(athenav7)'></script>
 	{% block js %} {% endblock %} {% block tail %} {% endblock %}
 	<div class="modal fade" id="helpModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -273,6 +273,20 @@
 			<a class="ask btn btn-danger c3d-footer-stop" href="/printer/force-stop" data-ask="emergency-stop-confirm" translate>Emergency Stop</a>
 		</div>
 		<translate class="hide" id="emergency-stop-confirm">Are you sure you want to force stop printing? Warning, Force Stop will reset the printer. Printing progress will be lost.</translate>
+	</div>
+	<div class="modal fade c3d-confirm-modal" id="c3d-confirm-modal" tabindex="-1" role="dialog" aria-labelledby="c3d-confirm-heading" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="c3d-confirm-heading"><span class="glyphicon glyphicon-exclamation-sign c3d-confirm-icon" aria-hidden="true"></span><translate>Are you sure?</translate></h5>
+				</div>
+				<div class="modal-body"><p class="c3d-confirm-text"></p></div>
+				<div class="modal-footer">
+					<button type="button" class="btn c3d-ghost" data-dismiss="modal" translate>Cancel</button>
+					<button type="button" class="btn c3d-ghost c3d-ghost-danger c3d-confirm-ok" translate>Confirm</button>
+				</div>
+			</div>
+		</div>
 	</div>
 	<div class="hide" id="modal-template">
 		<div class="modal modal-notification notification-service" tabindex="-1" role="dialog" data-notification="[[Timestamp]]">
