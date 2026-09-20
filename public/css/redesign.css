@@ -117,7 +117,7 @@ a:hover, a:focus { color: var(--brand-accent); filter: brightness(1.08); }
 }
 .c3d-navbar-block-name {
   display: flex;
-  align-items: center;
+  align-items: baseline;
   gap: 4px;
   color: var(--df-text-strong);
   font-size: 12px;
@@ -125,10 +125,12 @@ a:hover, a:focus { color: var(--brand-accent); filter: brightness(1.08); }
   white-space: nowrap;
 }
 .c3d-navbar-block-sub { color: var(--df-text-muted); font-size: 11px; }
+/* same size and weight as the machine name, only the colour marks it */
 .c3d-navbar-bit-chip {
+  display: inline;
   color: var(--brand-accent);
-  font-size: 11px;
-  font-weight: 700;
+  font-size: 12px;
+  font-weight: 600;
 }
 
 .navbar-default .navbar-nav > li > a:hover,
