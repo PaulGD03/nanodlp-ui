@@ -56,9 +56,6 @@
         <li class="navbar-resin-temp" style="display:none">
             <a href="/"><small> Resin: <span id="navbar-resin-temp-text"></span>°C | <span id="navbar-resin-target-text"></span></small></a>
         </li>
-        <li class="navbar-bit-depth" style="display:none">
-            <span class="c3d-navbar-readout"><small id="navbar-bit-depth-text"></small></span>
-        </li>
         {% if os=="linux" %}
         <li>
             {% if network==1 %}
@@ -73,8 +70,9 @@
         </li>
         {% endif %}
         <li>
-            <a href="/printer/upgrade">
-                <small>{% if printerName!="" %}{{printerName}} - {% endif %}</small><small id="athena-version-str">1.0.8</small>
+            <a href="/printer/upgrade" class="c3d-navbar-machine">
+                <small class="c3d-navbar-machine-name">{% if printerName!="" %}{{printerName}}{% endif %}<span class="navbar-bit-depth" style="display:none"> <span id="navbar-bit-depth-text"></span></span></small>
+                <small class="c3d-navbar-machine-version"><span id="athena-version-str">1.0.8</span></small>
             </a>
         </li>
     </ul>

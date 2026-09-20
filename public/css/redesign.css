@@ -90,6 +90,18 @@ a:hover, a:focus { color: var(--brand-accent); filter: brightness(1.08); }
 }
 .navbar-default .navbar-toggle { margin-top: 7px; margin-bottom: 7px; }
 .navbar-default .navbar-nav > li > a { color: var(--df-text-muted); font-size: 14px; display: flex; align-items: center; gap: 10px; }
+/* Machine readout: name and bit depth on one line, the build underneath. */
+.navbar-default .navbar-nav > li > a.c3d-navbar-machine {
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 1px;
+  line-height: 1.3;
+  text-align: right;
+}
+.c3d-navbar-machine .c3d-navbar-machine-name { color: var(--df-text-strong); }
+.c3d-navbar-machine .c3d-navbar-machine-version { color: var(--df-text-muted); }
+
 .navbar-default .navbar-nav > li > a:hover,
 .navbar-default .navbar-nav > li > a:focus { color: var(--df-text-strong); background-color: transparent; }
 .navbar-default .navbar-nav > .active > a,
@@ -2256,18 +2268,8 @@ body:has(.c3d-preview-layout) > br { display: none; }
   #console_wrapper { max-height: 60vh; }
 }
 
-/* Navbar status uses link spacing without becoming a navigation target. */
-.navbar-nav > li > .c3d-navbar-readout {
-  display: flex;
-  align-items: center;
-  padding: 10px 15px;
-  line-height: 20px;
-  font-size: 14px;
-  color: var(--df-text-muted);
-}
 @media (min-width: 768px) {
-  .navbar-default .navbar-nav > li > a,
-  .navbar-nav > li > .c3d-navbar-readout {
+  .navbar-default .navbar-nav > li > a {
     height: 48px;
     padding-top: 0;
     padding-bottom: 0;
@@ -2295,7 +2297,7 @@ body:has(.c3d-preview-layout) > br { display: none; }
   .navbar-collapse.collapse.in { display: block !important; }
   .navbar-nav, .navbar-default .navbar-right { float: none !important; display: block; margin: 7.5px -15px; }
   .navbar-nav > li { float: none; }
-  .navbar-default .navbar-nav > li > a, .navbar-nav > li > .c3d-navbar-readout { height: auto; min-height: 40px; padding: 10px 15px; }
+  .navbar-default .navbar-nav > li > a { height: auto; min-height: 40px; padding: 10px 15px; }
   .navbar-nav .open .dropdown-menu { position: static; float: none; width: auto; margin-top: 0; box-shadow: none; }
 }
 
