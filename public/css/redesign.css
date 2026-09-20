@@ -2305,7 +2305,7 @@ body:has(.c3d-preview-layout) > br { display: none; }
    full-width head above an inset form reads as two different layouts. The head
    carries the mode switch, Save and the way back, so all of the page's actions
    sit in one row. */
-.c3d-resin-editor .c3d-page-head { max-width: 1280px; margin: 0 auto; padding: 12px 0 10px; align-items: flex-end; }
+.c3d-resin-editor .c3d-page-head { align-items: flex-end; }
 .c3d-resin-editor .c3d-page-actions { align-items: center; gap: 12px; }
 .c3d-resin-editor .c3d-page-actions .btn { margin: 0; }
 /* rule between the form actions and the way back */
@@ -2325,7 +2325,7 @@ body:has(.c3d-preview-layout) > br { display: none; }
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.28);
 }
 /* #setup2 draws its own cards: the form itself is only the container. */
-.c3d-resin-editor #setup2 { margin: 0 8px 20px; padding: 0; background: none; border: 0; }
+.c3d-resin-editor #setup2 { margin: 0 0 12px; padding: 0; background: none; border: 0; }
 .c3d-resin-editor .edit-page label { color: var(--df-text-muted); font-size: 13px; font-weight: 600; }
 .c3d-resin-editor .edit-page h2,
 .c3d-resin-editor .edit-page h3,
@@ -2349,7 +2349,7 @@ body:has(.c3d-preview-layout) > br { display: none; }
    Advanced Mode unreachable. The Advanced-only fields live on the section or
    field wrapper, never on the grid itself, so jQuery can show/hide them
    without dropping the grid. */
-.c3d-resin-form { display: grid; gap: 8px; max-width: 1280px; margin: 0 auto; }
+.c3d-resin-form { display: grid; gap: 8px; }
 .c3d-resin-section {
   padding: 10px 12px;
   background: var(--df-surface-0);
@@ -2361,9 +2361,7 @@ body:has(.c3d-preview-layout) > br { display: none; }
 /* auto-fit, so a two-field section fills its card instead of leaving half of
    it empty; the form column is capped, which is what keeps the tracks (and the
    inputs) at the same ~600px width the Machine Settings panel uses. */
-.c3d-resin-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px; }
-.c3d-resin-grid--two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-.c3d-resin-grid--pair { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.c3d-resin-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 12px; }
 .c3d-resin-grid--three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 /* Two stacked columns (lift | retract): the rows stay aligned and the card
    is still full in Easy Mode, where only the two speed fields are shown. */
@@ -2462,7 +2460,7 @@ body:has(.c3d-preview-layout) > br { display: none; }
 }
 /* Detection systems: one sub-card each. */
 /* auto-fit: the three Advanced detection cards fill the row between them. */
-.c3d-resin-subgrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px; }
+.c3d-resin-subgrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); gap: 12px; }
 .c3d-resin-subcard {
   display: grid;
   gap: 10px;
@@ -2474,7 +2472,8 @@ body:has(.c3d-preview-layout) > br { display: none; }
 .c3d-resin-subtitle { margin: 0; color: var(--df-text-strong); font-size: 13px; font-weight: 700; }
 /* auto-fit so a single-field sub-card (Crash Detection) fills its card, while
    a two-field one still sits side by side. */
-.c3d-resin-editor #setup2 .c3d-resin-subcard .c3d-resin-grid { grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px 12px; }
+.c3d-resin-editor #setup2 .c3d-resin-subcard .c3d-resin-grid { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px 12px; }
+.c3d-resin-editor #setup2 .c3d-resin-subcard .c3d-resin-grid--three { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px 12px; }
 .c3d-resin-editor #setup2 .profile-peel-mode-readonly { display: flex; align-items: center; gap: 8px; margin: 0; color: var(--df-text-muted); font-size: 12px; }
 .c3d-resin-editor #setup2 .profile-peel-mode-readonly .profile-mode-value { color: var(--df-text-strong); font-weight: 600; }
 @media (max-width: 1399px) {
@@ -2493,8 +2492,6 @@ body:has(.c3d-preview-layout) > br { display: none; }
 }
 @media (max-width: 640px) {
   .c3d-resin-grid,
-  .c3d-resin-grid--two,
-  .c3d-resin-grid--pair,
   .c3d-resin-grid--three,
   .c3d-resin-columns,
   .c3d-resin-editor #setup2 .c3d-resin-subcard .c3d-resin-grid { grid-template-columns: minmax(0, 1fr); }

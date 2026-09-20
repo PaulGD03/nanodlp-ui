@@ -1107,7 +1107,7 @@
 							</span>
 						</label>
 						<div class="peel-detection-settings advance_mode">
-							<div class="c3d-resin-grid c3d-resin-grid--pair">
+							<div class="c3d-resin-grid c3d-resin-grid--three">
 								<div class="c3d-resin-field i_basic i_option">
 									<label for="PdPeelModeSimple" class="profile-help-label"><span><translate>Kinematic Mode</translate></span><a class="help" data-toggle="tooltip" data-placement="top" title="Minimal: fastest; retracts when peel is detected. Full Lift: switches to the second-stage speed after peel and completes the set lift. Smooth: S-curve motion. Two-stage: trapezoidal motion. Motion calculations also use layer area and resin properties.">i</a></label>
 									<select name="PdPeelMode" id="PdPeelModeSimple" class="form-control">
@@ -1151,7 +1151,7 @@
 							</span>
 						</label>
 						<div class="crash-detection-settings">
-							<div class="c3d-resin-grid c3d-resin-grid--pair">
+							<div class="c3d-resin-grid">
 								<div class="c3d-resin-field i_basic i_option">
 									<label for="CdThresholdSimple" class="profile-help-label"><span><translate>Crash Detection Threshold (<b>N</b>)</translate></span><a class="help" data-toggle="tooltip" data-placement="top" title="Force threshold used when Crash Detection is active. Higher values are less sensitive.">i</a></label>
 									<input class="form-control" value="{{profile.CustomValues.CdThreshold}}" name="CdThreshold" id="CdThresholdSimple" step="1" type="number">
@@ -1173,7 +1173,7 @@
 							</span>
 						</label>
 						<div class="dynamic-wait-settings">
-							<div class="c3d-resin-grid c3d-resin-grid--pair">
+							<div class="c3d-resin-grid">
 								<div class="c3d-resin-field i_basic i_option">
 									<label for="DwFlowEndSlopeSimple" class="profile-help-label"><span><translate>Dynamic Wait Flow End Slope (<b>N</b>)</translate></span><a class="help" data-toggle="tooltip" data-placement="top" title="Controls how still the resin must be before exposure. Lower values wait for more settling.">i</a></label>
 									<input class="form-control" value="{{profile.CustomValues.DwFlowEndSlope}}" name="DwFlowEndSlope" id="DwFlowEndSlopeSimple" step="1" type="number">
