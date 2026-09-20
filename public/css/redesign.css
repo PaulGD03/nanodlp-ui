@@ -3004,6 +3004,8 @@ body:has(.c3d-preview-layout) > br { display: none; }
 .c3d-calibration-page #calibration-form label { color: var(--df-text-muted); margin: 0; }
 .c3d-calibration-page #calibration-form .form-control { margin: 0; }
 .c3d-calibration-preview { grid-column: 1 / -1; color: var(--brand-accent); font-weight: 600; background: var(--df-surface-1); border: 1px solid var(--df-border-subtle); border-radius: var(--df-radius-sm); padding: 12px; }
+/* the submit row sat flush against the exposure preview above it */
+.c3d-calibration-submit { margin-top: 16px; }
 .c3d-calibration-page #calibration-model-image { width: 100%; height: auto; border-radius: var(--df-radius-md); background: #000; }
 .c3d-calibration-guide { margin: 0; }
 .c3d-calibration-guide .evaluation-text { color: var(--df-text-muted); line-height: 1.65; }
