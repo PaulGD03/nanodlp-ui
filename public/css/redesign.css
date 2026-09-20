@@ -2305,7 +2305,7 @@ body:has(.c3d-preview-layout) > br { display: none; }
    full-width head above an inset form reads as two different layouts. The head
    carries the mode switch, Save and the way back, so all of the page's actions
    sit in one row. */
-.c3d-resin-editor .c3d-page-head { max-width: 1280px; margin: 0 auto; align-items: flex-end; }
+.c3d-resin-editor .c3d-page-head { max-width: 1280px; margin: 0 auto; padding: 12px 0 10px; align-items: flex-end; }
 .c3d-resin-editor .c3d-page-actions { align-items: center; gap: 12px; }
 .c3d-resin-editor .c3d-page-actions .btn { margin: 0; }
 /* rule between the form actions and the way back */
@@ -2349,14 +2349,14 @@ body:has(.c3d-preview-layout) > br { display: none; }
    Advanced Mode unreachable. The Advanced-only fields live on the section or
    field wrapper, never on the grid itself, so jQuery can show/hide them
    without dropping the grid. */
-.c3d-resin-form { display: grid; gap: 10px; max-width: 1280px; margin: 0 auto; }
+.c3d-resin-form { display: grid; gap: 8px; max-width: 1280px; margin: 0 auto; }
 .c3d-resin-section {
-  padding: 12px 14px;
+  padding: 10px 12px;
   background: var(--df-surface-0);
   border: 1px solid var(--df-border-subtle);
   border-radius: var(--df-radius-lg);
 }
-.c3d-resin-title { margin: 0 0 8px; color: var(--df-text-strong); font-size: 13px; font-weight: 700; }
+.c3d-resin-title { margin: 0 0 6px; color: var(--df-text-strong); font-size: 13px; font-weight: 700; }
 .c3d-resin-note { margin: -2px 0 8px; max-width: 72ch; color: var(--df-text-muted); font-size: 12px; line-height: 1.5; }
 /* auto-fit, so a two-field section fills its card instead of leaving half of
    it empty; the form column is capped, which is what keeps the tracks (and the
@@ -2367,8 +2367,11 @@ body:has(.c3d-preview-layout) > br { display: none; }
 .c3d-resin-grid--three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 /* Two stacked columns (lift | retract): the rows stay aligned and the card
    is still full in Easy Mode, where only the two speed fields are shown. */
-.c3d-resin-columns { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 16px; }
-.c3d-resin-column { display: grid; gap: 12px; align-content: start; min-width: 0; }
+.c3d-resin-columns { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 16px; }
+.c3d-resin-column { display: grid; gap: 8px; align-content: start; min-width: 0; }
+.c3d-resin-editor #setup2 .c3d-resin-column .c3d-resin-field { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.c3d-resin-editor #setup2 .c3d-resin-column .c3d-resin-field > .profile-help-label { flex: 1 1 auto; margin: 0; }
+.c3d-resin-editor #setup2 .c3d-resin-column .c3d-resin-field > .form-control { flex: 0 0 112px; width: 112px; }
 .c3d-resin-field { min-width: 0; }
 .c3d-resin-field--wide { grid-column: 1 / -1; }
 .c3d-resin-editor #setup2 .profile-help-label {
@@ -2436,13 +2439,18 @@ body:has(.c3d-preview-layout) > br { display: none; }
 }
 .c3d-resin-editor #setup2 .c3d-resin-toggle input:focus-visible + .c3d-resin-toggle-face { outline: 2px solid var(--brand-accent); outline-offset: 2px; }
 /* sub-card header: the system name on top, its state pill under it */
-.c3d-resin-subhead { display: flex; align-items: center; gap: 8px; }
+.c3d-resin-subhead { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
 .c3d-resin-subhead .c3d-resin-subtitle { margin: 0; }
 .c3d-resin-subhead .help { flex: 0 0 auto; }
-/* Bottom|Normal settings stay row-by-row comparable. */
-.c3d-resin-table { display: grid; gap: 10px; }
+.c3d-resin-editor #setup2 .c3d-resin-subhead .easy_mode { display: flex; align-items: center; margin-left: auto; }
+.c3d-resin-editor #setup2 .c3d-resin-subhead .profile-peel-mode-readonly { margin: 0; }
+/* Bottom|Normal settings stay row-by-row comparable, label beside value: a
+   stacked label per row costs ~20px and this card has five rows. */
+.c3d-resin-table { display: grid; gap: 8px; }
 .c3d-resin-table-row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 18px; }
-.c3d-resin-table-cell { min-width: 0; }
+.c3d-resin-table-cell { min-width: 0; display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.c3d-resin-editor #setup2 .c3d-resin-table-cell > .profile-help-label { flex: 1 1 auto; margin: 0; }
+.c3d-resin-editor #setup2 .c3d-resin-table-cell > .form-control { flex: 0 0 112px; width: 112px; }
 .c3d-resin-table-head .c3d-resin-table-cell {
   padding-bottom: 6px;
   border-bottom: 1px solid var(--df-border-subtle);
@@ -2474,6 +2482,12 @@ body:has(.c3d-preview-layout) > br { display: none; }
 }
 @media (max-width: 991px) {
   .c3d-resin-grid { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+  .c3d-resin-table-cell,
+  .c3d-resin-editor #setup2 .c3d-resin-column .c3d-resin-field { display: block; }
+  .c3d-resin-editor #setup2 .c3d-resin-table-cell > .form-control,
+  .c3d-resin-editor #setup2 .c3d-resin-column .c3d-resin-field > .form-control { width: 100%; }
+  .c3d-resin-editor #setup2 .c3d-resin-table-cell > .profile-help-label,
+  .c3d-resin-editor #setup2 .c3d-resin-column .c3d-resin-field > .profile-help-label { margin: 0 0 7px; }
   .c3d-resin-grid--three { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .c3d-resin-subgrid { grid-template-columns: minmax(0, 1fr); }
 }

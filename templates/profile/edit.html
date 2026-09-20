@@ -889,7 +889,7 @@
 			<!-- Details -->
 			<section class="c3d-resin-section">
 				<h2 class="c3d-resin-title"><span translate>Details</span></h2>
-				<div class="c3d-resin-grid c3d-resin-grid--two">
+				<div class="c3d-resin-grid">
 					<div class="c3d-resin-field i_basic i_option">
 						<label for="TitleSimple" class="profile-help-label"><span translate>Name</span><a class="help" data-toggle="tooltip" data-placement="top" title="A name to identify this resin profile.">i</a></label>
 						<input class="form-control" value="{{profile.Title}}" name="Title" id="TitleSimple" required>
@@ -1089,6 +1089,15 @@
 						<div class="c3d-resin-subhead">
 							<h3 class="c3d-resin-subtitle"><span translate>Peel Detection</span></h3>
 							<a class="help" data-toggle="tooltip" data-placement="top" title="Uses the force sensor to detect when a layer separates from the film during lift.">i</a>
+						<div class="easy_mode">
+								<div class="profile-peel-mode-readonly">
+									<span translate>Mode</span>:
+									<span class="profile-mode-value">
+										{% if profile.CustomValues.PdPeelMode=="0" %}Minimal{% elif profile.CustomValues.PdPeelMode=="1" %}Full Lift{% elif profile.CustomValues.PdPeelMode=="2" %}Smooth{% elif profile.CustomValues.PdPeelMode=="3" %}Two-stage{% else %}-{% endif %}
+									</span>
+									<a class="help" data-toggle="tooltip" data-placement="top" title="Current peel-motion strategy. Change it in Advanced Mode.">i</a>
+								</div>
+							</div>
 						</div>
 						<label class="c3d-resin-toggle">
 							<input type="checkbox" class="checkbox-profile" value="{{profile.CustomValues.FssEnablePeeldetection}}" name="FssEnablePeeldetection" id="PdEnableSimple"{% if profile.CustomValues.FssEnablePeeldetection == "0" %} checked{% endif %}>
@@ -1097,15 +1106,6 @@
 								<span class="c3d-resin-toggle-off" translate>Disabled</span>
 							</span>
 						</label>
-						<div class="easy_mode">
-							<div class="profile-peel-mode-readonly">
-								<span translate>Mode</span>:
-								<span class="profile-mode-value">
-									{% if profile.CustomValues.PdPeelMode=="0" %}Minimal{% elif profile.CustomValues.PdPeelMode=="1" %}Full Lift{% elif profile.CustomValues.PdPeelMode=="2" %}Smooth{% elif profile.CustomValues.PdPeelMode=="3" %}Two-stage{% else %}-{% endif %}
-								</span>
-								<a class="help" data-toggle="tooltip" data-placement="top" title="Current peel-motion strategy. Change it in Advanced Mode.">i</a>
-							</div>
-						</div>
 						<div class="peel-detection-settings advance_mode">
 							<div class="c3d-resin-grid c3d-resin-grid--pair">
 								<div class="c3d-resin-field i_basic i_option">
@@ -1282,7 +1282,5 @@
 		</div>
 		</form>
 	</div>
-	<br>
-	<br>
 </div>
 {% endblock %}
